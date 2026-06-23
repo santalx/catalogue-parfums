@@ -4,405 +4,666 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Catalogue Parfums</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg: #fafaf8;
-    --surface: #ffffff;
-    --border: #e8e6e0;
-    --border-hover: #c8c4bc;
-    --text: #1a1a18;
-    --text-muted: #7a786f;
-    --text-light: #a8a59c;
-    --accent: #2a2a28;
-    --dispo-bg: #eaf3de;
-    --dispo-text: #3b6d11;
-    --epuise-bg: #fcebeb;
-    --epuise-text: #a32d2d;
-    --radius: 12px;
-    --radius-pill: 999px;
-  }
+:root {
+  --black: #0a0a0a;
+  --white: #ffffff;
+  --off-white: #f8f7f5;
+  --gray-100: #f0efed;
+  --gray-200: #e2e0dc;
+  --gray-400: #b0ada6;
+  --gray-600: #6e6b64;
+  --gray-800: #2e2c28;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+}
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
+html { scroll-behavior: smooth; }
 
-  /* HEADER */
-  .site-header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+body {
+  font-family: var(--sans);
+  background: var(--off-white);
+  color: var(--black);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
 
-  .header-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    gap: 1.5rem;
-  }
+/* ── HEADER ── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(248, 247, 245, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--gray-200);
+}
 
-  .site-title {
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-    color: var(--text);
-  }
+.header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
 
-  .search-wrap {
-    position: relative;
-    flex: 1;
-    max-width: 320px;
-  }
+.logo {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--black);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 
-  .search-wrap svg {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-light);
-    pointer-events: none;
-  }
+.logo span {
+  font-style: italic;
+  font-weight: 300;
+}
 
-  .search-input {
-    width: 100%;
-    padding: 8px 12px 8px 36px;
-    font-size: 14px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-pill);
-    background: var(--bg);
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.15s;
-  }
+.header-search {
+  flex: 1;
+  max-width: 380px;
+  margin-left: auto;
+  position: relative;
+}
 
-  .search-input:focus { border-color: var(--border-hover); }
+.header-search input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--gray-400);
+  padding: 6px 28px 6px 0;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--black);
+  outline: none;
+  transition: border-color 0.2s;
+}
 
-  /* MAIN */
-  .main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1.5rem 2rem 4rem;
-  }
+.header-search input::placeholder { color: var(--gray-400); }
+.header-search input:focus { border-bottom-color: var(--black); }
 
-  /* FILTERS */
-  .toolbar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-  }
+.header-search svg {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+  pointer-events: none;
+}
 
-  .filter-btn {
-    font-size: 13px;
-    padding: 6px 16px;
-    border-radius: var(--radius-pill);
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
+/* ── HERO BAND ── */
+.hero {
+  background: var(--black);
+  color: var(--white);
+  text-align: center;
+  padding: 4rem 2rem 3.5rem;
+}
 
-  .filter-btn:hover { border-color: var(--border-hover); color: var(--text); }
-  .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.hero-eyebrow {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 1rem;
+}
 
-  .count-label {
-    margin-left: auto;
-    font-size: 13px;
-    color: var(--text-light);
-  }
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+  color: var(--white);
+}
 
-  /* GRID */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-    gap: 16px;
-  }
+.hero-title em {
+  font-style: italic;
+  font-weight: 300;
+}
 
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    transition: border-color 0.15s, transform 0.15s;
-    cursor: default;
-  }
+.hero-sub {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: var(--gray-600);
+  margin-top: 1.2rem;
+}
 
-  .card:hover {
-    border-color: var(--border-hover);
-    transform: translateY(-2px);
-  }
+/* ── CONTROLS ── */
+.controls {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 0;
+}
 
-  .card-img {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    background: #f4f2ee;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
+/* Filtre marques — scrollable horizontal */
+.brand-bar {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--gray-200);
+  margin-bottom: 0;
+}
+.brand-bar::-webkit-scrollbar { display: none; }
 
-  .card-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
+.brand-tab {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-600);
+  padding: 12px 20px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+}
 
-  .card-img .img-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    color: #c8c4bc;
-  }
+.brand-tab:hover { color: var(--black); }
+.brand-tab.active { color: var(--black); border-bottom-color: var(--black); }
 
-  .card-img .img-placeholder svg { opacity: 0.5; }
-  .card-img .img-placeholder span { font-size: 11px; letter-spacing: 0.05em; }
+/* Ligne filtres rapides */
+.quick-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--gray-200);
+  flex-wrap: wrap;
+}
 
-  .badge {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    font-size: 11px;
-    font-weight: 500;
-    padding: 3px 9px;
-    border-radius: var(--radius-pill);
-  }
+.qf-btn {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-600);
+  padding: 5px 14px;
+  border: 1px solid var(--gray-200);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+}
 
-  .badge-dispo { background: var(--dispo-bg); color: var(--dispo-text); }
-  .badge-epuise { background: var(--epuise-bg); color: var(--epuise-text); }
+.qf-btn:hover { border-color: var(--black); color: var(--black); }
+.qf-btn.active { background: var(--black); color: var(--white); border-color: var(--black); }
 
-  .card-body { padding: 12px 14px 14px; }
+.result-count {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--gray-400);
+}
 
-  .card-marque {
-    font-size: 11px;
-    color: var(--text-light);
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    margin-bottom: 4px;
-  }
+/* ── CATALOGUE PAR MARQUE ── */
+.catalogue {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2.5rem 6rem;
+}
 
-  .card-nom {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text);
-    line-height: 1.35;
-    margin-bottom: 10px;
-  }
+/* Section marque */
+.brand-section {
+  margin-top: 3.5rem;
+}
 
-  .card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+.brand-section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--gray-200);
+}
 
-  .card-prix { font-size: 16px; font-weight: 600; color: var(--text); }
-  .card-vol { font-size: 12px; color: var(--text-light); }
+.brand-section-name {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--black);
+}
 
-  /* ÉTATS */
-  .loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 5rem 0;
-    gap: 16px;
-    color: var(--text-muted);
-    font-size: 14px;
-  }
+.brand-section-count {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--gray-400);
+}
 
-  .spinner {
-    width: 28px;
-    height: 28px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-  }
+/* Grille parfums */
+.perfume-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--gray-200);
+  border: 1px solid var(--gray-200);
+}
 
-  @keyframes spin { to { transform: rotate(360deg); } }
+/* Carte parfum */
+.card {
+  background: var(--white);
+  cursor: default;
+  transition: background 0.2s;
+  position: relative;
+}
 
-  .empty {
-    text-align: center;
-    padding: 4rem 0;
-    color: var(--text-muted);
-    font-size: 14px;
-  }
+.card:hover { background: var(--off-white); }
+.card.epuise { opacity: 0.55; }
 
-  .error-msg {
-    background: var(--epuise-bg);
-    color: var(--epuise-text);
-    border: 1px solid #f7c1c1;
-    border-radius: var(--radius);
-    padding: 1rem 1.25rem;
-    font-size: 14px;
-    margin-bottom: 1.5rem;
-  }
+.card-img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
 
-  /* RESPONSIVE */
-  @media (max-width: 600px) {
-    .site-header { padding: 0 1rem; }
-    .main { padding: 1rem 1rem 3rem; }
-    .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-    .site-title { font-size: 15px; }
-  }
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .card-img img { transform: scale(1.03); }
+
+.card-img .no-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: var(--gray-400);
+}
+
+.card-img .no-photo svg { opacity: 0.35; }
+
+.card-img .no-photo span {
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.epuise-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(10,10,10,0.72);
+  color: var(--white);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 7px;
+}
+
+.card-body {
+  padding: 14px 16px 16px;
+}
+
+.card-nom {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.25;
+  color: var(--black);
+  margin-bottom: 10px;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-prix {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--black);
+}
+
+.card-vol {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: var(--gray-400);
+}
+
+/* ── ÉTATS ── */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8rem 0;
+  gap: 1.5rem;
+  color: var(--gray-600);
+}
+
+.loading-line {
+  width: 48px;
+  height: 1px;
+  background: var(--gray-200);
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-line::after {
+  content: '';
+  position: absolute;
+  left: -100%;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--black);
+  animation: slide 1.2s ease-in-out infinite;
+}
+
+@keyframes slide {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.loading-state span {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 6rem 0;
+  color: var(--gray-400);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.error-state {
+  max-width: 480px;
+  margin: 4rem auto;
+  text-align: center;
+  padding: 2.5rem;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+}
+
+.error-state p {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 0.75rem;
+}
+
+.error-state small {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--gray-600);
+  letter-spacing: 0.04em;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .header-inner { padding: 0 1.25rem; height: 58px; }
+  .logo { font-size: 17px; }
+  .controls { padding: 1.5rem 1.25rem 0; }
+  .catalogue { padding: 0 1.25rem 4rem; }
+  .hero { padding: 3rem 1.5rem 2.5rem; }
+  .brand-tab { padding: 10px 14px; font-size: 10px; }
+  .perfume-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .brand-section-name { font-size: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-img img, .loading-line::after { animation: none; transition: none; }
+}
 </style>
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-inner">
-    <span class="site-title">Catalogue Parfums</span>
-    <div class="search-wrap">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input class="search-input" type="text" id="search" placeholder="Rechercher un parfum ou marque…" autocomplete="off">
+    <div class="logo">Collection <span>Privée</span></div>
+    <div class="header-search">
+      <input type="text" id="search" placeholder="Rechercher…" autocomplete="off" spellcheck="false">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     </div>
   </div>
 </header>
 
-<main class="main">
-  <div class="toolbar" id="toolbar">
-    <button class="filter-btn active" data-filter="tous">Tous</button>
-    <button class="filter-btn" data-filter="Homme">Homme</button>
-    <button class="filter-btn" data-filter="Femme">Femme</button>
-    <button class="filter-btn" data-filter="Mixte">Mixte</button>
-    <button class="filter-btn" data-filter="dispo">Disponibles</button>
-    <span class="count-label" id="count-label"></span>
-  </div>
+<section class="hero">
+  <p class="hero-eyebrow">Sélection exclusive · Grenoble</p>
+  <h1 class="hero-title">Parfums <em>rares</em></h1>
+  <p class="hero-sub">Prix négociés · Sous blister disponible · Mise à jour quotidienne</p>
+</section>
 
-  <div id="status" class="loading">
-    <div class="spinner"></div>
-    <span>Chargement du catalogue…</span>
+<div class="controls">
+  <div class="brand-bar" id="brand-bar">
+    <button class="brand-tab active" data-brand="tous">Toutes les maisons</button>
   </div>
+  <div class="quick-filters">
+    <button class="qf-btn active" data-qf="tous">Tous</button>
+    <button class="qf-btn" data-qf="dispo">Disponibles</button>
+    <button class="qf-btn" data-qf="blister">Sous blister</button>
+    <button class="qf-btn" data-qf="Homme">Homme</button>
+    <button class="qf-btn" data-qf="Femme">Femme</button>
+    <button class="qf-btn" data-qf="Mixte">Mixte</button>
+    <span class="result-count" id="result-count"></span>
+  </div>
+</div>
 
-  <div class="grid" id="grid" style="display:none"></div>
-  <p class="empty" id="empty" style="display:none">Aucun parfum trouvé.</p>
-</main>
+<div class="catalogue" id="catalogue">
+  <div class="loading-state" id="loading">
+    <div class="loading-line"></div>
+    <span>Chargement du catalogue</span>
+  </div>
+</div>
 
 <script>
-  const SHEET_ID = '1oHOoJghOo-IJjeDoQsb10LXgV45n_ULxMN82PdX1j54';
-  const SHEET_NAME = 'Catalogue_Parfums';
+const SHEET_ID   = '1oHOoJghOo-IJjeDoQsb10LXgV45n_ULxMN82PdX1j54';
+const SHEET_NAME = 'Catalogue_Parfums';
 
-  let allData = [];
-  let currentFilter = 'tous';
-  let currentSearch = '';
+// Colonnes attendues dans le Sheet (dans l'ordre) :
+// A=Nom  B=Marque  C=Prix  D=Volume  E=Disponible  F=Genre  G=Photo  H=Blister
 
-  async function loadData() {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
-    try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const text = await res.text();
-      const json = JSON.parse(text.substring(47, text.length - 2));
-      const rows = json.table.rows;
+let allData = [];
+let activeBrand = 'tous';
+let activeQF    = 'tous';
+let searchQuery = '';
 
-      allData = rows
-        .filter(r => r.c[0]?.v)
-        .map(r => ({
-          nom:    String(r.c[0]?.v || '').trim(),
-          marque: String(r.c[1]?.v || '').trim(),
-          prix:   r.c[2]?.v ?? '',
-          volume: String(r.c[3]?.v || '').trim(),
-          dispo:  String(r.c[4]?.v || '').trim(),
-          genre:  String(r.c[5]?.v || '').trim(),
-          photo:  String(r.c[6]?.v || '').trim(),
-        }));
+/* ── CHARGEMENT ── */
+async function loadData() {
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+  try {
+    const res  = await fetch(url);
+    const text = await res.text();
+    const json = JSON.parse(text.substring(47, text.length - 2));
 
-      document.getElementById('status').style.display = 'none';
-      document.getElementById('grid').style.display = 'grid';
-      renderGrid();
-    } catch (err) {
-      document.getElementById('status').innerHTML =
-        `<div class="error-msg">Impossible de charger le catalogue.<br><small>Vérifiez que le Google Sheet est bien partagé en lecture publique.</small></div>`;
-    }
+    allData = json.table.rows
+      .filter(r => r.c[0]?.v)
+      .map(r => ({
+        nom:     String(r.c[0]?.v || '').trim(),
+        marque:  String(r.c[1]?.v || '').trim(),
+        prix:    r.c[2]?.v ?? '',
+        volume:  String(r.c[3]?.v || '').trim(),
+        dispo:   String(r.c[4]?.v || '').trim(),
+        genre:   String(r.c[5]?.v || '').trim(),
+        photo:   String(r.c[6]?.v || '').trim(),
+        blister: String(r.c[7]?.v || '').trim(),
+      }));
+
+    buildBrandTabs();
+    render();
+  } catch(e) {
+    document.getElementById('loading').outerHTML = `
+      <div class="error-state">
+        <p>Catalogue indisponible</p>
+        <small>Vérifiez que le Google Sheet est partagé en lecture publique.</small>
+      </div>`;
   }
+}
 
-  function isDispo(val) {
-    return ['oui', 'yes', 'true', '1', 'dispo', 'disponible'].includes(val.toLowerCase());
-  }
+function isDispo(val) {
+  return ['oui','yes','true','1','dispo','disponible'].includes((val||'').toLowerCase());
+}
 
-  function renderGrid() {
-    const grid = document.getElementById('grid');
-    const empty = document.getElementById('empty');
-    const label = document.getElementById('count-label');
+function isBlister(val) {
+  return ['oui','yes','true','1'].includes((val||'').toLowerCase());
+}
 
-    const filtered = allData.filter(p => {
-      if (currentFilter === 'dispo') { if (!isDispo(p.dispo)) return false; }
-      else if (currentFilter !== 'tous') { if (p.genre !== currentFilter) return false; }
-      if (currentSearch) {
-        const q = currentSearch.toLowerCase();
-        if (!p.nom.toLowerCase().includes(q) && !p.marque.toLowerCase().includes(q)) return false;
-      }
-      return true;
-    });
-
-    const n = filtered.length;
-    label.textContent = n + ' parfum' + (n > 1 ? 's' : '');
-    grid.innerHTML = '';
-
-    if (n === 0) { empty.style.display = ''; return; }
-    empty.style.display = 'none';
-
-    filtered.forEach(p => {
-      const dispo = isDispo(p.dispo);
-      const prix = p.prix !== '' ? Number(p.prix).toLocaleString('fr-FR') + ' €' : '—';
-
-      const card = document.createElement('div');
-      card.className = 'card';
-
-      const imgHtml = p.photo
-        ? `<img src="${p.photo}" alt="${p.nom}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'img-placeholder\\'><svg width=\\'32\\' height=\\'32\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1.5\\'><path d=\\'M9 3H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9\\'/><polyline points=\\'9 3 9 9 15 9\\'/></svg><span>PAS DE PHOTO</span></div>'">`
-        : `<div class="img-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg><span>PAS DE PHOTO</span></div>`;
-
-      card.innerHTML = `
-        <div class="card-img">
-          ${imgHtml}
-          <span class="badge ${dispo ? 'badge-dispo' : 'badge-epuise'}">${dispo ? 'Dispo' : 'Épuisé'}</span>
-        </div>
-        <div class="card-body">
-          <p class="card-marque">${p.marque}</p>
-          <p class="card-nom">${p.nom}</p>
-          <div class="card-footer">
-            <span class="card-prix">${prix}</span>
-            <span class="card-vol">${p.volume}</span>
-          </div>
-        </div>`;
-
-      grid.appendChild(card);
-    });
-  }
-
-  document.getElementById('toolbar').addEventListener('click', e => {
-    const btn = e.target.closest('.filter-btn');
+/* ── ONGLETS MARQUES ── */
+function buildBrandTabs() {
+  const brands = [...new Set(allData.map(p => p.marque))].filter(Boolean).sort();
+  const bar = document.getElementById('brand-bar');
+  brands.forEach(b => {
+    const btn = document.createElement('button');
+    btn.className = 'brand-tab';
+    btn.dataset.brand = b;
+    btn.textContent = b;
+    bar.appendChild(btn);
+  });
+  bar.addEventListener('click', e => {
+    const btn = e.target.closest('.brand-tab');
     if (!btn) return;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.brand-tab').forEach(t => t.classList.remove('active'));
     btn.classList.add('active');
-    currentFilter = btn.dataset.filter;
-    renderGrid();
+    activeBrand = btn.dataset.brand;
+    render();
+    // Scroll smooth vers la section si marque précise
+    if (activeBrand !== 'tous') {
+      const sec = document.getElementById('brand-' + CSS.escape(activeBrand));
+      if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+}
+
+/* ── RENDU ── */
+function render() {
+  const cat = document.getElementById('catalogue');
+
+  // Filtre
+  let filtered = allData.filter(p => {
+    if (activeBrand !== 'tous' && p.marque !== activeBrand) return false;
+    if (activeQF === 'dispo'   && !isDispo(p.dispo))  return false;
+    if (activeQF === 'blister' && !isBlister(p.blister)) return false;
+    if (activeQF === 'Homme'   && p.genre !== 'Homme')   return false;
+    if (activeQF === 'Femme'   && p.genre !== 'Femme')   return false;
+    if (activeQF === 'Mixte'   && p.genre !== 'Mixte')   return false;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      if (!p.nom.toLowerCase().includes(q) && !p.marque.toLowerCase().includes(q)) return false;
+    }
+    return true;
   });
 
-  document.getElementById('search').addEventListener('input', e => {
-    currentSearch = e.target.value.trim();
-    renderGrid();
+  document.getElementById('result-count').textContent =
+    filtered.length + ' parfum' + (filtered.length > 1 ? 's' : '');
+
+  if (filtered.length === 0) {
+    cat.innerHTML = '<p class="empty-state">Aucun résultat</p>';
+    return;
+  }
+
+  // Grouper par marque
+  const groups = {};
+  filtered.forEach(p => {
+    if (!groups[p.marque]) groups[p.marque] = [];
+    groups[p.marque].push(p);
   });
 
-  loadData();
+  cat.innerHTML = Object.entries(groups).map(([brand, items]) => `
+    <section class="brand-section" id="brand-${brand}">
+      <div class="brand-section-header">
+        <h2 class="brand-section-name">${brand}</h2>
+        <span class="brand-section-count">${items.length} référence${items.length > 1 ? 's' : ''}</span>
+      </div>
+      <div class="perfume-grid">
+        ${items.map(cardHTML).join('')}
+      </div>
+    </section>
+  `).join('');
+}
+
+function cardHTML(p) {
+  const dispo = isDispo(p.dispo);
+  const prix  = p.prix !== '' ? Number(p.prix).toLocaleString('fr-FR') + '\u202f€' : '—';
+  const imgContent = p.photo
+    ? `<img src="${p.photo}" alt="${p.nom}" loading="lazy"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+    : '';
+
+  return `
+    <div class="card${dispo ? '' : ' epuise'}">
+      <div class="card-img">
+        ${imgContent}
+        <div class="no-photo" style="${p.photo ? 'display:none' : ''}">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="3" y="3" width="18" height="18" rx="1"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <span>Photo à venir</span>
+        </div>
+        ${!dispo ? '<div class="epuise-overlay">Épuisé</div>' : ''}
+      </div>
+      <div class="card-body">
+        <p class="card-nom">${p.nom}</p>
+        <div class="card-meta">
+          <span class="card-prix">${prix}</span>
+          <span class="card-vol">${p.volume}</span>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ── EVENTS ── */
+document.querySelectorAll('.qf-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeQF = btn.dataset.qf;
+    render();
+  });
+});
+
+document.getElementById('search').addEventListener('input', e => {
+  searchQuery = e.target.value.trim();
+  // Réinitialise le filtre marque si on cherche
+  if (searchQuery) {
+    activeBrand = 'tous';
+    document.querySelectorAll('.brand-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.brand-tab[data-brand="tous"]').classList.add('active');
+  }
+  render();
+});
+
+loadData();
 </script>
 </body>
 </html>
