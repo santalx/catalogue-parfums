@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalogue Parfums</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #fafaf8;
+    --surface: #ffffff;
+    --border: #e8e6e0;
+    --border-hover: #c8c4bc;
+    --text: #1a1a18;
+    --text-muted: #7a786f;
+    --text-light: #a8a59c;
+    --accent: #2a2a28;
+    --dispo-bg: #eaf3de;
+    --dispo-text: #3b6d11;
+    --epuise-bg: #fcebeb;
+    --epuise-text: #a32d2d;
+    --radius: 12px;
+    --radius-pill: 999px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    gap: 1.5rem;
+  }
+
+  .site-title {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    color: var(--text);
+  }
+
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    max-width: 320px;
+  }
+
+  .search-wrap svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 8px 12px 8px 36px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .search-input:focus { border-color: var(--border-hover); }
+
+  /* MAIN */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 4rem;
+  }
+
+  /* FILTERS */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    font-size: 13px;
+    padding: 6px 16px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover { border-color: var(--border-hover); color: var(--text); }
+  .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .count-label {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--text-light);
+  }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.15s, transform 0.15s;
+    cursor: default;
+  }
+
+  .card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+  }
+
+  .card-img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background: #f4f2ee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-img .img-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #c8c4bc;
+  }
+
+  .card-img .img-placeholder svg { opacity: 0.5; }
+  .card-img .img-placeholder span { font-size: 11px; letter-spacing: 0.05em; }
+
+  .badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
+  }
+
+  .badge-dispo { background: var(--dispo-bg); color: var(--dispo-text); }
+  .badge-epuise { background: var(--epuise-bg); color: var(--epuise-text); }
+
+  .card-body { padding: 12px 14px 14px; }
+
+  .card-marque {
+    font-size: 11px;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 4px;
+  }
+
+  .card-nom {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-prix { font-size: 16px; font-weight: 600; color: var(--text); }
+  .card-vol { font-size: 12px; color: var(--text-light); }
+
+  /* ÉTATS */
+  .loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 0;
+    gap: 16px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .spinner {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .empty {
+    text-align: center;
+    padding: 4rem 0;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .error-msg {
+    background: var(--epuise-bg);
+    color: var(--epuise-text);
+    border: 1px solid #f7c1c1;
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    font-size: 14px;
+    margin-bottom: 1.5rem;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .site-header { padding: 0 1rem; }
+    .main { padding: 1rem 1rem 3rem; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .site-title { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">Catalogue Parfums</span>
+    <div class="search-wrap">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="search-input" type="text" id="search" placeholder="Rechercher un parfum ou marque…" autocomplete="off">
+    </div>
+  </div>
+</header>
+
+<main class="main">
+  <div class="toolbar" id="toolbar">
+    <button class="filter-btn active" data-filter="tous">Tous</button>
+    <button class="filter-btn" data-filter="Homme">Homme</button>
+    <button class="filter-btn" data-filter="Femme">Femme</button>
+    <button class="filter-btn" data-filter="Mixte">Mixte</button>
+    <button class="filter-btn" data-filter="dispo">Disponibles</button>
+    <span class="count-label" id="count-label"></span>
+  </div>
+
+  <div id="status" class="loading">
+    <div class="spinner"></div>
+    <span>Chargement du catalogue…</span>
+  </div>
+
+  <div class="grid" id="grid" style="display:none"></div>
+  <p class="empty" id="empty" style="display:none">Aucun parfum trouvé.</p>
+</main>
+
+<script>
+  const SHEET_ID = '1oHOoJghOo-IJjeDoQsb10LXgV45n_ULxMN82PdX1j54';
+  const SHEET_NAME = 'Catalogue_Parfums';
+
+  let allData = [];
+  let currentFilter = 'tous';
+  let currentSearch = '';
+
+  async function loadData() {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      const json = JSON.parse(text.substring(47, text.length - 2));
+      const rows = json.table.rows;
+
+      allData = rows
+        .filter(r => r.c[0]?.v)
+        .map(r => ({
+          nom:    String(r.c[0]?.v || '').trim(),
+          marque: String(r.c[1]?.v || '').trim(),
+          prix:   r.c[2]?.v ?? '',
+          volume: String(r.c[3]?.v || '').trim(),
+          dispo:  String(r.c[4]?.v || '').trim(),
+          genre:  String(r.c[5]?.v || '').trim(),
+          photo:  String(r.c[6]?.v || '').trim(),
+        }));
+
+      document.getElementById('status').style.display = 'none';
+      document.getElementById('grid').style.display = 'grid';
+      renderGrid();
+    } catch (err) {
+      document.getElementById('status').innerHTML =
+        `<div class="error-msg">Impossible de charger le catalogue.<br><small>Vérifiez que le Google Sheet est bien partagé en lecture publique.</small></div>`;
+    }
+  }
+
+  function isDispo(val) {
+    return ['oui', 'yes', 'true', '1', 'dispo', 'disponible'].includes(val.toLowerCase());
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById('grid');
+    const empty = document.getElementById('empty');
+    const label = document.getElementById('count-label');
+
+    const filtered = allData.filter(p => {
+      if (currentFilter === 'dispo') { if (!isDispo(p.dispo)) return false; }
+      else if (currentFilter !== 'tous') { if (p.genre !== currentFilter) return false; }
+      if (currentSearch) {
+        const q = currentSearch.toLowerCase();
+        if (!p.nom.toLowerCase().includes(q) && !p.marque.toLowerCase().includes(q)) return false;
+      }
+      return true;
+    });
+
+    const n = filtered.length;
+    label.textContent = n + ' parfum' + (n > 1 ? 's' : '');
+    grid.innerHTML = '';
+
+    if (n === 0) { empty.style.display = ''; return; }
+    empty.style.display = 'none';
+
+    filtered.forEach(p => {
+      const dispo = isDispo(p.dispo);
+      const prix = p.prix !== '' ? Number(p.prix).toLocaleString('fr-FR') + ' €' : '—';
+
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const imgHtml = p.photo
+        ? `<img src="${p.photo}" alt="${p.nom}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'img-placeholder\\'><svg width=\\'32\\' height=\\'32\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1.5\\'><path d=\\'M9 3H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9\\'/><polyline points=\\'9 3 9 9 15 9\\'/></svg><span>PAS DE PHOTO</span></div>'">`
+        : `<div class="img-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg><span>PAS DE PHOTO</span></div>`;
+
+      card.innerHTML = `
+        <div class="card-img">
+          ${imgHtml}
+          <span class="badge ${dispo ? 'badge-dispo' : 'badge-epuise'}">${dispo ? 'Dispo' : 'Épuisé'}</span>
+        </div>
+        <div class="card-body">
+          <p class="card-marque">${p.marque}</p>
+          <p class="card-nom">${p.nom}</p>
+          <div class="card-footer">
+            <span class="card-prix">${prix}</span>
+            <span class="card-vol">${p.volume}</span>
+          </div>
+        </div>`;
+
+      grid.appendChild(card);
+    });
+  }
+
+  document.getElementById('toolbar').addEventListener('click', e => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderGrid();
+  });
+
+  document.getElementById('search').addEventListener('input', e => {
+    currentSearch = e.target.value.trim();
+    renderGrid();
+  });
+
+  loadData();
+</script>
+</body>
+</html>
