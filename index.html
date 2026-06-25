@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>Santalx — Catalogue</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,6 +19,7 @@
   --gray-200: #e2e0dc;
   --gray-400: #b0ada6;
   --gray-600: #6e6b64;
+  --red: #C0392B;
 }
 
 html { scroll-behavior: smooth; }
@@ -30,6 +32,43 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes heroReveal {
+  from { opacity: 0; transform: translateY(10px); letter-spacing: 0.18em; }
+  to   { opacity: 1; transform: translateY(0);    letter-spacing: 0.06em; }
+}
+@keyframes lineGrow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.anim-fade-up {
+  opacity: 0;
+  animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
+/* Cards staggered */
+.brand-card { opacity: 0; }
+.brand-card.visible {
+  animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.card { opacity: 0; }
+.card.visible {
+  animation: fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.bs-card { opacity: 0; }
+.bs-card.visible {
+  animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
 /* ── HEADER ── */
 .site-header {
   position: sticky;
@@ -39,6 +78,7 @@ body {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--gray-200);
+  animation: fadeIn 0.4s ease forwards;
 }
 
 .header-inner {
@@ -83,16 +123,12 @@ body {
   outline: none;
   transition: border-color 0.2s;
 }
-
 .header-search input::placeholder { color: var(--gray-400); }
 .header-search input:focus { border-bottom-color: var(--black); }
-
 .header-search svg {
-  position: absolute;
-  right: 0; top: 50%;
+  position: absolute; right: 0; top: 50%;
   transform: translateY(-50%);
-  color: var(--gray-400);
-  pointer-events: none;
+  color: var(--gray-400); pointer-events: none;
 }
 
 /* ── HERO ── */
@@ -101,16 +137,30 @@ body {
   color: var(--white);
   text-align: center;
   padding: 5rem 2rem 4.5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: var(--gray-600);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: lineGrow 1s 0.6s cubic-bezier(0.22,1,0.36,1) forwards;
 }
 
 .hero-eyebrow {
-  font-family: 'Montserrat', sans-serif;
   font-size: 9px;
   font-weight: 400;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--gray-400);
   margin-bottom: 1.4rem;
+  animation: fadeIn 0.8s 0.1s ease forwards;
+  opacity: 0;
 }
 
 .hero-title {
@@ -118,9 +168,10 @@ body {
   font-size: clamp(44px, 6vw, 76px);
   font-weight: 300;
   font-style: italic;
-  letter-spacing: 0.06em;
   line-height: 1.05;
   color: var(--white);
+  opacity: 0;
+  animation: heroReveal 1s 0.25s cubic-bezier(0.22,1,0.36,1) forwards;
 }
 
 /* ── BEST SELLERS ── */
@@ -131,7 +182,6 @@ body {
 }
 
 .section-eyebrow {
-  font-family: 'Montserrat', sans-serif;
   font-size: 9px;
   font-weight: 500;
   letter-spacing: 0.25em;
@@ -149,106 +199,45 @@ body {
   margin-bottom: 4rem;
 }
 
-.bs-card {
-  background: var(--white);
-  position: relative;
-}
+.bs-card { background: var(--white); position: relative; }
 
 .bs-badge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 2;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
+  position: absolute; top: 12px; left: 12px; z-index: 2;
+  font-size: 8px; font-weight: 500; letter-spacing: 0.2em;
   text-transform: uppercase;
-  background: var(--black);
-  color: var(--white);
+  background: var(--black); color: var(--white);
   padding: 4px 10px;
 }
 
 .bs-img {
-  width: 100%;
-  aspect-ratio: 3/4;
+  width: 100%; aspect-ratio: 3/4;
   background: var(--gray-100);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   overflow: hidden;
 }
 
 .bs-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.45s ease;
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
 }
+.bs-card:hover .bs-img img { transform: scale(1.04); }
 
-.bs-card:hover .bs-img img { transform: scale(1.03); }
-
-.bs-body {
-  padding: 14px 16px 18px;
-  border-top: 1px solid var(--gray-200);
-}
-
-.bs-marque {
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gray-400);
-  margin-bottom: 5px;
-}
-
-.bs-nom {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px;
-  font-weight: 400;
-  letter-spacing: 0.03em;
-  color: var(--black);
-  margin-bottom: 10px;
-  line-height: 1.2;
-}
-
-.bs-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.bs-prix {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--black);
-}
-
-.bs-vol {
-  font-size: 10px;
-  font-weight: 300;
-  color: var(--gray-400);
-  letter-spacing: 0.05em;
-}
+.bs-body { padding: 14px 16px 18px; border-top: 1px solid var(--gray-200); }
+.bs-marque { font-size: 9px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 5px; }
+.bs-nom { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--black); margin-bottom: 10px; line-height: 1.2; }
+.bs-meta { display: flex; justify-content: space-between; align-items: baseline; }
+.bs-prix { font-size: 14px; font-weight: 500; color: var(--black); }
+.bs-prix-boutique { font-size: 11px; color: var(--red); text-decoration: line-through; }
+.bs-vol { font-size: 10px; font-weight: 300; color: var(--gray-400); }
 
 /* ── SÉPARATEUR ── */
-.sep {
-  max-width: 1280px;
-  margin: 0 auto 3.5rem;
-  padding: 0 2.5rem;
-  border-bottom: 1px solid var(--gray-200);
-}
+.sep { max-width: 1280px; margin: 0 auto 3.5rem; padding: 0 2.5rem; border-bottom: 1px solid var(--gray-200); }
 
 /* ── VUE MAISONS ── */
 #view-maisons { display: block; }
 #view-catalogue { display: none; }
 
-.maisons-wrap {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 2.5rem 6rem;
-}
+.maisons-wrap { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem 6rem; }
 
 .brands-grid {
   display: grid;
@@ -259,152 +248,69 @@ body {
 }
 
 .brand-card {
-  background: var(--white);
-  padding: 0;
-  cursor: pointer;
-  transition: background 0.18s;
-  display: flex;
-  flex-direction: column;
-  border: none;
-  text-align: left;
-  overflow: hidden;
+  background: var(--white); padding: 0; cursor: pointer;
+  transition: background 0.2s;
+  display: flex; flex-direction: column;
+  border: none; text-align: left; overflow: hidden;
 }
-
 .brand-card:hover { background: var(--black); }
 .brand-card:hover .bc-name,
 .brand-card:hover .bc-count { color: var(--white); }
 .brand-card:hover .bc-img-wrap { filter: invert(1); }
 
 .bc-img-wrap {
-  width: 100%;
-  height: 140px;
-  background: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%; height: 140px; background: var(--white);
+  display: flex; align-items: center; justify-content: center;
   padding: 1.25rem;
-  transition: filter 0.18s;
+  transition: filter 0.2s;
   overflow: hidden;
 }
+.bc-img-wrap img { width: 100%; height: 100%; object-fit: contain; }
 
-.bc-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
+.bc-no-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; letter-spacing: .1em; color: var(--gray-400); }
 
-.bc-no-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  color: var(--gray-400);
-  text-align: center;
-}
-
-.bc-body {
-  padding: 14px 16px 16px;
-  border-top: 1px solid var(--gray-200);
-}
-
-.bc-name {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--black);
-  transition: color 0.18s;
-  margin-bottom: 4px;
-}
-
-.bc-count {
-  font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 0.06em;
-  color: var(--gray-400);
-  transition: color 0.18s;
-}
+.bc-body { padding: 14px 16px 16px; border-top: 1px solid var(--gray-200); }
+.bc-name { font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--black); transition: color 0.2s; margin-bottom: 4px; }
+.bc-count { font-size: 10px; font-weight: 300; letter-spacing: .06em; color: var(--gray-400); transition: color 0.2s; }
 
 /* ── VUE CATALOGUE ── */
 .cat-header {
-  max-width: 1280px;
-  margin: 0 auto;
+  max-width: 1280px; margin: 0 auto;
   padding: 1.75rem 2.5rem 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+  display: flex; align-items: center; gap: 1.5rem;
   border-bottom: 1px solid var(--gray-200);
 }
 
 .back-btn {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gray-600);
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 0;
+  font-size: 10px; font-weight: 400; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--gray-600); background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 7px; padding: 0;
   transition: color 0.15s;
 }
-
 .back-btn:hover { color: var(--black); }
 
-.cat-brand-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  color: var(--black);
-}
+.cat-brand-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; letter-spacing: .1em; color: var(--black); }
 
 .cat-controls {
-  max-width: 1280px;
-  margin: 0 auto;
+  max-width: 1280px; margin: 0 auto;
   padding: 1rem 2.5rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   border-bottom: 1px solid var(--gray-200);
 }
 
 .qf-btn {
   font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gray-600);
-  padding: 5px 14px;
-  border: 1px solid var(--gray-200);
-  background: transparent;
-  cursor: pointer;
+  font-size: 10px; font-weight: 400; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--gray-600); padding: 5px 14px;
+  border: 1px solid var(--gray-200); background: transparent; cursor: pointer;
   transition: all 0.15s;
 }
-
 .qf-btn:hover { border-color: var(--black); color: var(--black); }
 .qf-btn.active { background: var(--black); color: var(--white); border-color: var(--black); }
 
-.result-count {
-  margin-left: auto;
-  font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 0.1em;
-  color: var(--gray-400);
-}
+.result-count { margin-left: auto; font-size: 10px; font-weight: 300; letter-spacing: .1em; color: var(--gray-400); }
 
-.catalogue {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 2.5rem 6rem;
-}
+.catalogue { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem 6rem; }
 
 .perfume-grid {
   display: grid;
@@ -415,141 +321,78 @@ body {
   margin-top: 2rem;
 }
 
-.card {
-  background: var(--white);
-  transition: background 0.2s;
-  position: relative;
-}
-
+.card { background: var(--white); transition: background 0.2s; position: relative; }
 .card:hover { background: var(--off-white); }
 .card.epuise { opacity: 0.5; }
 
 .card-img {
-  width: 100%;
-  aspect-ratio: 3/4;
+  width: 100%; aspect-ratio: 3/4;
   background: var(--gray-100);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
 }
-
 .card-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.45s ease;
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
 }
-
 .card:hover .card-img img { transform: scale(1.04); }
 
-.no-photo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  color: var(--gray-400);
-}
-
+.no-photo { display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--gray-400); }
 .no-photo svg { opacity: 0.3; }
-
-.no-photo span {
-  font-size: 8px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 300;
-}
+.no-photo span { font-size: 8px; letter-spacing: .18em; text-transform: uppercase; font-weight: 300; }
 
 .epuise-overlay {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  background: rgba(10,10,10,0.75);
-  color: var(--white);
-  font-size: 8px;
-  font-weight: 400;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  text-align: center;
-  padding: 8px;
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(10,10,10,0.75); color: var(--white);
+  font-size: 8px; font-weight: 400; letter-spacing: .22em; text-transform: uppercase;
+  text-align: center; padding: 8px;
 }
 
 .card-body { padding: 14px 16px 16px; }
 
-.card-nom {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  line-height: 1.3;
-  color: var(--black);
-  margin-bottom: 10px;
-}
+.card-nom { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; letter-spacing: .02em; line-height: 1.3; color: var(--black); margin-bottom: 8px; }
 
-.card-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.card-prix { font-size: 13px; font-weight: 500; color: var(--black); }
-.card-vol { font-size: 10px; font-weight: 300; letter-spacing: 0.06em; color: var(--gray-400); }
+/* Prix : boutique barré rouge au-dessus, notre prix en bas */
+.card-prix-boutique { font-size: 11px; color: var(--red); text-decoration: line-through; margin-bottom: 2px; }
+.card-prix-nous { font-size: 15px; font-weight: 500; color: var(--black); }
+.card-vol { font-size: 10px; font-weight: 300; letter-spacing: .06em; color: var(--gray-400); margin-top: 4px; }
 
 /* ── ÉTATS ── */
-.loading-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 6rem 0;
-  gap: 1.5rem;
-}
-
-.loading-line {
-  width: 48px; height: 1px;
-  background: var(--gray-200);
-  position: relative;
-  overflow: hidden;
-}
-
+.loading-state { display: flex; flex-direction: column; align-items: center; padding: 6rem 0; gap: 1.5rem; }
+.loading-line { width: 48px; height: 1px; background: var(--gray-200); position: relative; overflow: hidden; }
 .loading-line::after {
-  content: '';
-  position: absolute;
-  left: -100%; top: 0;
-  width: 100%; height: 100%;
-  background: var(--black);
-  animation: slide 1.2s ease-in-out infinite;
+  content: ''; position: absolute; left: -100%; top: 0; width: 100%; height: 100%;
+  background: var(--black); animation: lineGrow 1.2s ease-in-out infinite alternate;
 }
+.loading-state span { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; font-weight: 300; color: var(--gray-600); }
 
-@keyframes slide { 0% { left:-100%; } 100% { left:100%; } }
-
-.loading-state span {
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  font-weight: 300;
-  color: var(--gray-600);
-}
-
-.empty-state {
-  text-align: center; padding: 5rem 0;
-  font-size: 11px; letter-spacing: 0.1em; color: var(--gray-400);
-  grid-column: 1/-1;
-}
-
-.error-state {
-  max-width: 420px; margin: 5rem auto;
-  text-align: center; padding: 2.5rem;
-  border: 1px solid var(--gray-200); background: var(--white);
-}
-
+.empty-state { text-align: center; padding: 5rem 0; font-size: 11px; letter-spacing: .1em; color: var(--gray-400); grid-column: 1/-1; }
+.error-state { max-width: 420px; margin: 5rem auto; text-align: center; padding: 2.5rem; border: 1px solid var(--gray-200); background: var(--white); }
 .error-state p { font-size: 14px; font-weight: 300; margin-bottom: .75rem; }
 .error-state small { font-size: 11px; font-weight: 300; color: var(--gray-600); letter-spacing: .04em; }
+
+/* ── WHATSAPP ── */
+.wa-fab {
+  position: fixed; bottom: 28px; right: 28px; z-index: 999;
+  display: flex; align-items: center; gap: 10px;
+  background: #25d366; color: #fff; text-decoration: none;
+  padding: 13px 20px 13px 16px; border-radius: 999px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: .04em;
+  transition: transform 0.2s, box-shadow 0.2s; white-space: nowrap;
+  animation: fadeUp 0.6s 0.8s cubic-bezier(0.22,1,0.36,1) both;
+}
+.wa-fab:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.22); }
+.wa-fab svg { flex-shrink: 0; }
+
+@media (max-width: 600px) {
+  .wa-fab { bottom: 20px; right: 16px; padding: 13px; font-size: 0; gap: 0; }
+}
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .header-inner { padding: 0 1.25rem; height: 56px; }
-  .bestsellers-section, .maisons-wrap, .catalogue, .sep { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .bestsellers-section, .maisons-wrap, .catalogue, .sep,
   .cat-header, .cat-controls { padding-left: 1.25rem; padding-right: 1.25rem; }
   .bs-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
   .brands-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
@@ -558,7 +401,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card-img img, .bs-img img, .loading-line::after { animation: none; transition: none; }
+  *, *::after { animation: none !important; transition: none !important; opacity: 1 !important; }
 }
 </style>
 </head>
@@ -619,18 +462,45 @@ body {
   </div>
 </div>
 
+<!-- WHATSAPP -->
+<a class="wa-fab" href="https://wa.me/message/IL4TLQ4R7OFIJ1" target="_blank" rel="noopener">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+  </svg>
+  Commander sur WhatsApp
+</a>
+
 <script>
 const SHEET_ID   = '1oHOoJghOo-IJjeDoQsb10LXgV45n_ULxMN82PdX1j54';
 const SHEET_NAME = 'Catalogue_Parfums';
 
 // Colonnes Sheet :
-// A=Nom  B=Marque  C=Prix  D=Volume  E=Disponible  F=Genre  G=Photo  H=Logo_Marque  I=Best_Seller
+// A=Nom  B=Marque  C=Prix  D=Volume  E=Disponible  F=Genre  G=Photo  H=Logo_Marque  I=Best_Seller  J=Prix_Boutique
 
 let allData     = [];
 let brandLogos  = {};
 let activeBrand = null;
 let activeQF    = 'tous';
 let searchQuery = '';
+
+/* ── Intersection Observer pour animations au scroll ── */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const delay = (el.dataset.delay || 0);
+      setTimeout(() => el.classList.add('visible'), delay);
+      observer.unobserve(el);
+    }
+  });
+}, { threshold: 0.08 });
+
+function observeCards(selector) {
+  document.querySelectorAll(selector).forEach((el, i) => {
+    el.dataset.delay = Math.min(i * 50, 300);
+    observer.observe(el);
+  });
+}
 
 async function loadData() {
   const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
@@ -642,18 +512,18 @@ async function loadData() {
     allData = json.table.rows
       .filter(r => r.c[0]?.v)
       .map(r => ({
-        nom:        String(r.c[0]?.v || '').trim(),
-        marque:     String(r.c[1]?.v || '').trim(),
-        prix:       r.c[2]?.v ?? '',
-        volume:     String(r.c[3]?.v || '').trim(),
-        dispo:      String(r.c[4]?.v || '').trim(),
-        genre:      String(r.c[5]?.v || '').trim(),
-        photo:      String(r.c[6]?.v || '').trim(),
-        logo:       String(r.c[7]?.v || '').trim(),
-        bestSeller: String(r.c[8]?.v || '').trim(),
+        nom:          String(r.c[0]?.v || '').trim(),
+        marque:       String(r.c[1]?.v || '').trim(),
+        prix:         r.c[2]?.v ?? '',
+        volume:       String(r.c[3]?.v || '').trim(),
+        dispo:        String(r.c[4]?.v || '').trim(),
+        genre:        String(r.c[5]?.v || '').trim(),
+        photo:        String(r.c[6]?.v || '').trim(),
+        logo:         String(r.c[7]?.v || '').trim(),
+        bestSeller:   String(r.c[8]?.v || '').trim(),
+        prixBoutique: r.c[9]?.v ?? '',
       }));
 
-    // Logo par marque : on garde le dernier renseigné
     allData.forEach(p => { if (p.logo) brandLogos[p.marque] = p.logo; });
 
     buildMaisons();
@@ -672,21 +542,22 @@ function isDispo(val) {
   return ['oui','yes','true','1','dispo','disponible'].includes((val||'').toLowerCase());
 }
 
+function formatPrix(val) {
+  return val !== '' ? Number(val).toLocaleString('fr-FR') + '\u202f€' : '';
+}
+
 /* ── BEST SELLERS ── */
 function buildBestSellers() {
   const bs = allData.filter(p =>
     ['oui','yes','true','1'].includes((p.bestSeller||'').toLowerCase())
   ).slice(0, 3);
-
   if (bs.length === 0) return;
 
-  const section = document.getElementById('bs-section');
-  const grid    = document.getElementById('bs-grid');
-  section.style.display = 'block';
-
-  grid.innerHTML = bs.map(p => {
-    const prix = p.prix !== '' ? Number(p.prix).toLocaleString('fr-FR') + '\u202f€' : '—';
-    const imgContent = p.photo
+  document.getElementById('bs-section').style.display = 'block';
+  document.getElementById('bs-grid').innerHTML = bs.map(p => {
+    const prix         = formatPrix(p.prix);
+    const prixBoutique = formatPrix(p.prixBoutique);
+    const imgContent   = p.photo
       ? `<img src="${p.photo}" alt="${p.nom}" loading="lazy">`
       : `<div style="color:var(--gray-400);font-size:11px;letter-spacing:.1em;font-weight:300">Photo à venir</div>`;
     return `
@@ -697,12 +568,16 @@ function buildBestSellers() {
           <p class="bs-marque">${p.marque}</p>
           <p class="bs-nom">${p.nom}</p>
           <div class="bs-meta">
-            <span class="bs-prix">${prix}</span>
+            <div>
+              ${prixBoutique ? `<p class="bs-prix-boutique">${prixBoutique}</p>` : ''}
+              <p class="bs-prix">${prix}</p>
+            </div>
             <span class="bs-vol">${p.volume}</span>
           </div>
         </div>
       </div>`;
   }).join('');
+  observeCards('.bs-card');
 }
 
 /* ── VUE MAISONS ── */
@@ -710,11 +585,9 @@ function buildMaisons() {
   const counts = {};
   allData.forEach(p => { counts[p.marque] = (counts[p.marque] || 0) + 1; });
   const brands = Object.keys(counts).filter(Boolean).sort();
-
   document.getElementById('maisons-label').textContent = brands.length + ' maisons';
 
-  const grid = document.getElementById('brands-grid');
-  grid.innerHTML = brands.map(b => {
+  document.getElementById('brands-grid').innerHTML = brands.map(b => {
     const logo = brandLogos[b];
     const imgBlock = logo
       ? `<img src="${logo}" alt="${b}" loading="lazy">`
@@ -729,7 +602,9 @@ function buildMaisons() {
       </button>`;
   }).join('');
 
-  grid.addEventListener('click', e => {
+  observeCards('.brand-card');
+
+  document.getElementById('brands-grid').addEventListener('click', e => {
     const btn = e.target.closest('.brand-card');
     if (!btn) return;
     selectBrand(btn.dataset.brand);
@@ -738,8 +613,7 @@ function buildMaisons() {
 
 /* ── NAVIGATION ── */
 function selectBrand(brand) {
-  activeBrand = brand;
-  activeQF = 'tous';
+  activeBrand = brand; activeQF = 'tous';
   document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
   document.querySelector('.qf-btn[data-qf="tous"]').classList.add('active');
   document.getElementById('cat-brand-name').textContent = brand;
@@ -750,8 +624,7 @@ function selectBrand(brand) {
 }
 
 function goBack() {
-  activeBrand = null;
-  searchQuery = '';
+  activeBrand = null; searchQuery = '';
   document.getElementById('search').value = '';
   document.getElementById('view-catalogue').style.display = 'none';
   document.getElementById('view-maisons').style.display = 'block';
@@ -763,7 +636,6 @@ document.getElementById('back-btn').addEventListener('click', goBack);
 /* ── RENDU CATALOGUE ── */
 function renderCatalogue() {
   const grid = document.getElementById('perfume-grid');
-
   let filtered = allData.filter(p => {
     if (activeBrand && p.marque !== activeBrand) return false;
     if (activeQF === 'dispo' && !isDispo(p.dispo)) return false;
@@ -777,18 +649,18 @@ function renderCatalogue() {
     return true;
   });
 
-  const n = filtered.length;
-  document.getElementById('result-count').textContent = n + ' parfum' + (n > 1 ? 's' : '');
+  document.getElementById('result-count').textContent = filtered.length + ' parfum' + (filtered.length > 1 ? 's' : '');
 
-  if (n === 0) {
+  if (filtered.length === 0) {
     grid.innerHTML = '<p class="empty-state">Aucun résultat</p>';
     return;
   }
 
   grid.innerHTML = filtered.map(p => {
-    const dispo = isDispo(p.dispo);
-    const prix  = p.prix !== '' ? Number(p.prix).toLocaleString('fr-FR') + '\u202f€' : '—';
-    const imgContent = p.photo
+    const dispo        = isDispo(p.dispo);
+    const prix         = formatPrix(p.prix);
+    const prixBoutique = formatPrix(p.prixBoutique);
+    const imgContent   = p.photo
       ? `<img src="${p.photo}" alt="${p.nom}" loading="lazy"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
       : '';
@@ -808,13 +680,14 @@ function renderCatalogue() {
         </div>
         <div class="card-body">
           <p class="card-nom">${p.nom}</p>
-          <div class="card-meta">
-            <span class="card-prix">${prix}</span>
-            <span class="card-vol">${p.volume}</span>
-          </div>
+          ${prixBoutique ? `<p class="card-prix-boutique">${prixBoutique}</p>` : ''}
+          <p class="card-prix-nous">${prix}</p>
+          <p class="card-vol">${p.volume}</p>
         </div>
       </div>`;
   }).join('');
+
+  observeCards('.card');
 }
 
 document.querySelectorAll('.qf-btn').forEach(btn => {
@@ -844,52 +717,5 @@ document.getElementById('search').addEventListener('input', e => {
 
 loadData();
 </script>
-
-<!-- BOUTON WHATSAPP FLOTTANT -->
-<style>
-.wa-fab {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #25d366;
-  color: #fff;
-  text-decoration: none;
-  padding: 13px 20px 13px 16px;
-  border-radius: 999px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  transition: transform 0.2s, box-shadow 0.2s;
-  white-space: nowrap;
-}
-.wa-fab:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.22);
-}
-.wa-fab svg { flex-shrink: 0; }
-@media (max-width: 600px) {
-  .wa-fab {
-    bottom: 20px;
-    right: 16px;
-    padding: 13px;
-    font-size: 0;
-    gap: 0;
-  }
-}
-</style>
-
-<a class="wa-fab" href="https://wa.me/message/IL4TLQ4R7OFIJ1" target="_blank" rel="noopener">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
-  </svg>
-  Commander sur WhatsApp
-</a>
-
 </body>
 </html>
