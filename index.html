@@ -810,7 +810,7 @@ function renderCart() {
   emptyEl.style.display = 'none';
   footerEl.style.display = 'block';
 
-  itemsEl.innerHTML = '<div class="cart-empty" id="cart-empty" style="display:none"></div>' + cart.map(c => {
+  itemsEl.innerHTML = cart.map(c => {
     const imgContent = c.photo
       ? `<img src="${c.photo}" alt="${c.nom}">`
       : '';
