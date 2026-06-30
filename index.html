@@ -3,717 +3,765 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
-<title>Santalx — Catalogue</title>
+<title>Santalx — Parfums rares</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root{
+    --black:#000000;
+    --white:#FFFFFF;
+    --line: rgba(0,0,0,0.12);
+    --line-dark: rgba(255,255,255,0.16);
+    --sale: #D4222A;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--white);
+    color:var(--black);
+    font-family:'Jost', sans-serif;
+    font-weight:300;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{ font-family:'Cormorant Garamond', serif; font-weight:400; }
+  .page{ display:none; }
+  .page.active{ display:block; }
 
-:root {
-  --black: #0a0a0a;
-  --white: #ffffff;
-  --off-white: #ffffff;
-  --gray-100: #f5f5f5;
-  --gray-200: #e2e0dc;
-  --gray-400: #b0ada6;
-  --gray-600: #6e6b64;
-  --red: #C0392B;
-}
+  .topbar{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 48px;
+    font-size:11px; letter-spacing:1.5px; text-transform:uppercase;
+    border-bottom:1px solid var(--line);
+    background:var(--black); color:var(--white);
+  }
+  header.main{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:22px 48px;
+    border-bottom:1px solid var(--line);
+    background:var(--white);
+    position:sticky; top:0; z-index:50;
+  }
+  .nav-left, .nav-right{ display:flex; align-items:center; gap:28px; }
+  .nav-left a, .nav-right a{
+    color:var(--black); text-decoration:none;
+    font-size:12px; letter-spacing:1.5px; text-transform:uppercase;
+    position:relative;
+    padding-bottom:4px;
+    background:none; border:none; font-family:'Jost'; cursor:pointer;
+  }
+  .nav-left a::after{
+    content:''; position:absolute; left:0; bottom:0;
+    width:0; height:1px; background:var(--black);
+    transition:width .3s ease;
+  }
+  .nav-left a:hover::after, .nav-left a.current::after{ width:100%; }
+  .logo{
+    font-family:'Cormorant Garamond', serif;
+    font-size:30px; letter-spacing:8px; font-weight:500;
+    text-align:center;
+    cursor:pointer;
+  }
+  .icon-btn{
+    background:none; border:none; cursor:pointer;
+    color:var(--black); font-size:16px;
+    display:flex; align-items:center; gap:6px;
+    font-family:'Jost'; letter-spacing:1px;
+  }
+  .cart-count{
+    background:var(--black); color:var(--white);
+    border-radius:50%; width:16px; height:16px;
+    font-size:10px; display:flex; align-items:center; justify-content:center;
+    position:relative; top:-8px; left:-4px;
+  }
+  .wa-nav-btn{
+    border:1px solid var(--black);
+    padding:8px 16px;
+    font-size:11px; letter-spacing:1.5px; text-transform:uppercase;
+  }
+  .wa-nav-btn:hover{
+    background:var(--black); color:var(--white);
+  }
 
-html { scroll-behavior: smooth; }
+  .hero{
+    height:88vh; position:relative; overflow:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    background:var(--white);
+  }
+  .hero-eyebrow{
+    font-size:12px; letter-spacing:6px; text-transform:uppercase;
+    color:var(--black); margin-bottom:28px;
+  }
+  .hero-title{
+    font-size:clamp(38px, 7vw, 96px);
+    letter-spacing:clamp(4px, 1vw, 14px);
+    line-height:1.05;
+    text-transform:uppercase;
+    color:var(--black);
+  }
+  .hero-sub{
+    margin-top:28px;
+    font-size:16px; letter-spacing:2px;
+    color:#555;
+    max-width:480px;
+  }
+  .hero-line{
+    width:1px; height:60px; background:var(--black);
+    margin-top:46px;
+    animation:grow 2.4s ease-in-out infinite;
+  }
+  @keyframes grow{
+    0%,100%{ transform:scaleY(0.6); opacity:.4; }
+    50%{ transform:scaleY(1); opacity:1; }
+  }
 
-body {
-  font-family: 'Montserrat', system-ui, sans-serif;
-  background: var(--white);
-  color: var(--black);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-}
+  .marquee-wrap{
+    background:var(--black);
+    color:var(--white);
+    padding:26px 0;
+    overflow:hidden;
+    border-top:1px solid var(--black);
+    border-bottom:1px solid var(--black);
+  }
+  .marquee-label{
+    text-align:center;
+    font-size:10px; letter-spacing:4px; text-transform:uppercase;
+    color:#888; margin-bottom:18px;
+  }
+  .marquee-track{
+    display:flex;
+    width:max-content;
+    animation:scroll 28s linear infinite;
+  }
+  .marquee-track:hover{ animation-play-state:paused; }
+  @keyframes scroll{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+  .marquee-item{
+    display:flex; align-items:center; gap:16px;
+    padding:0 44px;
+    white-space:nowrap;
+    border-right:1px solid var(--line-dark);
+  }
+  .marquee-photo{
+    width:46px; height:60px;
+    object-fit:cover;
+    background:#1a1a1a;
+  }
+  .marquee-text{ display:flex; flex-direction:column; gap:2px; }
+  .marquee-item .num{ font-size:11px; color:#888; }
+  .marquee-item .mname{ font-family:'Cormorant Garamond'; font-size:24px; color:var(--white); line-height:1; }
+  .marquee-item .mbrand{ font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#999; }
 
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes heroReveal {
-  from { opacity: 0; transform: translateY(10px); letter-spacing: 0.18em; }
-  to   { opacity: 1; transform: translateY(0);    letter-spacing: 0.06em; }
-}
-@keyframes lineGrow {
-  from { transform: scaleX(0); }
-  to   { transform: scaleX(1); }
-}
+  .section-head{
+    text-align:center; padding:90px 24px 50px;
+  }
+  .section-eyebrow{
+    font-size:11px; letter-spacing:4px; text-transform:uppercase;
+    color:#555; margin-bottom:14px;
+  }
+  .section-title{
+    font-size:42px; letter-spacing:2px;
+  }
 
-.anim-fade-up {
-  opacity: 0;
-  animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
-}
+  .filters{
+    display:flex; justify-content:center; gap:36px;
+    padding-bottom:60px;
+    flex-wrap:wrap;
+  }
+  .filters button{
+    background:none; border:none; cursor:pointer;
+    font-family:'Jost'; font-size:12px; letter-spacing:2px; text-transform:uppercase;
+    color:#777; padding-bottom:6px; border-bottom:1px solid transparent;
+    transition:all .25s ease;
+  }
+  .filters button.active, .filters button:hover{
+    color:var(--black); border-bottom:1px solid var(--black);
+  }
 
-/* Cards staggered */
-.brand-card { opacity: 0; }
-.brand-card.visible {
-  animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
-}
-.card { opacity: 0; }
-.card.visible {
-  animation: fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
-}
-.bs-card { opacity: 0; }
-.bs-card.visible {
-  animation: fadeUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
-}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:1px;
+    background:var(--line);
+    margin:0 48px 100px;
+    border:1px solid var(--line);
+  }
+  .card{
+    background:var(--white);
+    padding:0;
+    position:relative;
+    display:flex; flex-direction:column;
+    cursor:pointer;
+  }
+  .card-img{
+    aspect-ratio:3/4;
+    background:#fafafa;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .bottle{
+    width:38%;
+    filter:drop-shadow(0 18px 24px rgba(0,0,0,0.15));
+    transition:transform .5s ease;
+  }
+  .card:hover .bottle{ transform:translateY(-8px); }
+  .card-fav{
+    position:absolute; top:16px; right:16px;
+    width:30px; height:30px; border-radius:50%;
+    background:rgba(255,255,255,0.9);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px; color:var(--black);
+    opacity:0; transition:opacity .25s ease;
+  }
+  .card:hover .card-fav{ opacity:1; }
+  .card-add{
+    position:absolute; bottom:0; left:0; right:0;
+    background:var(--black); color:var(--white);
+    text-align:center; padding:14px;
+    font-size:11px; letter-spacing:2px; text-transform:uppercase;
+    transform:translateY(100%);
+    transition:transform .3s ease;
+  }
+  .card:hover .card-add{ transform:translateY(0); }
+  .card-info{
+    padding:22px 22px 26px;
+  }
+  .card-brand{
+    font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:#777; margin-bottom:6px;
+  }
+  .card-name{
+    font-family:'Cormorant Garamond', serif;
+    font-size:21px; margin-bottom:10px;
+  }
+  .card-price{
+    font-size:13px; letter-spacing:.5px;
+    display:flex; align-items:baseline; gap:10px;
+  }
+  .price-old{
+    color:var(--sale); text-decoration:line-through; font-size:11px;
+  }
+  .price-now{
+    color:var(--black); font-weight:400;
+  }
 
-/* ── HEADER ── */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 200;
-  background: rgba(247,246,244,0.94);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--gray-200);
-  animation: fadeIn 0.4s ease forwards;
-}
+  .banner{
+    margin:0 48px 110px;
+    background:var(--black);
+    color:var(--white);
+    padding:80px 60px;
+    display:flex; justify-content:space-between; align-items:center;
+    gap:40px;
+  }
+  .banner-text h3{
+    font-size:38px; letter-spacing:1px; margin-bottom:16px; color:var(--white);
+  }
+  .banner-text p{
+    color:#bbb; max-width:420px; font-size:14px; line-height:1.7;
+  }
+  .banner-btn{
+    border:1px solid var(--white); background:none; color:var(--white);
+    padding:16px 36px; font-family:'Jost'; font-size:12px; letter-spacing:2px;
+    text-transform:uppercase; cursor:pointer; white-space:nowrap;
+    transition:all .3s ease;
+  }
+  .banner-btn:hover{ background:var(--white); color:var(--black); }
 
-.header-inner {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 2.5rem;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
+  .brands-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--line);
+    margin:0 48px 100px;
+    border:1px solid var(--line);
+  }
+  .brand-tile{
+    background:var(--white);
+    aspect-ratio:16/10;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:background .3s ease, color .3s ease;
+    text-align:center;
+    padding:20px;
+  }
+  .brand-logo-frame{
+    width:120px; height:70px;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:14px;
+  }
+  .brand-logo-frame img{
+    max-width:100%; max-height:100%;
+    object-fit:contain;
+    filter:grayscale(1);
+  }
+  .brand-tile:hover .brand-logo-frame img{
+    filter:grayscale(1) invert(1);
+  }
+  .brand-tile:hover{ background:var(--black); color:var(--white); }
+  .brand-tile .bname{
+    font-family:'Cormorant Garamond'; font-size:30px; letter-spacing:2px;
+  }
+  .brand-tile .bcount{
+    font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:#888; margin-top:10px;
+  }
+  .brand-tile:hover .bcount{ color:#ccc; }
 
-.logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 400;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--black);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
+  footer{
+    border-top:1px solid var(--line);
+    padding:50px 48px;
+    display:flex; justify-content:center; gap:48px; flex-wrap:wrap;
+  }
+  .footer-col{
+    display:flex; gap:48px; flex-wrap:wrap; justify-content:center;
+  }
+  .footer-col a{
+    color:#555; text-decoration:none;
+    font-size:12px; letter-spacing:1.5px; text-transform:uppercase;
+  }
+  .footer-col a:hover{ color:var(--black); }
 
-.header-search {
-  flex: 1;
-  max-width: 340px;
-  margin-left: auto;
-  position: relative;
-}
+  .overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.5);
+    opacity:0; pointer-events:none; transition:opacity .3s ease;
+    z-index:90;
+  }
+  .overlay.open{ opacity:1; pointer-events:auto; }
+  .drawer{
+    position:fixed; top:0; right:0; bottom:0;
+    width:420px; max-width:90vw;
+    background:var(--white);
+    box-shadow:-10px 0 40px rgba(0,0,0,0.15);
+    transform:translateX(100%);
+    transition:transform .4s cubic-bezier(.4,0,.2,1);
+    z-index:100;
+    display:flex; flex-direction:column;
+  }
+  .drawer.open{ transform:translateX(0); }
+  .drawer-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:26px 32px; border-bottom:1px solid var(--line);
+  }
+  .drawer-head h3{ font-size:24px; }
+  .drawer-close{ background:none; border:none; font-size:20px; cursor:pointer; color:var(--black); }
+  .drawer-items{ flex:1; overflow-y:auto; padding:24px 32px; }
+  .drawer-item{
+    display:flex; gap:16px; padding:18px 0; border-bottom:1px solid var(--line);
+  }
+  .drawer-thumb{
+    width:64px; height:80px;
+    background:#fafafa; border:1px solid var(--line);
+  }
+  .drawer-item-info{ flex:1; }
+  .drawer-item-info .name{ font-family:'Cormorant Garamond'; font-size:18px; }
+  .drawer-item-info .brand{ font-size:10px; letter-spacing:1.5px; color:#777; text-transform:uppercase; margin:4px 0; }
+  .drawer-item-info .price{ font-size:13px; display:flex; gap:8px; align-items:baseline; }
+  .drawer-foot{
+    padding:28px 32px; border-top:1px solid var(--line);
+  }
+  .drawer-total{
+    display:flex; justify-content:space-between; font-size:15px; margin-bottom:20px;
+  }
+  .wa-btn{
+    width:100%; background:var(--black); color:var(--white); border:none;
+    padding:18px; font-family:'Jost'; font-size:12px; letter-spacing:2px;
+    text-transform:uppercase; cursor:pointer; transition:opacity .3s ease;
+  }
+  .wa-btn:hover{ opacity:0.8; }
 
-.header-search input {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid var(--gray-400);
-  padding: 6px 26px 6px 0;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: 300;
-  letter-spacing: 0.06em;
-  color: var(--black);
-  outline: none;
-  transition: border-color 0.2s;
-}
-.header-search input::placeholder { color: var(--gray-400); }
-.header-search input:focus { border-bottom-color: var(--black); }
-.header-search svg {
-  position: absolute; right: 0; top: 50%;
-  transform: translateY(-50%);
-  color: var(--gray-400); pointer-events: none;
-}
-
-/* ── HERO ── */
-.hero {
-  background: var(--black);
-  color: var(--white);
-  text-align: center;
-  padding: 5rem 2rem 4.5rem;
-  overflow: hidden;
-  position: relative;
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 10%; right: 10%;
-  height: 1px;
-  background: var(--gray-600);
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: lineGrow 1s 0.6s cubic-bezier(0.22,1,0.36,1) forwards;
-}
-
-.hero-eyebrow {
-  font-size: 9px;
-  font-weight: 400;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--gray-400);
-  margin-bottom: 1.4rem;
-  animation: fadeIn 0.8s 0.1s ease forwards;
-  opacity: 0;
-}
-
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(44px, 6vw, 76px);
-  font-weight: 300;
-  font-style: italic;
-  line-height: 1.05;
-  color: var(--white);
-  opacity: 0;
-  animation: heroReveal 1s 0.25s cubic-bezier(0.22,1,0.36,1) forwards;
-}
-
-/* ── BEST SELLERS ── */
-.bestsellers-section {
-  max-width: 1280px;
-  margin: 3.5rem auto 0;
-  padding: 0 2.5rem;
-}
-
-.section-eyebrow {
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--gray-400);
-  margin-bottom: 1.5rem;
-}
-
-.bs-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--gray-200);
-  border: 1px solid var(--gray-200);
-  margin-bottom: 4rem;
-}
-
-.bs-card { background: var(--white); position: relative; }
-
-.bs-badge {
-  position: absolute; top: 12px; left: 12px; z-index: 2;
-  font-size: 8px; font-weight: 500; letter-spacing: 0.2em;
-  text-transform: uppercase;
-  background: var(--black); color: var(--white);
-  padding: 4px 10px;
-}
-
-.bs-img {
-  width: 100%; aspect-ratio: 3/4;
-  background: var(--gray-100);
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-}
-
-.bs-img img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
-}
-.bs-card:hover .bs-img img { transform: scale(1.04); }
-
-.bs-body { padding: 14px 16px 18px; border-top: 1px solid var(--gray-200); }
-.bs-marque { font-size: 9px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 5px; }
-.bs-nom { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--black); margin-bottom: 10px; line-height: 1.2; }
-.bs-meta { display: flex; justify-content: space-between; align-items: baseline; }
-.bs-prix { font-size: 14px; font-weight: 500; color: var(--black); }
-.bs-prix-boutique { font-size: 11px; color: var(--red); text-decoration: line-through; }
-.bs-vol { font-size: 10px; font-weight: 300; color: var(--gray-400); }
-
-/* ── SÉPARATEUR ── */
-.sep { max-width: 1280px; margin: 0 auto 3.5rem; padding: 0 2.5rem; border-bottom: 1px solid var(--gray-200); }
-
-/* ── VUE MAISONS ── */
-#view-maisons { display: block; }
-#view-catalogue { display: none; }
-
-.maisons-wrap { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem 6rem; }
-
-.brands-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.brand-card {
-  background: var(--white); padding: 0; cursor: pointer;
-  transition: background 0.2s;
-  display: flex; flex-direction: column;
-  border: none; text-align: left; overflow: hidden;
-}
-.brand-card:hover { background: var(--black); }
-.brand-card:hover .bc-name,
-.brand-card:hover .bc-count { color: var(--white); }
-.brand-card:hover .bc-img-wrap { filter: invert(1); }
-
-.bc-img-wrap {
-  width: 100%; height: 180px; background: #fafaf8;
-  display: flex; align-items: center; justify-content: center;
-  padding: 2.5rem;
-  transition: filter 0.2s;
-  overflow: hidden;
-}
-.bc-img-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
-
-.bc-no-logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; letter-spacing: .14em; color: var(--black); }
-
-.bc-body { padding: 18px 22px 20px; border-top: 1px solid var(--gray-200); }
-.bc-name { font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--black); transition: color 0.2s; margin-bottom: 7px; }
-.bc-count { font-size: 11px; font-weight: 300; letter-spacing: .04em; color: var(--gray-400); transition: color 0.2s; }
-
-/* ── VUE CATALOGUE ── */
-.cat-header {
-  max-width: 1280px; margin: 0 auto;
-  padding: 1.75rem 2.5rem 1.25rem;
-  display: flex; align-items: center; gap: 1.5rem;
-  border-bottom: 1px solid var(--gray-200);
-}
-
-.back-btn {
-  font-size: 10px; font-weight: 400; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--gray-600); background: none; border: none; cursor: pointer;
-  display: flex; align-items: center; gap: 7px; padding: 0;
-  transition: color 0.15s;
-}
-.back-btn:hover { color: var(--black); }
-
-.cat-brand-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; letter-spacing: .1em; color: var(--black); }
-
-.cat-controls {
-  max-width: 1280px; margin: 0 auto;
-  padding: 1rem 2.5rem;
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-  border-bottom: 1px solid var(--gray-200);
-}
-
-.qf-btn {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 10px; font-weight: 400; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--gray-600); padding: 5px 14px;
-  border: 1px solid var(--gray-200); background: transparent; cursor: pointer;
-  transition: all 0.15s;
-}
-.qf-btn:hover { border-color: var(--black); color: var(--black); }
-.qf-btn.active { background: var(--black); color: var(--white); border-color: var(--black); }
-
-.result-count { margin-left: auto; font-size: 10px; font-weight: 300; letter-spacing: .1em; color: var(--gray-400); }
-
-.catalogue { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem 6rem; }
-
-.perfume-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1px;
-  background: var(--gray-200);
-  border: 1px solid var(--gray-200);
-  margin-top: 2rem;
-}
-
-.card { background: var(--white); transition: background 0.2s; position: relative; }
-.card:hover { background: var(--white); }
-.card.epuise { opacity: 0.5; }
-
-.card-img {
-  width: 100%; aspect-ratio: 3/4;
-  background: var(--gray-100);
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; position: relative;
-}
-.card-img img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
-}
-.card:hover .card-img img { transform: scale(1.04); }
-
-.no-photo { display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--gray-400); }
-.no-photo svg { opacity: 0.3; }
-.no-photo span { font-size: 8px; letter-spacing: .18em; text-transform: uppercase; font-weight: 300; }
-
-.epuise-overlay {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  background: rgba(10,10,10,0.75); color: var(--white);
-  font-size: 8px; font-weight: 400; letter-spacing: .22em; text-transform: uppercase;
-  text-align: center; padding: 8px;
-}
-
-.card-body { padding: 14px 16px 16px; }
-
-.card-nom { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; letter-spacing: .02em; line-height: 1.3; color: var(--black); margin-bottom: 8px; }
-
-/* Prix : boutique barré rouge au-dessus, notre prix en bas */
-.card-prix-boutique { font-size: 11px; color: var(--red); text-decoration: line-through; margin-bottom: 2px; }
-.card-prix-nous { font-size: 15px; font-weight: 500; color: var(--black); }
-.card-vol { font-size: 10px; font-weight: 300; letter-spacing: .06em; color: var(--gray-400); margin-top: 4px; }
-
-/* ── ÉTATS ── */
-.loading-state { display: flex; flex-direction: column; align-items: center; padding: 6rem 0; gap: 1.5rem; }
-.loading-line { width: 48px; height: 1px; background: var(--gray-200); position: relative; overflow: hidden; }
-.loading-line::after {
-  content: ''; position: absolute; left: -100%; top: 0; width: 100%; height: 100%;
-  background: var(--black); animation: lineGrow 1.2s ease-in-out infinite alternate;
-}
-.loading-state span { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; font-weight: 300; color: var(--gray-600); }
-
-.empty-state { text-align: center; padding: 5rem 0; font-size: 11px; letter-spacing: .1em; color: var(--gray-400); grid-column: 1/-1; }
-.error-state { max-width: 420px; margin: 5rem auto; text-align: center; padding: 2.5rem; border: 1px solid var(--gray-200); background: var(--white); }
-.error-state p { font-size: 14px; font-weight: 300; margin-bottom: .75rem; }
-.error-state small { font-size: 11px; font-weight: 300; color: var(--gray-600); letter-spacing: .04em; }
-
-/* ── WHATSAPP ── */
-.wa-fab {
-  position: fixed; bottom: 28px; right: 28px; z-index: 999;
-  display: flex; align-items: center; gap: 10px;
-  background: #25d366; color: #fff; text-decoration: none;
-  padding: 13px 20px 13px 16px; border-radius: 999px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
-  font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: .04em;
-  transition: transform 0.2s, box-shadow 0.2s; white-space: nowrap;
-  animation: fadeUp 0.6s 0.8s cubic-bezier(0.22,1,0.36,1) both;
-}
-.wa-fab:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.22); }
-.wa-fab svg { flex-shrink: 0; }
-
-@media (max-width: 600px) {
-  .wa-fab { bottom: 20px; right: 16px; padding: 13px; font-size: 0; gap: 0; }
-}
-
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  .header-inner { padding: 0 1.25rem; height: 56px; }
-  .bestsellers-section, .maisons-wrap, .catalogue, .sep,
-  .cat-header, .cat-controls { padding-left: 1.25rem; padding-right: 1.25rem; }
-  .bs-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-  .brands-grid { grid-template-columns: repeat(2, 1fr); }
-  .perfume-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-  .hero { padding: 3.5rem 1.5rem 3rem; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::after { animation: none !important; transition: none !important; opacity: 1 !important; }
-}
+  @media (max-width: 900px){
+    .topbar{ display:none; }
+    header.main{ padding:16px 20px; }
+    .nav-left{ gap:14px; }
+    .nav-left a{ font-size:10px; letter-spacing:0.5px; }
+    .logo{ font-size:20px; letter-spacing:4px; }
+    .grid{ grid-template-columns:repeat(2,1fr); margin:0 16px 60px; }
+    .brands-grid{ grid-template-columns:repeat(2,1fr); margin:0 16px 60px; }
+    .banner{ flex-direction:column; text-align:center; margin:0 16px 60px; padding:50px 24px; }
+    footer{ padding:40px 20px; }
+  }
 </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <div class="logo">Santalx</div>
-    <div class="header-search">
-      <input type="text" id="search" placeholder="Rechercher…" autocomplete="off" spellcheck="false">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+  <div class="topbar">
+    <span>Livraison Grenoble & alentours</span>
+    <span>Catalogue mis à jour chaque semaine</span>
+  </div>
+
+  <header class="main">
+    <div class="nav-left">
+      <a class="current" onclick="showPage('catalogue')">Catalogue</a>
+      <a onclick="showPage('marques')">Marques</a>
+      <a href="#">Nouveautés</a>
     </div>
-  </div>
-</header>
+    <div class="logo" onclick="showPage('catalogue')">SANTALX</div>
+    <div class="nav-right">
+      <button class="icon-btn">Rechercher</button>
+      <a class="icon-btn wa-nav-btn" href="https://wa.me/33600000000" target="_blank" rel="noopener">WhatsApp</a>
+      <button class="icon-btn" onclick="openCart()">
+        Panier <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
 
-<section class="hero">
-  <p class="hero-eyebrow">Sélection exclusive</p>
-  <h1 class="hero-title">Notre sélection de parfums exclusifs</h1>
-</section>
+  <div class="page active" id="page-catalogue">
 
-<!-- VUE MAISONS -->
-<div id="view-maisons">
-  <div class="bestsellers-section" id="bs-section" style="display:none">
-    <p class="section-eyebrow">Best-sellers</p>
-    <div class="bs-grid" id="bs-grid"></div>
-  </div>
-  <div class="sep"></div>
-  <div class="maisons-wrap">
-    <p class="section-eyebrow" id="maisons-label">Chargement…</p>
-    <div class="brands-grid" id="brands-grid">
-      <div class="loading-state" style="grid-column:1/-1">
-        <div class="loading-line"></div>
-        <span>Chargement</span>
+    <section class="hero">
+      <div class="hero-eyebrow">Maison de revente — édition rare</div>
+      <h1 class="hero-title">Notre sélection<br>de parfums</h1>
+      <p class="hero-sub">Une sélection de parfums choisis avec soin pour leur positionnement, leur qualité et leur histoire.</p>
+      <div class="hero-line"></div>
+    </section>
+
+    <div class="marquee-wrap">
+      <div class="marquee-label">Meilleures ventes</div>
+      <div class="marquee-track" id="marqueeTrack"></div>
+    </div>
+
+    <div class="section-head">
+      <div class="section-eyebrow">La sélection du moment</div>
+      <h2 class="section-title">Le catalogue</h2>
+    </div>
+
+    <div class="filters" id="brandFilters">
+      <button class="active" data-brand="all">Tout voir</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="banner">
+      <div class="banner-text">
+        <h3>Notre sélection de parfums</h3>
+        <p>Disponibilités, niveau de remplissage, authenticité — écrivez-nous directement, réponse sous quelques heures.</p>
       </div>
+      <button class="banner-btn">Nous écrire</button>
+    </div>
+
+  </div>
+
+  <div class="page" id="page-marques">
+
+    <div class="section-head" style="padding-top:70px;">
+      <div class="section-eyebrow">Toutes les maisons</div>
+      <h2 class="section-title">Nos marques</h2>
+    </div>
+
+    <div class="brands-grid" id="brandsGrid"></div>
+
+  </div>
+
+  <footer>
+    <div class="footer-col">
+      <a href="#">Comment commander</a>
+      <a onclick="showPage('marques')">Marques</a>
+      <a href="#">WhatsApp</a>
+      <a href="#">Livraison</a>
+    </div>
+  </footer>
+
+  <div class="overlay" id="overlay" onclick="closeCart()"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-head">
+      <h3>Votre sélection</h3>
+      <button class="drawer-close" onclick="closeCart()">&times;</button>
+    </div>
+    <div class="drawer-items" id="drawerItems"></div>
+    <div class="drawer-foot">
+      <div class="drawer-total"><span>Total estimé</span><span id="drawerTotal">160,00 €</span></div>
+      <button class="wa-btn">Commander via WhatsApp</button>
     </div>
   </div>
-</div>
-
-<!-- VUE CATALOGUE -->
-<div id="view-catalogue">
-  <div class="cat-header">
-    <button class="back-btn" id="back-btn">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg>
-      Toutes les maisons
-    </button>
-    <span class="cat-brand-name" id="cat-brand-name"></span>
-  </div>
-  <div class="cat-controls">
-    <button class="qf-btn active" data-qf="tous">Tous</button>
-    <button class="qf-btn" data-qf="dispo">Disponibles</button>
-    <button class="qf-btn" data-qf="Homme">Homme</button>
-    <button class="qf-btn" data-qf="Femme">Femme</button>
-    <button class="qf-btn" data-qf="Mixte">Mixte</button>
-    <span class="result-count" id="result-count"></span>
-  </div>
-  <div class="catalogue">
-    <div class="perfume-grid" id="perfume-grid"></div>
-  </div>
-</div>
-
-<!-- WHATSAPP -->
-<a class="wa-fab" href="https://wa.me/message/IL4TLQ4R7OFIJ1" target="_blank" rel="noopener">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
-  </svg>
-  Commander sur WhatsApp
-</a>
 
 <script>
-const SHEET_ID   = '1oHOoJghOo-IJjeDoQsb10LXgV45n_ULxMN82PdX1j54';
-const SHEET_NAME = 'Catalogue_Parfums';
+  // ===== CONFIGURATION =====
+  // ID du Google Sheet Santalx, publié en CSV via gviz.
+  // Colonnes attendues : Nom, Marque, Prix, Volume, Disponible, Genre, Photo, Logo_Marque, Best_Seller, Prix_Boutique
+  const SHEET_ID = '1oHOoJghOo-IJjeDoQsb10LXgV45n_ULxMN82PdX1j54';
+  const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:csv';
+  const WHATSAPP_NUMBER = '33600000000'; // numéro WhatsApp Business, format international sans +
 
-// Colonnes Sheet :
-// A=Nom  B=Marque  C=Prix  D=Volume  E=Disponible  F=Genre  G=Photo  H=Logo_Marque  I=Best_Seller  J=Prix_Boutique
+  // Données de secours affichées si le Sheet n'est pas accessible (ex: prévisualisation locale hors ligne)
+  const FALLBACK_DATA = [
+    {Nom:"Ambre intense", Marque:"Marque A", Prix:95, Prix_Boutique:120, Volume:"100ml", Disponible:"oui", Genre:"Mixte", Photo:"https://picsum.photos/seed/p1/300/400", Logo_Marque:"https://picsum.photos/seed/logoA/200/100", Best_Seller:"oui"},
+    {Nom:"Fleur blanche", Marque:"Marque B", Prix:78, Prix_Boutique:98, Volume:"50ml", Disponible:"oui", Genre:"Femme", Photo:"https://picsum.photos/seed/p2/300/400", Logo_Marque:"https://picsum.photos/seed/logoB/200/100", Best_Seller:"non"},
+    {Nom:"Bois précieux", Marque:"Marque C", Prix:110, Prix_Boutique:135, Volume:"100ml", Disponible:"oui", Genre:"Homme", Photo:"https://picsum.photos/seed/p3/300/400", Logo_Marque:"https://picsum.photos/seed/logoC/200/100", Best_Seller:"oui"},
+    {Nom:"Agrume frais", Marque:"Marque D", Prix:65, Prix_Boutique:82, Volume:"75ml", Disponible:"oui", Genre:"Mixte", Photo:"https://picsum.photos/seed/p4/300/400", Logo_Marque:"https://picsum.photos/seed/logoD/200/100", Best_Seller:"non"},
+    {Nom:"Oud rare", Marque:"Marque A", Prix:145, Prix_Boutique:175, Volume:"100ml", Disponible:"oui", Genre:"Homme", Photo:"https://picsum.photos/seed/p5/300/400", Logo_Marque:"https://picsum.photos/seed/logoA/200/100", Best_Seller:"oui"},
+    {Nom:"Jasmin nocturne", Marque:"Marque B", Prix:89, Prix_Boutique:112, Volume:"50ml", Disponible:"oui", Genre:"Femme", Photo:"https://picsum.photos/seed/p6/300/400", Logo_Marque:"https://picsum.photos/seed/logoB/200/100", Best_Seller:"non"},
+    {Nom:"Santal royal", Marque:"Marque C", Prix:120, Prix_Boutique:140, Volume:"100ml", Disponible:"oui", Genre:"Mixte", Photo:"https://picsum.photos/seed/p7/300/400", Logo_Marque:"https://picsum.photos/seed/logoC/200/100", Best_Seller:"oui"},
+    {Nom:"Néroli marin", Marque:"Marque D", Prix:72, Prix_Boutique:89, Volume:"75ml", Disponible:"oui", Genre:"Mixte", Photo:"https://picsum.photos/seed/p8/300/400", Logo_Marque:"https://picsum.photos/seed/logoD/200/100", Best_Seller:"non"}
+  ];
 
-let allData     = [];
-let brandLogos  = {};
-let activeBrand = null;
-let activeQF    = 'tous';
-let searchQuery = '';
+  let perfumes = [];
+  let cart = []; // [{item: perfume, qty: number}]
 
-/* ── Intersection Observer pour animations au scroll ── */
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      const el = entry.target;
-      const delay = (el.dataset.delay || 0);
-      setTimeout(() => el.classList.add('visible'), delay);
-      observer.unobserve(el);
+  function fmt(n){ return Number(n).toFixed(2).replace('.', ',') + ' €'; }
+
+  // ===== PARSEUR CSV =====
+  // Parseur simple gérant les champs entre guillemets (au cas où un nom ou une URL contienne une virgule).
+  function parseCSV(text){
+    const rows = [];
+    let row = [], field = '', inQuotes = false;
+    for(let i = 0; i < text.length; i++){
+      const c = text[i];
+      if(inQuotes){
+        if(c === '"'){
+          if(text[i+1] === '"'){ field += '"'; i++; }
+          else inQuotes = false;
+        } else field += c;
+      } else {
+        if(c === '"') inQuotes = true;
+        else if(c === ','){ row.push(field); field = ''; }
+        else if(c === '\n'){ row.push(field); rows.push(row); row = []; field = ''; }
+        else if(c === '\r'){ /* skip */ }
+        else field += c;
+      }
     }
-  });
-}, { threshold: 0.08 });
-
-function observeCards(selector) {
-  document.querySelectorAll(selector).forEach((el, i) => {
-    el.dataset.delay = Math.min(i * 50, 300);
-    observer.observe(el);
-  });
-}
-
-async function loadData() {
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
-  try {
-    const res  = await fetch(url);
-    const text = await res.text();
-    const json = JSON.parse(text.substring(47, text.length - 2));
-
-    allData = json.table.rows
-      .filter(r => r.c[0]?.v)
-      .map(r => ({
-        nom:          String(r.c[0]?.v || '').trim(),
-        marque:       String(r.c[1]?.v || '').trim(),
-        prix:         r.c[2]?.v ?? '',
-        volume:       String(r.c[3]?.v || '').trim(),
-        dispo:        String(r.c[4]?.v || '').trim(),
-        genre:        String(r.c[5]?.v || '').trim(),
-        photo:        String(r.c[6]?.v || '').trim(),
-        logo:         String(r.c[7]?.v || '').trim(),
-        bestSeller:   String(r.c[8]?.v || '').trim(),
-        prixBoutique: r.c[9]?.v ?? '',
-      }));
-
-    allData.forEach(p => { if (p.logo) brandLogos[p.marque] = p.logo; });
-
-    buildMaisons();
-    buildBestSellers();
-  } catch(e) {
-    document.getElementById('brands-grid').innerHTML =
-      `<div class="error-state" style="grid-column:1/-1">
-        <p>Catalogue indisponible</p>
-        <small>Vérifiez que le Google Sheet est partagé en lecture publique.</small>
-      </div>`;
-    document.getElementById('maisons-label').textContent = '';
+    if(field.length || row.length){ row.push(field); rows.push(row); }
+    return rows;
   }
-}
 
-function isDispo(val) {
-  return ['oui','yes','true','1','dispo','disponible'].includes((val||'').toLowerCase());
-}
+  function rowsToObjects(rows){
+    if(rows.length < 2) return [];
+    const headers = rows[0].map(h => h.trim());
+    return rows.slice(1)
+      .filter(r => r.some(cell => cell.trim() !== ''))
+      .map(r => {
+        const obj = {};
+        headers.forEach((h, i) => { obj[h] = (r[i] || '').trim(); });
+        // conversions de type
+        obj.Prix = parseFloat((obj.Prix || '0').replace(',', '.')) || 0;
+        obj.Prix_Boutique = parseFloat((obj.Prix_Boutique || '0').replace(',', '.')) || 0;
+        return obj;
+      });
+  }
 
-function formatPrix(val) {
-  return val !== '' ? Number(val).toLocaleString('fr-FR') + '\u202f€' : '';
-}
-
-/* ── BEST SELLERS ── */
-function buildBestSellers() {
-  const bs = allData.filter(p =>
-    ['oui','yes','true','1'].includes((p.bestSeller||'').toLowerCase())
-  ).slice(0, 3);
-  if (bs.length === 0) return;
-
-  document.getElementById('bs-section').style.display = 'block';
-  document.getElementById('bs-grid').innerHTML = bs.map(p => {
-    const prix         = formatPrix(p.prix);
-    const prixBoutique = formatPrix(p.prixBoutique);
-    const imgContent   = p.photo
-      ? `<img src="${p.photo}" alt="${p.nom}" loading="lazy">`
-      : `<div style="color:var(--gray-400);font-size:11px;letter-spacing:.1em;font-weight:300">Photo à venir</div>`;
-    return `
-      <div class="bs-card">
-        <div class="bs-badge">Best-seller</div>
-        <div class="bs-img">${imgContent}</div>
-        <div class="bs-body">
-          <p class="bs-marque">${p.marque}</p>
-          <p class="bs-nom">${p.nom}</p>
-          <div class="bs-meta">
-            <div>
-              ${prixBoutique ? `<p class="bs-prix-boutique">${prixBoutique}</p>` : ''}
-              <p class="bs-prix">${prix}</p>
-            </div>
-            <span class="bs-vol">${p.volume}</span>
-          </div>
-        </div>
-      </div>`;
-  }).join('');
-  observeCards('.bs-card');
-}
-
-/* ── VUE MAISONS ── */
-function buildMaisons() {
-  const counts = {};
-  allData.forEach(p => { counts[p.marque] = (counts[p.marque] || 0) + 1; });
-  const brands = Object.keys(counts).filter(Boolean).sort();
-  document.getElementById('maisons-label').textContent = brands.length + ' maisons';
-
-  document.getElementById('brands-grid').innerHTML = brands.map(b => {
-    const logo = brandLogos[b];
-    const imgBlock = logo
-      ? `<img src="${logo}" alt="${b}" loading="lazy">`
-      : `<span class="bc-no-logo">${b.substring(0,2).toUpperCase()}</span>`;
-    return `
-      <button class="brand-card" data-brand="${b}">
-        <div class="bc-img-wrap">${imgBlock}</div>
-        <div class="bc-body">
-          <p class="bc-name">${b}</p>
-          <p class="bc-count">${counts[b]} référence${counts[b] > 1 ? 's' : ''}</p>
-        </div>
-      </button>`;
-  }).join('');
-
-  observeCards('.brand-card');
-
-  document.getElementById('brands-grid').addEventListener('click', e => {
-    const btn = e.target.closest('.brand-card');
-    if (!btn) return;
-    selectBrand(btn.dataset.brand);
-  });
-}
-
-/* ── NAVIGATION ── */
-function selectBrand(brand) {
-  activeBrand = brand; activeQF = 'tous';
-  document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('.qf-btn[data-qf="tous"]').classList.add('active');
-  document.getElementById('cat-brand-name').textContent = brand;
-  document.getElementById('view-maisons').style.display = 'none';
-  document.getElementById('view-catalogue').style.display = 'block';
-  renderCatalogue();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function goBack() {
-  activeBrand = null; searchQuery = '';
-  document.getElementById('search').value = '';
-  document.getElementById('view-catalogue').style.display = 'none';
-  document.getElementById('view-maisons').style.display = 'block';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-document.getElementById('back-btn').addEventListener('click', goBack);
-
-/* ── RENDU CATALOGUE ── */
-function renderCatalogue() {
-  const grid = document.getElementById('perfume-grid');
-  let filtered = allData.filter(p => {
-    if (activeBrand && p.marque !== activeBrand) return false;
-    if (activeQF === 'dispo' && !isDispo(p.dispo)) return false;
-    if (activeQF === 'Homme' && p.genre !== 'Homme') return false;
-    if (activeQF === 'Femme' && p.genre !== 'Femme') return false;
-    if (activeQF === 'Mixte' && p.genre !== 'Mixte') return false;
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      if (!p.nom.toLowerCase().includes(q) && !p.marque.toLowerCase().includes(q)) return false;
+  async function loadPerfumes(){
+    try{
+      const res = await fetch(SHEET_CSV_URL);
+      if(!res.ok) throw new Error('Sheet inaccessible');
+      const text = await res.text();
+      const rows = parseCSV(text);
+      const data = rowsToObjects(rows).filter(p => p.Disponible && p.Disponible.toLowerCase() === 'oui');
+      perfumes = data.length ? data : FALLBACK_DATA;
+    } catch(err){
+      console.warn('Chargement du Sheet impossible, utilisation des données de secours.', err);
+      perfumes = FALLBACK_DATA;
     }
-    return true;
-  });
-
-  document.getElementById('result-count').textContent = filtered.length + ' parfum' + (filtered.length > 1 ? 's' : '');
-
-  if (filtered.length === 0) {
-    grid.innerHTML = '<p class="empty-state">Aucun résultat</p>';
-    return;
+    initPage();
   }
 
-  grid.innerHTML = filtered.map(p => {
-    const dispo        = isDispo(p.dispo);
-    const prix         = formatPrix(p.prix);
-    const prixBoutique = formatPrix(p.prixBoutique);
-    const imgContent   = p.photo
-      ? `<img src="${p.photo}" alt="${p.nom}" loading="lazy"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-      : '';
-    return `
-      <div class="card${dispo ? '' : ' epuise'}">
-        <div class="card-img">
-          ${imgContent}
-          <div class="no-photo" style="${p.photo ? 'display:none' : ''}">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-              <rect x="3" y="3" width="18" height="18" rx="1"/>
-              <circle cx="8.5" cy="8.5" r="1.5"/>
-              <polyline points="21 15 16 10 5 21"/>
-            </svg>
-            <span>Photo à venir</span>
-          </div>
-          ${!dispo ? '<div class="epuise-overlay">Épuisé</div>' : ''}
-        </div>
-        <div class="card-body">
-          <p class="card-nom">${p.nom}</p>
-          ${prixBoutique ? `<p class="card-prix-boutique">${prixBoutique}</p>` : ''}
-          <p class="card-prix-nous">${prix}</p>
-          <p class="card-vol">${p.volume}</p>
-        </div>
-      </div>`;
-  }).join('');
-
-  observeCards('.card');
-}
-
-document.querySelectorAll('.qf-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    activeQF = btn.dataset.qf;
-    renderCatalogue();
-  });
-});
-
-document.getElementById('search').addEventListener('input', e => {
-  searchQuery = e.target.value.trim();
-  if (searchQuery) {
-    activeBrand = null;
-    document.getElementById('cat-brand-name').textContent = 'Résultats';
-    document.getElementById('view-maisons').style.display = 'none';
-    document.getElementById('view-catalogue').style.display = 'block';
-    activeQF = 'tous';
-    document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector('.qf-btn[data-qf="tous"]').classList.add('active');
-    renderCatalogue();
-  } else {
-    goBack();
+  // ===== RENDU CATALOGUE =====
+  const grid = document.getElementById('grid');
+  function renderGrid(filterBrand){
+    grid.innerHTML = '';
+    const list = filterBrand === 'all' ? perfumes : perfumes.filter(p => p.Marque === filterBrand);
+    list.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      const priceHTML = '<span class="price-old">' + fmt(p.Prix_Boutique) + '</span><span class="price-now">' + fmt(p.Prix) + '</span>';
+      card.innerHTML =
+        '<div class="card-img">' +
+          '<img src="' + p.Photo + '" alt="' + p.Nom + '" style="width:100%;height:100%;object-fit:cover;" />' +
+          '<button class="card-fav">&hearts;</button>' +
+          '<div class="card-add">Ajouter au panier</div>' +
+        '</div>' +
+        '<div class="card-info">' +
+          '<div class="card-brand">' + p.Marque + '</div>' +
+          '<div class="card-name">' + p.Nom + '</div>' +
+          '<div class="card-price">' + priceHTML + '</div>' +
+        '</div>';
+      card.querySelector('.card-add').addEventListener('click', (e) => {
+        e.stopPropagation();
+        addToCart(p);
+      });
+      grid.appendChild(card);
+    });
   }
-});
 
-loadData();
+  function renderBrandFilters(){
+    const brands = [...new Set(perfumes.map(p => p.Marque))];
+    const filterBar = document.getElementById('brandFilters');
+    filterBar.innerHTML = '<button class="active" data-brand="all">Tout voir</button>';
+    brands.forEach(b => {
+      const btn = document.createElement('button');
+      btn.textContent = b;
+      btn.dataset.brand = b;
+      filterBar.appendChild(btn);
+    });
+    filterBar.addEventListener('click', e => {
+      if(e.target.tagName !== 'BUTTON') return;
+      filterBar.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      renderGrid(e.target.dataset.brand);
+    });
+    return brands;
+  }
+
+  function renderBrandsPage(brands){
+    const brandsGrid = document.getElementById('brandsGrid');
+    brandsGrid.innerHTML = '';
+    const filterBar = document.getElementById('brandFilters');
+    brands.forEach(b => {
+      const count = perfumes.filter(p => p.Marque === b).length;
+      const logoUrl = perfumes.find(p => p.Marque === b).Logo_Marque;
+      const tile = document.createElement('div');
+      tile.className = 'brand-tile';
+      tile.innerHTML =
+        '<div class="brand-logo-frame"><img src="' + logoUrl + '" alt="' + b + '" /></div>' +
+        '<div class="bname">' + b + '</div>' +
+        '<div class="bcount">' + count + ' parfum' + (count > 1 ? 's' : '') + '</div>';
+      tile.onclick = () => {
+        showPage('catalogue');
+        filterBar.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+        const target = [...filterBar.querySelectorAll('button')].find(btn => btn.dataset.brand === b);
+        if(target) target.classList.add('active');
+        renderGrid(b);
+      };
+      brandsGrid.appendChild(tile);
+    });
+  }
+
+  function renderMarquee(){
+    const marqueeTrack = document.getElementById('marqueeTrack');
+    marqueeTrack.innerHTML = '';
+    const bestsellers = perfumes.filter(p => p.Best_Seller && p.Best_Seller.toLowerCase() === 'oui');
+    if(!bestsellers.length){
+      document.querySelector('.marquee-wrap').style.display = 'none';
+      return;
+    }
+    const marqueeSet = [...bestsellers, ...bestsellers];
+    marqueeSet.forEach((p, i) => {
+      const item = document.createElement('div');
+      item.className = 'marquee-item';
+      item.innerHTML =
+        '<img class="marquee-photo" src="' + p.Photo + '" alt="' + p.Nom + '" />' +
+        '<span class="num">' + String((i % bestsellers.length) + 1).padStart(2,'0') + '</span>' +
+        '<div class="marquee-text">' +
+          '<span class="mname">' + p.Nom + '</span>' +
+          '<span class="mbrand">' + p.Marque + '</span>' +
+        '</div>';
+      marqueeTrack.appendChild(item);
+    });
+  }
+
+  function initPage(){
+    renderGrid('all');
+    const brands = renderBrandFilters();
+    renderBrandsPage(brands);
+    renderMarquee();
+    renderCart();
+  }
+
+  // ===== NAVIGATION =====
+  function showPage(name){
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  // ===== PANIER =====
+  function addToCart(perfume){
+    const existing = cart.find(c => c.item.Nom === perfume.Nom && c.item.Marque === perfume.Marque);
+    if(existing){ existing.qty += 1; }
+    else { cart.push({ item: perfume, qty: 1 }); }
+    renderCart();
+    openCart();
+  }
+
+  function changeQty(index, delta){
+    cart[index].qty += delta;
+    if(cart[index].qty <= 0) cart.splice(index, 1);
+    renderCart();
+  }
+
+  function removeFromCart(index){
+    cart.splice(index, 1);
+    renderCart();
+  }
+
+  function cartTotal(){
+    return cart.reduce((sum, c) => sum + c.item.Prix * c.qty, 0);
+  }
+
+  function renderCart(){
+    const drawerItems = document.getElementById('drawerItems');
+    const cartCount = document.getElementById('cartCount');
+    drawerItems.innerHTML = '';
+    cartCount.textContent = cart.reduce((n, c) => n + c.qty, 0);
+
+    if(!cart.length){
+      drawerItems.innerHTML = '<p style="font-size:13px;color:#777;text-align:center;padding:40px 0;">Votre sélection est vide.</p>';
+    }
+
+    cart.forEach((c, index) => {
+      const p = c.item;
+      const row = document.createElement('div');
+      row.className = 'drawer-item';
+      row.innerHTML =
+        '<img class="drawer-thumb" src="' + p.Photo + '" alt="' + p.Nom + '" style="object-fit:cover;" />' +
+        '<div class="drawer-item-info">' +
+          '<div class="brand">' + p.Marque + '</div>' +
+          '<div class="name">' + p.Nom + '</div>' +
+          '<div class="price">' +
+            '<span class="price-old">' + fmt(p.Prix_Boutique) + '</span>' +
+            '<span class="price-now">' + fmt(p.Prix) + '</span>' +
+          '</div>' +
+          '<div class="qty-row" style="display:flex;align-items:center;gap:10px;margin-top:8px;">' +
+            '<button class="qty-btn" data-action="dec" data-index="' + index + '" style="width:24px;height:24px;border:1px solid var(--line);background:none;cursor:pointer;font-size:13px;">-</button>' +
+            '<span style="font-size:13px;min-width:14px;text-align:center;">' + c.qty + '</span>' +
+            '<button class="qty-btn" data-action="inc" data-index="' + index + '" style="width:24px;height:24px;border:1px solid var(--line);background:none;cursor:pointer;font-size:13px;">+</button>' +
+            '<button data-action="remove" data-index="' + index + '" style="margin-left:auto;background:none;border:none;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#999;cursor:pointer;">Retirer</button>' +
+          '</div>' +
+        '</div>';
+      drawerItems.appendChild(row);
+    });
+
+    drawerItems.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.index, 10);
+        const action = btn.dataset.action;
+        if(action === 'inc') changeQty(idx, 1);
+        else if(action === 'dec') changeQty(idx, -1);
+        else if(action === 'remove') removeFromCart(idx);
+      });
+    });
+
+    document.getElementById('drawerTotal').textContent = fmt(cartTotal());
+  }
+
+  function openCart(){
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+  }
+  function closeCart(){
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  }
+
+  // ===== COMMANDE WHATSAPP =====
+  function sendOrderToWhatsApp(){
+    if(!cart.length){
+      alert('Votre sélection est vide.');
+      return;
+    }
+    let message = 'Bonjour, je souhaite commander :\n\n';
+    cart.forEach(c => {
+      message += '- ' + c.item.Nom + ' (' + c.item.Marque + ', ' + c.item.Volume + ') x' + c.qty + ' — ' + fmt(c.item.Prix * c.qty) + '\n';
+    });
+    message += '\nTotal estimé : ' + fmt(cartTotal());
+    const url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(message);
+    window.open(url, '_blank');
+  }
+  document.querySelector('.wa-btn').addEventListener('click', sendOrderToWhatsApp);
+
+  // ===== INITIALISATION =====
+  loadPerfumes();
 </script>
 </body>
 </html>
