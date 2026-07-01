@@ -31,6 +31,52 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── BANNIÈRE ROTATIVE ── */
+.top-banner {
+  background: var(--black);
+  color: var(--white);
+  text-align: center;
+  padding: 9px 1rem;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  position: relative;
+  overflow: hidden;
+  height: 36px;
+}
+.banner-slide {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; letter-spacing: 0.1em;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.banner-slide.active { opacity: 1; transform: translateY(0); }
+.banner-slide.hidden-above { opacity: 0; transform: translateY(-100%); }
+.banner-slide.hidden-below { opacity: 0; transform: translateY(100%); }
+
+/* ── PERSONAL SHOPPER ── */
+.ps-notice {
+  max-width: 1280px; margin: 2rem auto 0; padding: 0 2.5rem;
+  text-align: center;
+}
+.ps-notice p { font-size: 12px; font-weight: 400; letter-spacing: 0.04em; color: var(--gray-600); margin-bottom: 4px; }
+.ps-notice small { font-size: 10px; font-weight: 300; letter-spacing: 0.04em; color: var(--gray-400); line-height: 1.6; display: block; }
+
+/* ── EMPTY SEARCH ── */
+.empty-search {
+  grid-column: 1/-1; padding: 3rem 1rem; text-align: center;
+}
+.empty-search p { font-size: 13px; font-weight: 400; color: var(--black); margin-bottom: 10px; letter-spacing: 0.02em; }
+.empty-search small { font-size: 11px; font-weight: 300; color: var(--gray-600); letter-spacing: 0.04em; }
+.empty-search a {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 16px; padding: 10px 20px;
+  background: #25d366; color: #fff; text-decoration: none;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  transition: opacity 0.15s;
+}
+.empty-search a:hover { opacity: 0.88; }
+
 /* ── ANIMATIONS ── */
 @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -88,7 +134,7 @@ body {
 }
 
 /* ── HERO ── */
-.hero { background: var(--black); color: var(--white); text-align: center; padding: 5rem 2rem 4.5rem; overflow: hidden; position: relative; }
+.hero { background: var(--black); color: var(--white); text-align: center; padding: 2.5rem 2rem 2.5rem; overflow: hidden; position: relative; }
 .hero::after {
   content: ''; position: absolute; bottom: 0; left: 10%; right: 10%; height: 1px;
   background: var(--gray-600); transform: scaleX(0); transform-origin: left;
@@ -328,7 +374,7 @@ body {
   .bs-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
   .brands-grid { grid-template-columns: repeat(2, 1fr); }
   .perfume-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-  .hero { padding: 3.5rem 1.5rem 3rem; }
+  .hero { padding: 1.75rem 1.5rem 1.75rem; }
   .cart-drawer { max-width: 100%; }
 }
 
@@ -339,11 +385,16 @@ body {
 </head>
 <body>
 
+<div class="top-banner" id="top-banner">
+  <div class="banner-slide active" id="banner-0">✦&nbsp;&nbsp;Catalogue mis à jour chaque semaine&nbsp;&nbsp;✦</div>
+  <div class="banner-slide hidden-below" id="banner-1">✦&nbsp;&nbsp;Échantillons 2ml offerts dans chaque commande (si disponible)&nbsp;&nbsp;✦</div>
+</div>
+
 <header class="site-header">
   <div class="header-inner">
     <button class="logo" id="logo-btn">Santalx</button>
     <div class="header-search">
-      <input type="text" id="search" placeholder="Rechercher…" autocomplete="off" spellcheck="false">
+      <input type="text" id="search" placeholder="Recherchez votre parfum…" autocomplete="off" spellcheck="false">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     </div>
     <button class="cart-btn" id="cart-open-btn" aria-label="Panier">
@@ -455,6 +506,9 @@ body {
     <div class="cart-line"><span class="lbl">Sous-total</span><span id="cart-subtotal">0 €</span></div>
     <div class="cart-line"><span class="lbl">Frais de port</span><span id="cart-shipping">10 €</span></div>
     <div class="cart-line total"><span>Total</span><span id="cart-total">0 €</span></div>
+    <p style="font-size:10px;font-weight:300;color:var(--gray-600);letter-spacing:.03em;margin-bottom:10px;">
+      🌍 Droits de douane et taxes inclus dans les frais de livraison indiqués pour les zones éligibles.
+    </p>
     <div class="cgv-check">
       <input type="checkbox" id="cgv-checkbox">
       <label for="cgv-checkbox">J'accepte les <button type="button" id="cgv-link" style="background:none;border:none;color:inherit;text-decoration:underline;cursor:pointer;padding:0;font:inherit;">conditions générales de vente</button></label>
@@ -675,7 +729,19 @@ function renderCatalogue() {
   document.getElementById('result-count').textContent = filtered.length + ' parfum' + (filtered.length > 1 ? 's' : '');
 
   if (filtered.length === 0) {
-    grid.innerHTML = '<p class="empty-state">Aucun résultat</p>';
+    const isSearch = !!searchQuery;
+    if (isSearch) {
+      grid.innerHTML = `<div class="empty-search">
+        <p>Votre parfum n'est pas disponible pour l'instant.</p>
+        <small>Contactez-nous sur WhatsApp, notre équipe peut vous apporter une réponse.</small>
+        <a href="https://wa.me/33756989391?text=${encodeURIComponent('Bonjour, je recherche ' + searchQuery + ' et il n\'est pas disponible sur le catalogue. Pouvez-vous m\'aider ?')}" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          Nous contacter
+        </a>
+      </div>`;
+    } else {
+      grid.innerHTML = '<p class="empty-state">Aucun résultat</p>';
+    }
     return;
   }
 
@@ -709,6 +775,24 @@ function renderCatalogue() {
   }).join('');
 
   observeCards('.card');
+
+  // Notice personal shopper pour marques concernées
+  const PS_BRANDS = ['hermès','hermes','yves saint laurent','ysl','louis vuitton','dior','guerlain','gucci'];
+  const existingNotice = document.getElementById('ps-notice');
+  if (existingNotice) existingNotice.remove();
+  if (activeBrand && PS_BRANDS.includes(activeBrand.toLowerCase())) {
+    const notice = document.createElement('div');
+    notice.id = 'ps-notice';
+    notice.className = 'ps-notice';
+    notice.innerHTML = `
+      <p>Nous agissons en tant que <strong>personal shopper</strong> pour cette maison.</p>
+      <small>
+        Les prix indiqués ne sont pas à tenir en compte et peuvent varier — ils vous seront communiqués lors de votre commande.<br>
+        Les images et noms de marques utilisés appartiennent à leurs propriétaires respectifs. Tous droits réservés.
+      </small>`;
+    const grid = document.getElementById('perfume-grid');
+    grid.parentNode.insertBefore(notice, grid);
+  }
 }
 
 document.getElementById('perfume-grid').addEventListener('click', e => {
@@ -968,6 +1052,22 @@ function showInfoPage(key) {
 document.querySelectorAll('.footer-link[data-page]').forEach(btn => {
   btn.addEventListener('click', () => showInfoPage(btn.dataset.page));
 });
+
+// ── Bannière rotative ──
+(function() {
+  const slides = document.querySelectorAll('.banner-slide');
+  let current = 0;
+  setInterval(() => {
+    slides[current].className = 'banner-slide hidden-above';
+    current = (current + 1) % slides.length;
+    slides[current].className = 'banner-slide hidden-below';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        slides[current].className = 'banner-slide active';
+      });
+    });
+  }, 4000);
+})();
 
 loadData();
 renderCart();
