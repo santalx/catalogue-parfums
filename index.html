@@ -61,43 +61,6 @@ body {
 .banner-slide.hidden-above { opacity: 0; transform: translateY(-100%); }
 .banner-slide.hidden-below { opacity: 0; transform: translateY(100%); }
 
-/* ── MODAL AUTHENTICITÉ ── */
-.auth-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000;
-  display: flex; align-items: center; justify-content: center;
-  animation: fadeIn 0.3s ease;
-  padding: 1rem;
-}
-.auth-modal {
-  background: var(--white); max-width: 480px; width: 100%;
-  padding: 2.5rem 2.5rem 2rem; text-align: center; position: relative;
-  animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1);
-}
-.auth-seal {
-  width: 56px; height: 56px; border: 1.5px solid var(--black); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;
-}
-.auth-title {
-  font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400;
-  letter-spacing: .04em; color: var(--black); margin-bottom: .75rem;
-}
-.auth-text {
-  font-size: 12px; font-weight: 300; color: var(--gray-600); line-height: 1.7;
-  letter-spacing: .03em; margin-bottom: 1.75rem;
-}
-.auth-close {
-  width: 100%; padding: 13px; background: var(--black); color: var(--white);
-  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500;
-  letter-spacing: .12em; text-transform: uppercase; border: none; cursor: pointer;
-  transition: opacity 0.15s;
-}
-.auth-close:hover { opacity: 0.85; }
-.auth-skip {
-  display: block; margin-top: 12px; font-size: 10px; font-weight: 300;
-  color: var(--gray-400); letter-spacing: .06em; cursor: pointer; background: none; border: none;
-}
-.auth-skip:hover { color: var(--black); }
-
 /* ── SECTION RECOMMANDÉS ── */
 .reco-section {
   max-width: 1280px; margin: 3rem auto 0; padding: 0 2.5rem;
@@ -466,25 +429,10 @@ body {
 </head>
 <body>
 
-<!-- MODAL AUTHENTICITÉ -->
-<div class="auth-overlay" id="auth-overlay">
-  <div class="auth-modal">
-    <div class="auth-seal">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-        <polyline points="9 12 11 14 15 10"/>
-      </svg>
-    </div>
-    <h2 class="auth-title">Parfums 100% authentiques</h2>
-    <p class="auth-text">Tous les parfums de notre catalogue sont des flacons authentiques, neufs et d'origine officielle. Nous nous engageons sur la qualité et l'authenticité de chaque produit proposé.</p>
-    <button class="auth-close" id="auth-close">Découvrir le catalogue</button>
-    <button class="auth-skip" id="auth-skip">Ne plus afficher</button>
-  </div>
-</div>
-
 <div class="top-banner" id="top-banner">
   <div class="banner-slide active" id="banner-0">✦&nbsp;&nbsp;Catalogue mis à jour chaque semaine&nbsp;&nbsp;✦</div>
   <div class="banner-slide hidden-below" id="banner-1">✦&nbsp;&nbsp;Échantillons 2ml offerts dans chaque commande (si disponible)&nbsp;&nbsp;✦</div>
+  <div class="banner-slide hidden-below" id="banner-2">✦&nbsp;&nbsp;Tous nos parfums sont 100% authentiques&nbsp;&nbsp;✦</div>
 </div>
 
 <header class="site-header">
@@ -1248,20 +1196,6 @@ function showInfoPage(key) {
 document.querySelectorAll('.footer-link[data-page]').forEach(btn => {
   btn.addEventListener('click', () => showInfoPage(btn.dataset.page));
 });
-
-// ── Modal authenticité ──
-(function() {
-  if (localStorage.getItem('sx_auth_seen')) return;
-  const overlay = document.getElementById('auth-overlay');
-  overlay.style.display = 'flex';
-  document.getElementById('auth-close').addEventListener('click', () => {
-    overlay.style.display = 'none';
-  });
-  document.getElementById('auth-skip').addEventListener('click', () => {
-    overlay.style.display = 'none';
-    localStorage.setItem('sx_auth_seen', '1');
-  });
-})();
 
 // ── Bannière rotative ──
 (function() {
