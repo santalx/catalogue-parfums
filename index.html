@@ -195,9 +195,9 @@ body {
 /* ── BEST SELLERS ── */
 .bestsellers-section { max-width: 1280px; margin: 3.5rem auto 0; padding: 0 2.5rem; }
 .section-eyebrow { font-size: 9px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 1.5rem; }
-.bs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200); margin-bottom: 4rem; }
+.bs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200); margin-bottom: 4rem; }
 .bs-card { background: var(--white); position: relative; }
-.bs-badge { position: absolute; top: 12px; left: 12px; z-index: 2; font-size: 8px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; background: var(--black); color: var(--white); padding: 4px 10px; }
+.bs-badge { position: absolute; top: 12px; left: 12px; z-index: 2; font-size: 8px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; background: #C0392B; color: var(--white); padding: 4px 10px; }
 .bs-img { width: 100%; aspect-ratio: 3/4; background: var(--gray-100); display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .bs-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
 .bs-card:hover .bs-img img { transform: scale(1.04); }
@@ -412,7 +412,7 @@ body {
   .header-inner { padding: 0 1.25rem; height: 56px; gap: 1rem; }
   .bestsellers-section, .maisons-wrap, .catalogue, .sep,
   .cat-header, .cat-controls, .footer-inner, .info-wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
-  .bs-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .bs-grid { grid-template-columns: repeat(2, 1fr); }
   .brands-grid { grid-template-columns: repeat(2, 1fr); }
   .reco-grid { grid-template-columns: repeat(2, 1fr); }
   .reco-section { padding-left: 1.25rem; padding-right: 1.25rem; }
@@ -456,15 +456,15 @@ body {
 
 <!-- VUE MAISONS -->
 <div id="view-maisons">
-  <div class="bestsellers-section" id="bs-section" style="display:none">
-    <p class="section-eyebrow">Best-sellers</p>
-    <div class="bs-grid" id="bs-grid"></div>
-  </div>
-
   <!-- SECTION RECOMMANDÉS DU MOMENT -->
   <div class="reco-section" id="reco-section">
     <p class="section-eyebrow">Notre sélection du moment</p>
     <div class="reco-grid" id="reco-grid"></div>
+  </div>
+
+  <div class="bestsellers-section" id="bs-section" style="display:none">
+    <p class="section-eyebrow">Best-sellers</p>
+    <div class="bs-grid" id="bs-grid"></div>
   </div>
 
   <div class="sep"></div>
@@ -682,7 +682,7 @@ function findProduct(id) {
 
 /* ── BEST SELLERS ── */
 function buildBestSellers() {
-  const bs = allData.filter(p => ['oui','yes','true','1'].includes((p.bestSeller||'').toLowerCase())).slice(0, 3);
+  const bs = allData.filter(p => ['oui','yes','true','1'].includes((p.bestSeller||'').toLowerCase())).slice(0, 4);
   if (bs.length === 0) return;
 
   document.getElementById('bs-section').style.display = 'block';
