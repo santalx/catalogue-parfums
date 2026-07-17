@@ -182,21 +182,21 @@ body {
 .decant-text { font-size: 12px; font-weight: 300; color: var(--gray-400); line-height: 1.9; letter-spacing: .03em; margin-bottom: 1.25rem; }
 .decant-cards {
   display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1px; background: rgba(0,0,0,0.15);
-  border: 1px solid rgba(255,255,255,0.1);
-  margin: 2rem 0;
+  gap: 1px; background: var(--gray-200);
+  border: 1px solid var(--gray-200);
+  margin: 1.75rem 0;
 }
 .decant-card {
-  background: rgba(255,255,255,0.05);
+  background: var(--white);
   padding: 1.5rem;
 }
-.decant-card-icon { font-size: 20px; margin-bottom: .75rem; }
+.decant-card-icon { font-size: 18px; margin-bottom: .75rem; }
 .decant-card-title {
-  font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--white); margin-bottom: .5rem;
+  font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--black); margin-bottom: .5rem;
 }
 .decant-card-text {
-  font-size: 11px; font-weight: 300; color: var(--gray-400); line-height: 1.75;
+  font-size: 11px; font-weight: 300; color: var(--gray-600); line-height: 1.75;
 }
 @media (max-width: 600px) { .decant-cards { grid-template-columns: 1fr; } }
 
@@ -610,6 +610,13 @@ body {
 
 <!-- VUE DÉCANTÉS -->
 <div id="view-decantes">
+  <div style="max-width:1280px;margin:0 auto;padding:1.75rem 2.5rem 0;border-bottom:1px solid var(--gray-200);">
+    <button class="back-btn" id="decant-back-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg>
+      Retour au catalogue
+    </button>
+  </div>
+
   <div class="decant-hero">
     <div class="decant-hero-inner">
       <p class="decant-eyebrow">Santalx — Service décanté</p>
@@ -642,13 +649,7 @@ body {
     </div>
   </div>
 
-  <div style="max-width:1280px;margin:0 auto;padding:2.5rem 2.5rem 0;">
-    <button class="back-btn" id="decant-back-btn">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg>
-      Retour au catalogue
-    </button>
-  </div>
-
+  <div style="border-top:1px solid var(--gray-200);margin:0 2.5rem 2rem;"></div>
   <p class="decant-grid-title" id="decant-label">Chargement…</p>
   <div class="decant-grid" id="decant-grid">
     <div class="loading-state" style="grid-column:1/-1">
