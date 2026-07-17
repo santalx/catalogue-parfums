@@ -160,14 +160,23 @@ body {
 .header-search input:focus { border-bottom-color: var(--black); }
 .header-search svg { position: absolute; right: 0; top: 50%; transform: translateY(-50%); color: var(--gray-400); pointer-events: none; }
 
-.decant-btn {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--white); background: var(--black);
-  border: 1px solid var(--black); padding: 7px 16px; cursor: pointer;
-  white-space: nowrap; flex-shrink: 0; transition: all 0.15s;
+.decant-banner {
+  max-width: 1280px; margin: 0 auto; padding: 0 2.5rem 4rem;
 }
-.decant-btn:hover { background: var(--white); color: var(--black); }
+.decant-banner-inner {
+  border: 1px solid var(--gray-200);
+  padding: 2.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+}
+.decant-banner-left {}
+.decant-banner-eyebrow { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--gray-400); margin-bottom: .6rem; }
+.decant-banner-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; font-style: italic; color: var(--black); line-height: 1.2; }
+.decant-banner-btn {
+  font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--white); background: var(--black); border: 1px solid var(--black);
+  padding: 12px 24px; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all 0.15s;
+}
+.decant-banner-btn:hover { background: var(--white); color: var(--black); }
+@media (max-width: 768px) { .decant-banner-inner { flex-direction: column; align-items: flex-start; } }
 
 /* ── PAGE DÉCANTÉS ── */
 .decant-intro {
@@ -506,9 +515,6 @@ body {
 <header class="site-header">
   <div class="header-inner">
     <button class="logo" id="logo-btn">Santalx</button>
-    <button class="decant-btn" id="decant-btn">
-      Catalogue décantés &nbsp;→
-    </button>
     <div class="header-search">
       <input type="text" id="search" placeholder="Recherchez votre parfum…" autocomplete="off" spellcheck="false">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -536,6 +542,17 @@ body {
   <div class="bestsellers-section" id="bs-section" style="display:none">
     <p class="section-eyebrow">Best-sellers</p>
     <div class="bs-grid" id="bs-grid"></div>
+  </div>
+
+  <!-- BANNIÈRE DÉCANTÉS -->
+  <div class="decant-banner">
+    <div class="decant-banner-inner">
+      <div class="decant-banner-left">
+        <p class="decant-banner-eyebrow">Santalx — Service décanté</p>
+        <p class="decant-banner-title">Découvrez notre catalogue de décantés</p>
+      </div>
+      <button class="decant-banner-btn" id="decant-btn">Explorer →</button>
+    </div>
   </div>
 
   <div class="sep"></div>
