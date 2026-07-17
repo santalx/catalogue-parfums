@@ -180,6 +180,26 @@ body {
 .decant-eyebrow { font-size: 9px; font-weight: 500; letter-spacing: .28em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 1rem; }
 .decant-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 46px); font-weight: 300; font-style: italic; color: var(--white); margin-bottom: 1.5rem; line-height: 1.1; }
 .decant-text { font-size: 12px; font-weight: 300; color: var(--gray-400); line-height: 1.9; letter-spacing: .03em; margin-bottom: 1.25rem; }
+.decant-cards {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.1);
+  margin: 2rem 0;
+}
+.decant-card {
+  background: rgba(255,255,255,0.05);
+  padding: 1.5rem;
+}
+.decant-card-icon { font-size: 20px; margin-bottom: .75rem; }
+.decant-card-title {
+  font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--white); margin-bottom: .5rem;
+}
+.decant-card-text {
+  font-size: 11px; font-weight: 300; color: var(--gray-400); line-height: 1.75;
+}
+@media (max-width: 600px) { .decant-cards { grid-template-columns: 1fr; } }
+
 .decant-warning {
   display: inline-block; margin-top: .5rem;
   font-size: 11px; font-weight: 500; letter-spacing: .06em;
@@ -497,7 +517,9 @@ body {
 <header class="site-header">
   <div class="header-inner">
     <button class="logo" id="logo-btn">Santalx</button>
-    <button class="decant-btn" id="decant-btn">Décantés</button>
+    <button class="decant-btn" id="decant-btn">
+      Catalogue décantés &nbsp;→
+    </button>
     <div class="header-search">
       <input type="text" id="search" placeholder="Recherchez votre parfum…" autocomplete="off" spellcheck="false">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -593,14 +615,27 @@ body {
       <p class="decant-eyebrow">Santalx — Service décanté</p>
       <h2 class="decant-title">Le décantage, c'est quoi ?</h2>
       <p class="decant-text">
-        Le décantage consiste à transvaser une quantité précise d'un parfum depuis son flacon d'origine vers un petit vaporisateur propre et hermétique. C'est une pratique courante dans le monde des parfums de niche, utilisée par des passionnés du monde entier.
+        C'est très simple : on prélève le parfum depuis le flacon original à l'aide d'une seringue, puis on le verse dans un flacon vierge de 30 ou 50ml, sans marque. Aucun changement sur le parfum — vous bénéficiez du même jus, dans un plus petit format, à un prix adapté à la quantité souhaitée.
       </p>
-      <p class="decant-text">
-        On propose des décantés pour rendre accessible un parfum souvent vendu en grand format et à prix élevé, pour permettre à chacun de le découvrir avant d'investir dans un flacon complet, ou simplement parce que 100ml c'est beaucoup pour un parfum qu'on porte occasionnellement.
-      </p>
-      <p class="decant-text">
-        Nous ne sommes ni chimistes, ni nez, ni parfumeurs. Nous ne faisons pas de mélange, nous n'ajoutons rien. Nous prélevons directement depuis le flacon officiel, sans aucune manipulation du jus.
-      </p>
+
+      <div class="decant-cards">
+        <div class="decant-card">
+          <div class="decant-card-icon">💰</div>
+          <p class="decant-card-title">Prix accessible</p>
+          <p class="decant-card-text">Profiter d'un grand parfum de niche sans débourser le prix d'un flacon complet.</p>
+        </div>
+        <div class="decant-card">
+          <div class="decant-card-icon">🔍</div>
+          <p class="decant-card-title">Découverte</p>
+          <p class="decant-card-text">Tester avant d'investir. Certains parfums se révèlent sur la durée — un décanté permet de vivre l'expérience sans engagement.</p>
+        </div>
+        <div class="decant-card">
+          <div class="decant-card-icon">✈️</div>
+          <p class="decant-card-title">Format voyage</p>
+          <p class="decant-card-text">Un petit format pratique à emporter partout sans risquer d'abîmer son flacon d'origine.</p>
+        </div>
+      </div>
+
       <p class="decant-warning">
         ⚠️ Nous ne vendons ni flacon vide, ni flacon avec un restant de parfum dedans — uniquement des décantés en vaporisateur propre de 30ml ou 50ml.
       </p>
