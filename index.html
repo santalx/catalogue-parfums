@@ -840,11 +840,6 @@ async function loadData() {
 
     allData.forEach(p => { if (p.logo) brandLogos[p.marque] = p.logo; });
 
-    buildMaisons();
-    buildBestSellers();
-    buildDernierePiece();
-    buildNouveauArrivage();
-    buildReco();
   } catch(e) {
     document.getElementById('brands-grid').innerHTML =
       `<div class="error-state" style="grid-column:1/-1">
@@ -852,7 +847,15 @@ async function loadData() {
         <small>Vérifiez que le Google Sheet est partagé en lecture publique.</small>
       </div>`;
     document.getElementById('maisons-label').textContent = '';
+    return;
   }
+
+  // Build séparé du try/catch pour ne pas masquer les erreurs de rendu
+  buildMaisons();
+  buildBestSellers();
+  try { buildDernierePiece(); } catch(e) { console.warn('buildDernierePiece:', e); }
+  try { buildNouveauArrivage(); } catch(e) { console.warn('buildNouveauArrivage:', e); }
+  try { buildReco(); } catch(e) { console.warn('buildReco:', e); }
 }
 
 function isDispo(val) {
