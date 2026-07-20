@@ -545,6 +545,7 @@ body {
 
 /* ── PAGES INFO (CGV / Livraison / Commande) ── */
 #view-info { display: none; }
+#view-decantes { display: none; }
 .info-wrap { max-width: 760px; margin: 0 auto; padding: 3rem 2.5rem 6rem; }
 .info-title { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; font-style: italic; margin-bottom: 2rem; }
 .info-content { font-size: 13px; font-weight: 300; line-height: 1.9; color: var(--gray-600); }
@@ -630,6 +631,8 @@ body {
       </div>
     </div>
   </div>
+
+  <div style="border-top:2px solid var(--black);margin:0 2.5rem 2.5rem;"></div>
 
   <!-- BANNIÈRE DÉCANTÉS -->
   <div class="decant-banner">
@@ -853,7 +856,7 @@ async function loadData() {
   // Build séparé du try/catch pour ne pas masquer les erreurs de rendu
   buildMaisons();
   buildBestSellers();
-  try { buildDernierePiece(); } catch(e) { console.warn('buildDernierePiece:', e); }
+  try { buildDernierePiece(); } catch(e) { console.error('buildDernierePiece error:', e); }
   try { buildNouveauArrivage(); } catch(e) { console.warn('buildNouveauArrivage:', e); }
   try { buildReco(); } catch(e) { console.warn('buildReco:', e); }
 }
@@ -911,7 +914,7 @@ function buildBestSellers() {
 
 /* ── DERNIÈRE PIÈCE ── */
 function buildDernierePiece() {
-  const dp = allData.filter(p => ['oui','yes','true','1'].includes((p.dernierePiece||'').toLowerCase())).slice(0, 4);
+  const dp = allData.filter(p => p.dernierePiece && ['oui','yes','true','1'].includes(p.dernierePiece.toLowerCase())).slice(0, 4);
   if (dp.length === 0) return;
   document.getElementById('dp-section').style.display = 'block';
   document.getElementById('dp-grid').innerHTML = dp.map(p => {
@@ -944,7 +947,7 @@ function buildDernierePiece() {
 
 /* ── NOUVEAUX ARRIVAGES ── */
 function buildNouveauArrivage() {
-  const nw = allData.filter(p => ['oui','yes','true','1'].includes((p.nouveauArrivage||'').toLowerCase())).slice(0, 4);
+  const nw = allData.filter(p => p.nouveauArrivage && ['oui','yes','true','1'].includes(p.nouveauArrivage.toLowerCase())).slice(0, 4);
   if (nw.length === 0) return;
   document.getElementById('new-section').style.display = 'block';
   document.getElementById('new-grid').innerHTML = nw.map(p => {
