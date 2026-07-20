@@ -837,8 +837,8 @@ async function loadData() {
         prixBoutique:  r.c[9]?.v ?? '',
         famille:       String(r.c[10]?.v || '').trim(),
         recommande:      String(r.c[11]?.v || '').trim(),
-        dernierePiece:   String(r.c[12]?.v || '').trim(),
-        nouveauArrivage: String(r.c[13]?.v || '').trim(),
+        dernierePiece:   r.c.length > 12 ? String(r.c[12]?.v || '').trim() : '',
+        nouveauArrivage: r.c.length > 13 ? String(r.c[13]?.v || '').trim() : '',
       }));
 
     allData.forEach(p => { if (p.logo) brandLogos[p.marque] = p.logo; });
@@ -914,7 +914,8 @@ function buildBestSellers() {
 
 /* ── DERNIÈRE PIÈCE ── */
 function buildDernierePiece() {
-  const dp = allData.filter(p => p.dernierePiece && ['oui','yes','true','1'].includes(p.dernierePiece.toLowerCase())).slice(0, 4);
+  const dp = allData.filter(p => p.dernierePiece && ['oui','yes','true','1'].includes(p.dernierePiece.toLowerCase().trim())).slice(0, 4);
+  console.log('Derniere pièce trouvées:', dp.length, dp.map(p => p.nom));
   if (dp.length === 0) return;
   document.getElementById('dp-section').style.display = 'block';
   document.getElementById('dp-grid').innerHTML = dp.map(p => {
@@ -947,7 +948,8 @@ function buildDernierePiece() {
 
 /* ── NOUVEAUX ARRIVAGES ── */
 function buildNouveauArrivage() {
-  const nw = allData.filter(p => p.nouveauArrivage && ['oui','yes','true','1'].includes(p.nouveauArrivage.toLowerCase())).slice(0, 4);
+  const nw = allData.filter(p => p.nouveauArrivage && ['oui','yes','true','1'].includes(p.nouveauArrivage.toLowerCase().trim())).slice(0, 4);
+  console.log('Nouveaux arrivages trouvés:', nw.length, nw.map(p => p.nom));
   if (nw.length === 0) return;
   document.getElementById('new-section').style.display = 'block';
   document.getElementById('new-grid').innerHTML = nw.map(p => {
