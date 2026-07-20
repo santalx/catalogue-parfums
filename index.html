@@ -61,6 +61,76 @@ body {
 .banner-slide.hidden-above { opacity: 0; transform: translateY(-100%); }
 .banner-slide.hidden-below { opacity: 0; transform: translateY(100%); }
 
+/* ── SECTION DERNIÈRE PIÈCE ── */
+.derniere-section {
+  max-width: 1280px; margin: 3rem auto 0; padding: 0 2.5rem;
+  display: none;
+}
+.derniere-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200);
+  margin-bottom: 3.5rem;
+}
+.dp-card { background: var(--white); position: relative; }
+.dp-badge {
+  position: absolute; top: 8px; left: 8px; z-index: 2;
+  font-size: 8px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+  background: #8B1A1A; color: var(--white); padding: 3px 9px;
+}
+.dp-img { width: 100%; aspect-ratio: 3/4; background: var(--gray-100); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.dp-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s ease; }
+.dp-card:hover .dp-img img { transform: scale(1.04); }
+.dp-body { padding: 12px 14px 14px; border-top: 1px solid var(--gray-200); }
+.dp-marque { font-size: 9px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 3px; }
+.dp-nom { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 400; color: var(--black); margin-bottom: 8px; line-height: 1.2; }
+.dp-footer { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; }
+.dp-prix-boutique { font-size: 10px; color: var(--red); text-decoration: line-through; margin-bottom: 2px; }
+.dp-prix { font-size: 14px; font-weight: 500; color: var(--black); }
+.dp-vol { font-size: 10px; color: var(--gray-400); }
+.dp-add-btn {
+  width: 100%; padding: 8px; font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase; background: var(--black); color: var(--white);
+  border: 1px solid var(--black); cursor: pointer; transition: all 0.15s;
+}
+.dp-add-btn:hover { background: var(--white); color: var(--black); }
+.dp-add-btn:disabled { background: var(--gray-100); color: var(--gray-400); border-color: var(--gray-200); cursor: not-allowed; }
+@media (max-width: 768px) { .derniere-grid { grid-template-columns: repeat(2, 1fr); } .derniere-section { padding: 0 1.25rem; } }
+
+/* ── SECTION NOUVEAUX ARRIVAGES ── */
+.new-section {
+  max-width: 1280px; margin: 3rem auto 0; padding: 0 2.5rem;
+  display: none;
+}
+.new-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200);
+  margin-bottom: 3.5rem;
+}
+.nw-card { background: var(--white); position: relative; }
+.nw-badge {
+  position: absolute; top: 8px; left: 8px; z-index: 2;
+  font-size: 8px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+  background: #1A5C38; color: var(--white); padding: 3px 9px;
+}
+.nw-img { width: 100%; aspect-ratio: 3/4; background: var(--gray-100); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.nw-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s ease; }
+.nw-card:hover .nw-img img { transform: scale(1.04); }
+.nw-body { padding: 12px 14px 14px; border-top: 1px solid var(--gray-200); }
+.nw-marque { font-size: 9px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 3px; }
+.nw-nom { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 400; color: var(--black); margin-bottom: 8px; line-height: 1.2; }
+.nw-footer { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; }
+.nw-prix-boutique { font-size: 10px; color: var(--red); text-decoration: line-through; margin-bottom: 2px; }
+.nw-prix { font-size: 14px; font-weight: 500; color: var(--black); }
+.nw-vol { font-size: 10px; color: var(--gray-400); }
+.nw-add-btn {
+  width: 100%; padding: 8px; font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase; background: var(--black); color: var(--white);
+  border: 1px solid var(--black); cursor: pointer; transition: all 0.15s;
+}
+.nw-add-btn:hover { background: var(--white); color: var(--black); }
+.nw-add-btn:disabled { background: var(--gray-100); color: var(--gray-400); border-color: var(--gray-200); cursor: not-allowed; }
+@media (max-width: 768px) { .new-grid { grid-template-columns: repeat(2, 1fr); } .new-section { padding: 0 1.25rem; } }
+
 /* ── SECTION RECOMMANDÉS ── */
 .reco-section {
   max-width: 1280px; margin: 3rem auto 0; padding: 0 2.5rem;
@@ -533,6 +603,12 @@ body {
 
 <!-- VUE MAISONS -->
 <div id="view-maisons">
+  <!-- SECTION NOUVEAUX ARRIVAGES -->
+  <div class="new-section" id="new-section">
+    <p class="section-eyebrow">Nouveaux arrivages</p>
+    <div class="new-grid" id="new-grid"></div>
+  </div>
+
   <!-- SECTION RECOMMANDÉS DU MOMENT -->
   <div class="reco-section" id="reco-section">
     <p class="section-eyebrow">Notre sélection du moment</p>
@@ -544,17 +620,6 @@ body {
     <div class="bs-grid" id="bs-grid"></div>
   </div>
 
-  <!-- BANNIÈRE DÉCANTÉS -->
-  <div class="decant-banner">
-    <div class="decant-banner-inner">
-      <div class="decant-banner-left">
-        <p class="decant-banner-eyebrow">Santalx — Service décanté</p>
-        <p class="decant-banner-title">Découvrez notre catalogue de décantés</p>
-      </div>
-      <button class="decant-banner-btn" id="decant-btn">Explorer →</button>
-    </div>
-  </div>
-
   <div class="sep"></div>
   <div class="maisons-wrap">
     <p class="section-eyebrow" id="maisons-label">Chargement…</p>
@@ -563,6 +628,17 @@ body {
         <div class="loading-line"></div>
         <span>Chargement</span>
       </div>
+    </div>
+  </div>
+
+  <!-- BANNIÈRE DÉCANTÉS -->
+  <div class="decant-banner">
+    <div class="decant-banner-inner">
+      <div class="decant-banner-left">
+        <p class="decant-banner-eyebrow">Santalx — Service décanté</p>
+        <p class="decant-banner-title">Découvrez notre catalogue de décantés</p>
+      </div>
+      <button class="decant-banner-btn" id="decant-btn">Explorer →</button>
     </div>
   </div>
 </div>
@@ -757,13 +833,17 @@ async function loadData() {
         bestSeller:    String(r.c[8]?.v || '').trim(),
         prixBoutique:  r.c[9]?.v ?? '',
         famille:       String(r.c[10]?.v || '').trim(),
-        recommande:    String(r.c[11]?.v || '').trim(),
+        recommande:      String(r.c[11]?.v || '').trim(),
+        dernierePiece:   String(r.c[12]?.v || '').trim(),
+        nouveauArrivage: String(r.c[13]?.v || '').trim(),
       }));
 
     allData.forEach(p => { if (p.logo) brandLogos[p.marque] = p.logo; });
 
     buildMaisons();
     buildBestSellers();
+    buildDernierePiece();
+    buildNouveauArrivage();
     buildReco();
   } catch(e) {
     document.getElementById('brands-grid').innerHTML =
@@ -820,6 +900,72 @@ function buildBestSellers() {
 
   document.getElementById('bs-grid').addEventListener('click', e => {
     const btn = e.target.closest('.bs-add-btn');
+    if (!btn || btn.disabled) return;
+    addToCart(btn.dataset.id);
+    flashAdded(btn);
+  });
+}
+
+/* ── DERNIÈRE PIÈCE ── */
+function buildDernierePiece() {
+  const dp = allData.filter(p => ['oui','yes','true','1'].includes((p.dernierePiece||'').toLowerCase())).slice(0, 4);
+  if (dp.length === 0) return;
+  document.getElementById('dp-section').style.display = 'block';
+  document.getElementById('dp-grid').innerHTML = dp.map(p => {
+    const dispo = isDispo(p.dispo);
+    const prix  = formatPrix(p.prix);
+    const prixB = formatPrix(p.prixBoutique);
+    const img   = p.photo ? `<img src="${p.photo}" alt="${p.nom}" loading="lazy">` : '';
+    return `
+      <div class="dp-card">
+        <div class="dp-badge">Dernière pièce</div>
+        <div class="dp-img">${img}</div>
+        <div class="dp-body">
+          <p class="dp-marque">${p.marque}</p>
+          <p class="dp-nom">${p.nom}</p>
+          <div class="dp-footer">
+            <div>${prixB ? `<p class="dp-prix-boutique">${prixB}</p>` : ''}<p class="dp-prix">${prix}</p></div>
+            <span class="dp-vol">${p.volume}</span>
+          </div>
+          <button class="dp-add-btn" data-id="${p.id}" ${dispo ? '' : 'disabled'}>${dispo ? 'Ajouter' : 'Épuisé'}</button>
+        </div>
+      </div>`;
+  }).join('');
+  document.getElementById('dp-grid').addEventListener('click', e => {
+    const btn = e.target.closest('.dp-add-btn');
+    if (!btn || btn.disabled) return;
+    addToCart(btn.dataset.id);
+    flashAdded(btn);
+  });
+}
+
+/* ── NOUVEAUX ARRIVAGES ── */
+function buildNouveauArrivage() {
+  const nw = allData.filter(p => ['oui','yes','true','1'].includes((p.nouveauArrivage||'').toLowerCase())).slice(0, 4);
+  if (nw.length === 0) return;
+  document.getElementById('new-section').style.display = 'block';
+  document.getElementById('new-grid').innerHTML = nw.map(p => {
+    const dispo = isDispo(p.dispo);
+    const prix  = formatPrix(p.prix);
+    const prixB = formatPrix(p.prixBoutique);
+    const img   = p.photo ? `<img src="${p.photo}" alt="${p.nom}" loading="lazy">` : '';
+    return `
+      <div class="nw-card">
+        <div class="nw-badge">Nouveau</div>
+        <div class="nw-img">${img}</div>
+        <div class="nw-body">
+          <p class="nw-marque">${p.marque}</p>
+          <p class="nw-nom">${p.nom}</p>
+          <div class="nw-footer">
+            <div>${prixB ? `<p class="nw-prix-boutique">${prixB}</p>` : ''}<p class="nw-prix">${prix}</p></div>
+            <span class="nw-vol">${p.volume}</span>
+          </div>
+          <button class="nw-add-btn" data-id="${p.id}" ${dispo ? '' : 'disabled'}>${dispo ? 'Ajouter' : 'Épuisé'}</button>
+        </div>
+      </div>`;
+  }).join('');
+  document.getElementById('new-grid').addEventListener('click', e => {
+    const btn = e.target.closest('.nw-add-btn');
     if (!btn || btn.disabled) return;
     addToCart(btn.dataset.id);
     flashAdded(btn);
