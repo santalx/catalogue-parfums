@@ -413,7 +413,8 @@ body {
 .card-nom { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; letter-spacing: .02em; line-height: 1.3; color: var(--black); margin-bottom: 8px; }
 .card-prix-boutique { font-size: 11px; color: var(--red); text-decoration: line-through; margin-bottom: 2px; }
 .card-prix-nous { font-size: 15px; font-weight: 500; color: var(--black); }
-.card-vol { font-size: 10px; font-weight: 300; letter-spacing: .06em; color: var(--gray-400); margin-top: 4px; margin-bottom: 12px; }
+.card-vol { font-size: 10px; font-weight: 300; letter-spacing: .06em; color: var(--gray-400); margin-top: 4px; margin-bottom: 8px; }
+.card-blister { font-size: 10px; font-weight: 300; letter-spacing: .04em; color: var(--gray-400); margin-bottom: 12px; font-style: italic; }
 .card-add-btn {
   width: 100%; padding: 9px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500;
   letter-spacing: .1em; text-transform: uppercase; background: var(--black); color: var(--white);
@@ -605,12 +606,6 @@ body {
 <!-- VUE MAISONS -->
 <div id="view-maisons">
   <!-- SECTION NOUVEAUX ARRIVAGES -->
-  <!-- SECTION DERNIÈRE PIÈCE -->
-  <div class="derniere-section" id="dp-section">
-    <p class="section-eyebrow">Dernière pièce</p>
-    <div class="derniere-grid" id="dp-grid"></div>
-  </div>
-
   <!-- SECTION NOUVEAUX ARRIVAGES -->
   <div class="new-section" id="new-section">
     <p class="section-eyebrow">Nouveaux arrivages</p>
@@ -626,6 +621,12 @@ body {
   <div class="bestsellers-section" id="bs-section" style="display:none">
     <p class="section-eyebrow">Best-sellers</p>
     <div class="bs-grid" id="bs-grid"></div>
+  </div>
+
+  <!-- SECTION DERNIÈRE PIÈCE -->
+  <div class="derniere-section" id="dp-section">
+    <p class="section-eyebrow">Dernière pièce</p>
+    <div class="derniere-grid" id="dp-grid"></div>
   </div>
 
   <div class="sep"></div>
@@ -846,6 +847,7 @@ async function loadData() {
         recommande:      String(r.c[11]?.v || '').trim(),
         dernierePiece:   r.c.length > 12 ? String(r.c[12]?.v || '').trim() : '',
         nouveauArrivage: r.c.length > 13 ? String(r.c[13]?.v || '').trim() : '',
+        blister:         r.c.length > 14 ? String(r.c[14]?.v || '').trim() : '',
       }));
 
     allData.forEach(p => { if (p.logo) brandLogos[p.marque] = p.logo; });
@@ -1176,6 +1178,7 @@ function renderCatalogue() {
           ${prixBoutique ? `<p class="card-prix-boutique">${prixBoutique}</p>` : ''}
           <p class="card-prix-nous">${prix}</p>
           <p class="card-vol">${p.volume}</p>
+          ${p.blister ? `<p class="card-blister">${['oui','yes','1','true'].includes(p.blister.toLowerCase()) ? 'Sous blister' : 'Bouteille seule'}</p>` : ''}
           <button class="card-add-btn" data-id="${p.id}" ${dispo ? '' : 'disabled'}>${dispo ? 'Ajouter au panier' : 'Épuisé'}</button>
         </div>
       </div>`;
