@@ -370,6 +370,37 @@ body {
 #view-maisons { display: block; }
 #view-catalogue { display: none; }
 .maisons-wrap { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem 6rem; }
+
+/* ── TOGGLE VUE ── */
+.view-toggle {
+  max-width: 1280px; margin: 0 auto; padding: 1.5rem 2.5rem 1rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.view-toggle-btn {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+  padding: 7px 18px; border: 1px solid var(--gray-200); background: transparent;
+  color: var(--gray-600); cursor: pointer; transition: all 0.15s;
+}
+.view-toggle-btn:hover { border-color: var(--black); color: var(--black); }
+.view-toggle-btn.active { background: var(--black); color: var(--white); border-color: var(--black); }
+
+/* ── GRILLE TOUTES RÉFÉRENCES ── */
+.all-refs-wrap { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem 6rem; display: none; }
+.all-refs-controls {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 1rem 0; border-bottom: 1px solid var(--gray-200); margin-bottom: 2rem;
+}
+.all-refs-count { margin-left: auto; font-size: 10px; font-weight: 300; letter-spacing: .1em; color: var(--gray-400); }
+.all-refs-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200);
+}
+@media (max-width: 768px) {
+  .view-toggle { padding: 1.25rem 1.25rem 0.75rem; }
+  .all-refs-wrap { padding: 0 1.25rem 4rem; }
+  .all-refs-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+}
 .brands-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .brand-card {
   background: var(--white); padding: 0; cursor: pointer; transition: background 0.2s, border-color 0.2s;
@@ -630,7 +661,15 @@ body {
   </div>
 
   <div class="sep"></div>
-  <div class="maisons-wrap">
+
+  <!-- TOGGLE VUE -->
+  <div class="view-toggle">
+    <button class="view-toggle-btn active" id="toggle-maisons">Par maison</button>
+    <button class="view-toggle-btn" id="toggle-refs">Toutes les références</button>
+  </div>
+
+  <!-- VUE PAR MAISON -->
+  <div class="maisons-wrap" id="maisons-wrap">
     <p class="section-eyebrow" id="maisons-label">Chargement…</p>
     <div class="brands-grid" id="brands-grid">
       <div class="loading-state" style="grid-column:1/-1">
@@ -638,6 +677,19 @@ body {
         <span>Chargement</span>
       </div>
     </div>
+  </div>
+
+  <!-- VUE TOUTES RÉFÉRENCES -->
+  <div class="all-refs-wrap" id="all-refs-wrap">
+    <div class="all-refs-controls">
+      <button class="qf-btn active" data-qf2="tous">Tous</button>
+      <button class="qf-btn" data-qf2="dispo">Disponibles</button>
+      <button class="qf-btn" data-qf2="Homme">Homme</button>
+      <button class="qf-btn" data-qf2="Femme">Femme</button>
+      <button class="qf-btn" data-qf2="Mixte">Mixte</button>
+      <span class="all-refs-count" id="all-refs-count"></span>
+    </div>
+    <div class="all-refs-grid" id="all-refs-grid"></div>
   </div>
 
   <div style="border-top:2px solid var(--black);margin:0 2.5rem 2.5rem;"></div>
@@ -1566,6 +1618,115 @@ function renderDecantes() {
     setTimeout(() => { btn.innerHTML = orig; }, 1200);
   }, { once: false });
 }
+
+/* ═══════════════════════════════════════════════
+   TOGGLE VUE — PAR MAISON / TOUTES RÉFÉRENCES
+═══════════════════════════════════════════════ */
+let currentMainView = 'maisons'; // 'maisons' | 'refs'
+let activeQF2 = 'tous';
+
+function setMainView(view) {
+  currentMainView = view;
+  const maisonsWrap  = document.getElementById('maisons-wrap');
+  const allRefsWrap  = document.getElementById('all-refs-wrap');
+  const btnMaisons   = document.getElementById('toggle-maisons');
+  const btnRefs      = document.getElementById('toggle-refs');
+
+  if (view === 'maisons') {
+    maisonsWrap.style.display  = 'block';
+    allRefsWrap.style.display  = 'none';
+    btnMaisons.classList.add('active');
+    btnRefs.classList.remove('active');
+  } else {
+    maisonsWrap.style.display  = 'none';
+    allRefsWrap.style.display  = 'block';
+    btnMaisons.classList.remove('active');
+    btnRefs.classList.add('active');
+    renderAllRefs();
+  }
+}
+
+function renderAllRefs() {
+  const grid = document.getElementById('all-refs-grid');
+  const countEl = document.getElementById('all-refs-count');
+
+  let filtered = allData.filter(p => {
+    if (activeQF2 === 'dispo' && !isDispo(p.dispo)) return false;
+    if (activeQF2 === 'Homme' && p.genre !== 'Homme') return false;
+    if (activeQF2 === 'Femme' && p.genre !== 'Femme') return false;
+    if (activeQF2 === 'Mixte' && p.genre !== 'Mixte') return false;
+    return true;
+  });
+
+  // Trier par marque puis par nom
+  filtered.sort((a, b) => a.marque.localeCompare(b.marque) || a.nom.localeCompare(b.nom));
+
+  countEl.textContent = filtered.length + ' référence' + (filtered.length > 1 ? 's' : '');
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<p class="empty-state" style="grid-column:1/-1">Aucun résultat</p>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => {
+    const dispo        = isDispo(p.dispo);
+    const prix         = formatPrix(p.prix);
+    const prixBoutique = formatPrix(p.prixBoutique);
+    const imgContent   = p.photo
+      ? `<img src="${p.photo}" alt="${p.nom}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+      : '';
+    return `
+      <div class="card${dispo ? '' : ' epuise'}">
+        <div class="card-img">
+          ${imgContent}
+          <div class="no-photo" style="${p.photo ? 'display:none' : ''}">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Photo à venir</span>
+          </div>
+          ${!dispo ? '<div class="epuise-overlay">Épuisé</div>' : ''}
+          ${p.famille ? `<span style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.55);color:#fff;font-size:9px;font-weight:400;letter-spacing:.1em;padding:3px 8px;backdrop-filter:blur(4px)">${p.famille}</span>` : ''}
+        </div>
+        <div class="card-body">
+          <p class="card-marque">${p.marque}</p>
+          <p class="card-nom">${p.nom}</p>
+          ${prixBoutique ? `<p class="card-prix-boutique">${prixBoutique}</p>` : ''}
+          <p class="card-prix-nous">${prix}</p>
+          <p class="card-vol">${p.volume}</p>
+          ${p.blister ? `<p class="card-blister">${['oui','yes','1','true'].includes(p.blister.toLowerCase()) ? 'Sous blister' : 'Bouteille seule'}</p>` : ''}
+          <button class="card-add-btn" data-id="${p.id}" ${dispo ? '' : 'disabled'}>${dispo ? 'Ajouter au panier' : 'Épuisé'}</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  // Observer animations
+  grid.querySelectorAll('.card').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.dataset.delay = Math.min(i * 20, 200);
+    observer.observe(el);
+  });
+}
+
+// Event listeners toggle
+document.getElementById('toggle-maisons').addEventListener('click', () => setMainView('maisons'));
+document.getElementById('toggle-refs').addEventListener('click', () => setMainView('refs'));
+
+// Filtres toutes références
+document.querySelectorAll('[data-qf2]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-qf2]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeQF2 = btn.dataset.qf2;
+    renderAllRefs();
+  });
+});
+
+// Clic "Ajouter au panier" dans toutes les références
+document.getElementById('all-refs-grid').addEventListener('click', e => {
+  const btn = e.target.closest('.card-add-btn');
+  if (!btn || btn.disabled) return;
+  addToCart(btn.dataset.id);
+  flashAdded(btn);
+});
 
 // ── Bannière rotative ──
 (function() {
