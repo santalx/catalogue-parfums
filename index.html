@@ -220,7 +220,16 @@ body {
   letter-spacing: 0.18em; text-transform: uppercase; color: var(--black);
   white-space: nowrap; flex-shrink: 0; cursor: pointer; background: none; border: none;
 }
-.header-search { flex: 1; max-width: 340px; margin-left: auto; position: relative; }
+.header-nav { display: flex; align-items: center; gap: 1.5rem; margin-left: 2rem; }
+.header-nav-link {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gray-600); background: none; border: none; cursor: pointer;
+  padding: 0; transition: color 0.15s; white-space: nowrap;
+}
+.header-nav-link:hover { color: var(--black); }
+.header-search { flex: 1; max-width: 280px; margin-left: auto; position: relative; }
+@media (max-width: 900px) { .header-nav { display: none; } }
 .header-search input {
   width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--gray-400);
   padding: 6px 26px 6px 0; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 300;
@@ -343,6 +352,7 @@ body {
 .bestsellers-section { max-width: 1280px; margin: 3.5rem auto 0; padding: 0 2.5rem; }
 .section-eyebrow { font-size: 9px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 1.5rem; }
 .bs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200); margin-bottom: 4rem; }
+@media (min-width: 1100px) { .bs-grid, .reco-grid, .new-grid { grid-template-columns: repeat(4, 1fr); } }
 .bs-card { background: var(--white); position: relative; }
 .bs-badge { position: absolute; top: 12px; left: 12px; z-index: 2; font-size: 8px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; background: #C0392B; color: var(--white); padding: 4px 10px; }
 .bs-img { width: 100%; aspect-ratio: 3/4; background: var(--gray-100); display: flex; align-items: center; justify-content: center; overflow: hidden; }
@@ -534,6 +544,27 @@ body {
 .cart-checkout-btn:hover { opacity: 0.9; }
 .cart-checkout-btn:disabled { background: var(--gray-200); color: var(--gray-400); cursor: not-allowed; }
 
+/* ── LIGHTBOX ── */
+.lightbox {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 3000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.25s, visibility 0.25s;
+  padding: 2rem;
+}
+.lightbox.open { opacity: 1; visibility: visible; }
+.lightbox-inner { max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
+.lightbox img { max-width: 100%; max-height: 75vh; object-fit: contain; display: block; }
+.lightbox-caption { text-align: center; color: #fff; }
+.lightbox-marque { font-size: 9px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 5px; }
+.lightbox-nom { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: #fff; }
+.lightbox-close {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  background: none; border: none; color: #fff; cursor: pointer; padding: 8px; opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.lightbox-close:hover { opacity: 1; }
+.card-img { cursor: zoom-in; }
+
 /* ── TOAST ── */
 .toast {
   position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
@@ -623,6 +654,10 @@ body {
 <header class="site-header">
   <div class="header-inner">
     <button class="logo" id="logo-btn">Santalx</button>
+    <nav class="header-nav">
+      <button class="header-nav-link" id="nav-decantes">Nos décantés</button>
+      <button class="header-nav-link" id="nav-commander">Comment commander</button>
+    </nav>
     <div class="header-search">
       <input type="text" id="search" placeholder="Recherchez votre parfum…" autocomplete="off" spellcheck="false">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -766,6 +801,31 @@ body {
       Retour au catalogue
     </button>
   </div>
+  <div class="decant-intro">
+    <p class="decant-eyebrow">Santalx — Service décanté</p>
+    <h2 class="decant-title">Le décantage, c'est quoi ?</h2>
+    <p class="decant-text">C'est très simple : on prélève le parfum depuis le flacon original à l'aide d'une seringue, puis on le verse dans un flacon vierge de 30 ou 50ml, sans marque. Aucun changement sur le parfum — vous bénéficiez du même jus, dans un plus petit format, à un prix adapté à la quantité souhaitée.</p>
+  </div>
+
+  <div class="decant-cards">
+    <div class="decant-card">
+      <p class="decant-card-title">Prix accessible</p>
+      <p class="decant-card-text">Profiter d'un grand parfum de niche sans débourser le prix d'un flacon complet.</p>
+    </div>
+    <div class="decant-card">
+      <p class="decant-card-title">Découverte</p>
+      <p class="decant-card-text">Tester avant d'investir. Certains parfums se révèlent sur la durée — un décanté permet de vivre l'expérience sans engagement.</p>
+    </div>
+    <div class="decant-card">
+      <p class="decant-card-title">Format voyage</p>
+      <p class="decant-card-text">Un petit format pratique à emporter partout sans risquer d'abîmer son flacon d'origine.</p>
+    </div>
+  </div>
+
+  <p class="decant-warning">Nous ne vendons ni flacon vide, ni flacon avec un restant de parfum dedans — uniquement des décantés en vaporisateur propre de 30ml ou 50ml.</p>
+
+  <div style="border-top:1px solid var(--gray-200);max-width:1280px;margin:2.5rem auto 2rem;"></div>
+
   <p class="decant-grid-title" id="decant-label">Chargement…</p>
   <div class="decant-grid" id="decant-grid">
     <div class="loading-state" style="grid-column:1/-1">
@@ -834,6 +894,20 @@ body {
   </div>
 </div>
 
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Fermer">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+  <div class="lightbox-inner">
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption">
+      <p class="lightbox-marque" id="lightbox-marque"></p>
+      <p class="lightbox-nom" id="lightbox-nom"></p>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
@@ -858,6 +932,18 @@ let activeQF      = 'tous';
 let searchQuery   = '';
 let familleFilter = '';
 let cart        = []; // { id, nom, marque, prix, volume, photo, qty }
+
+/* ── Persistance panier ── */
+function saveCart() {
+  try { localStorage.setItem('sx_cart', JSON.stringify(cart)); } catch(e) {}
+}
+function loadCart() {
+  try {
+    const saved = localStorage.getItem('sx_cart');
+    if (saved) cart = JSON.parse(saved) || [];
+  } catch(e) { cart = []; }
+}
+loadCart();
 
 /* ── Intersection Observer ── */
 const observer = new IntersectionObserver((entries) => {
@@ -939,7 +1025,7 @@ function findProduct(id) {
 
 /* ── BEST SELLERS ── */
 function buildBestSellers() {
-  const bs = allData.filter(p => ['oui','yes','true','1'].includes((p.bestSeller||'').toLowerCase())).slice(0, 4);
+  const bs = allData.filter(p => ['oui','yes','true','1'].includes((p.bestSeller||'').toLowerCase())).slice(0, 8);
   if (bs.length === 0) return;
 
   document.getElementById('bs-section').style.display = 'block';
@@ -1014,7 +1100,7 @@ function buildDernierePiece() {
 
 /* ── NOUVEAUX ARRIVAGES ── */
 function buildNouveauArrivage() {
-  const nw = allData.filter(p => p.nouveauArrivage && ['oui','yes','true','1'].includes(p.nouveauArrivage.toLowerCase().trim())).slice(0, 4);
+  const nw = allData.filter(p => p.nouveauArrivage && ['oui','yes','true','1'].includes(p.nouveauArrivage.toLowerCase().trim())).slice(0, 8);
   console.log('Nouveaux arrivages trouvés:', nw.length, nw.map(p => p.nom));
   if (nw.length === 0) return;
   document.getElementById('new-section').style.display = 'block';
@@ -1048,7 +1134,7 @@ function buildNouveauArrivage() {
 
 /* ── RECOMMANDÉS DU MOMENT ── */
 function buildReco() {
-  const reco = allData.filter(p => ['oui','yes','true','1'].includes((p.recommande||'').toLowerCase())).slice(0,4);
+  const reco = allData.filter(p => ['oui','yes','true','1'].includes((p.recommande||'').toLowerCase())).slice(0,8);
   if (reco.length === 0) return;
   document.getElementById('reco-section').style.display = 'block';
   document.getElementById('reco-grid').innerHTML = reco.map(p => {
@@ -1173,6 +1259,11 @@ document.getElementById('decant-btn').addEventListener('click', () => {
   if (!decantLoaded) loadDecantes();
 });
 document.getElementById('decant-back-btn').addEventListener('click', goBack);
+document.getElementById('nav-decantes').addEventListener('click', () => {
+  showView('decantes');
+  if (!decantLoaded) loadDecantes();
+});
+document.getElementById('nav-commander').addEventListener('click', () => showInfoPage('commander'));
 
 /* ── RENDU CATALOGUE ── */
 function renderCatalogue() {
@@ -1190,6 +1281,9 @@ function renderCatalogue() {
     }
     return true;
   });
+
+  // Basculer les épuisés en fin de liste
+  filtered.sort((a, b) => (isDispo(b.dispo) ? 1 : 0) - (isDispo(a.dispo) ? 1 : 0));
 
   document.getElementById('result-count').textContent = filtered.length + ' parfum' + (filtered.length > 1 ? 's' : '');
 
@@ -1344,6 +1438,7 @@ function cartSubtotal() {
 }
 
 function renderCart() {
+  saveCart();
   const count = cartCount();
   const countEl = document.getElementById('cart-count');
   if (count > 0) { countEl.style.display = 'flex'; countEl.textContent = count; }
@@ -1451,6 +1546,27 @@ document.getElementById('checkout-btn').addEventListener('click', () => {
   const encoded = encodeURIComponent(msg);
   window.open(`${WA_NUMBER_LINK}?text=${encoded}`, '_blank');
 });
+
+/* ── LIGHTBOX ── */
+.lightbox {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 3000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.25s, visibility 0.25s;
+  padding: 2rem;
+}
+.lightbox.open { opacity: 1; visibility: visible; }
+.lightbox-inner { max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
+.lightbox img { max-width: 100%; max-height: 75vh; object-fit: contain; display: block; }
+.lightbox-caption { text-align: center; color: #fff; }
+.lightbox-marque { font-size: 9px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 5px; }
+.lightbox-nom { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: #fff; }
+.lightbox-close {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  background: none; border: none; color: #fff; cursor: pointer; padding: 8px; opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.lightbox-close:hover { opacity: 1; }
+.card-img { cursor: zoom-in; }
 
 /* ── TOAST ── */
 let toastTimer;
@@ -1625,6 +1741,46 @@ function renderDecantes() {
 }
 
 /* ═══════════════════════════════════════════════
+   LIGHTBOX PHOTO
+═══════════════════════════════════════════════ */
+(function() {
+  const lb       = document.getElementById('lightbox');
+  const lbImg    = document.getElementById('lightbox-img');
+  const lbMarque = document.getElementById('lightbox-marque');
+  const lbNom    = document.getElementById('lightbox-nom');
+
+  function openLightbox(src, marque, nom) {
+    lbImg.src = src;
+    lbMarque.textContent = marque || '';
+    lbNom.textContent = nom || '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { lbImg.src = ''; }, 250);
+  }
+
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  lb.addEventListener('click', e => { if (e.target === lb || e.target.classList.contains('lightbox-inner')) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && lb.classList.contains('open')) closeLightbox(); });
+
+  // Délégation globale sur toutes les grilles
+  document.addEventListener('click', e => {
+    const imgWrap = e.target.closest('.card-img, .bs-img, .reco-img, .nw-img, .dp-img, .dc-img');
+    if (!imgWrap) return;
+    if (e.target.closest('button')) return; // ignore les clics sur boutons
+    const img = imgWrap.querySelector('img');
+    if (!img || !img.src) return;
+    const card = imgWrap.closest('.card, .bs-card, .reco-card, .nw-card, .dp-card, .dc-card');
+    const marque = card?.querySelector('.card-marque, .bs-marque, .reco-marque, .nw-marque, .dp-marque, .dc-marque')?.textContent || '';
+    const nom    = card?.querySelector('.card-nom, .bs-nom, .reco-nom, .nw-nom, .dp-nom, .dc-nom')?.textContent || '';
+    openLightbox(img.src, marque, nom);
+  });
+})();
+
+/* ═══════════════════════════════════════════════
    TOGGLE VUE — PAR MAISON / TOUTES RÉFÉRENCES
 ═══════════════════════════════════════════════ */
 let currentMainView = 'maisons'; // 'maisons' | 'refs'
@@ -1663,8 +1819,13 @@ function renderAllRefs() {
     return true;
   });
 
-  // Trier par marque puis par nom
-  filtered.sort((a, b) => a.marque.localeCompare(b.marque) || a.nom.localeCompare(b.nom));
+  // Trier : disponibles d'abord, puis par marque et nom
+  filtered.sort((a, b) => {
+    const dispoA = isDispo(a.dispo) ? 0 : 1;
+    const dispoB = isDispo(b.dispo) ? 0 : 1;
+    if (dispoA !== dispoB) return dispoA - dispoB;
+    return a.marque.localeCompare(b.marque) || a.nom.localeCompare(b.nom);
+  });
 
   countEl.textContent = filtered.length + ' référence' + (filtered.length > 1 ? 's' : '');
 
