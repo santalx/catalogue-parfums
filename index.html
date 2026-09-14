@@ -1547,27 +1547,6 @@ document.getElementById('checkout-btn').addEventListener('click', () => {
   window.open(`${WA_NUMBER_LINK}?text=${encoded}`, '_blank');
 });
 
-/* ── LIGHTBOX ── */
-.lightbox {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 3000;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; visibility: hidden; transition: opacity 0.25s, visibility 0.25s;
-  padding: 2rem;
-}
-.lightbox.open { opacity: 1; visibility: visible; }
-.lightbox-inner { max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
-.lightbox img { max-width: 100%; max-height: 75vh; object-fit: contain; display: block; }
-.lightbox-caption { text-align: center; color: #fff; }
-.lightbox-marque { font-size: 9px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 5px; }
-.lightbox-nom { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: #fff; }
-.lightbox-close {
-  position: absolute; top: 1.5rem; right: 1.5rem;
-  background: none; border: none; color: #fff; cursor: pointer; padding: 8px; opacity: 0.7;
-  transition: opacity 0.15s;
-}
-.lightbox-close:hover { opacity: 1; }
-.card-img { cursor: zoom-in; }
-
 /* ── TOAST ── */
 let toastTimer;
 function showToast(text) {
