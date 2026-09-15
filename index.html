@@ -329,10 +329,10 @@ body {
   color: #C0392B; line-height: 1.6; text-align: center;
 }
 .decant-grid-title { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--gray-400); margin: 3rem 2.5rem 1.5rem; max-width: 1280px; margin-left: auto; margin-right: auto; padding: 0 2.5rem; }
+.decant-grid-wrap { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem 6rem; }
 .decant-grid {
   display: grid; grid-template-columns: repeat(4, 1fr);
   gap: 1px; background: var(--gray-200); border: 1px solid var(--gray-200);
-  margin: 0 2.5rem;
 }
 .dc-card { background: var(--white); transition: background 0.2s; }
 .dc-card:hover { background: var(--gray-100); }
@@ -357,7 +357,8 @@ body {
 .dc-format-btn span.prix { font-weight: 400; opacity: .75; }
 
 @media (max-width: 768px) {
-  .decant-grid { margin: 0 1.25rem; grid-template-columns: repeat(2, 1fr); }
+  .decant-grid-wrap { padding: 0 1.25rem 4rem; }
+  .decant-grid { grid-template-columns: repeat(2, 1fr); }
   .decant-grid-title { padding: 0 1.25rem; }
   .decant-intro { padding: 1.5rem 1.25rem 0; }
 }
@@ -901,10 +902,12 @@ body {
   <div style="border-top:1px solid var(--gray-200);max-width:1280px;margin:2.5rem auto 2rem;"></div>
 
   <p class="decant-grid-title" id="decant-label">Chargement…</p>
-  <div class="decant-grid" id="decant-grid">
-    <div class="loading-state" style="grid-column:1/-1">
-      <div class="loading-line"></div>
-      <span>Chargement</span>
+  <div class="decant-grid-wrap">
+    <div class="decant-grid" id="decant-grid">
+      <div class="loading-state" style="grid-column:1/-1">
+        <div class="loading-line"></div>
+        <span>Chargement</span>
+      </div>
     </div>
   </div>
 </div>
