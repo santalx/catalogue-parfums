@@ -738,7 +738,6 @@ body {
     <button class="mobile-menu-link" data-mnav="parfums">Nos parfums</button>
     <button class="mobile-menu-link" data-mnav="decantes">Nos décantés</button>
     <button class="mobile-menu-link" data-mnav="commander">Comment commander</button>
-    <button class="mobile-menu-link" data-mnav="cgv">Nos CGV</button>
     <button class="mobile-menu-link" data-mnav="livraison">Livraison</button>
   </div>
 </div>
@@ -897,6 +896,7 @@ body {
   </div>
 
   <p class="decant-warning">Nous ne vendons ni flacon vide, ni flacon avec un restant de parfum dedans — uniquement des décantés en vaporisateur propre de 30ml ou 50ml.</p>
+  <p class="decant-warning" style="margin-top:0.5rem;">Seuls les parfums listés sur cette page sont disponibles en décanté. Aucun autre parfum du catalogue ne peut être décanté.</p>
 
   <div style="border-top:1px solid var(--gray-200);max-width:1280px;margin:2.5rem auto 2rem;"></div>
 
@@ -1085,6 +1085,80 @@ async function loadData() {
   try { buildDernierePiece(); } catch(e) { console.error('buildDernierePiece error:', e); }
   try { buildNouveauArrivage(); } catch(e) { console.warn('buildNouveauArrivage:', e); }
   try { buildReco(); } catch(e) { console.warn('buildReco:', e); }
+}
+
+/* ── Recherche tolérante aux fautes ── */
+function normalize(str) {
+  return (str || '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // enlève les accents
+    .replace(/[^a-z0-9]/g, ''); // enlève espaces et ponctuation
+}
+
+// Distance de Levenshtein (nombre de corrections nécessaires)
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 0; i < a.length; i++) {
+    const cur = [i + 1];
+    for (let j = 0; j < b.length; j++) {
+      cur[j + 1] = Math.min(
+        prev[j + 1] + 1,
+        cur[j] + 1,
+        prev[j] + (a[i] === b[j] ? 0 : 1)
+      );
+    }
+    prev = cur;
+  }
+  return prev[b.length];
+}
+
+// Tolérance de fautes selon la longueur du mot (env. 1 faute toutes les 4 lettres)
+function tolFor(len) {
+  if (len <= 2) return 0;
+  if (len <= 3) return 1;
+  return Math.min(3, Math.ceil(len / 4));
+}
+
+// Un mot de la requête correspond-il quelque part dans le texte ?
+function wordMatches(qWord, textWords, fullText) {
+  const q = normalize(qWord);
+  if (!q) return true;
+  if (fullText.includes(q)) return true;   // correspondance directe
+  const tol = tolFor(q.length);
+  if (tol === 0) return false;
+  for (const nw of textWords) {
+    if (!nw) continue;
+    if (levenshtein(q, nw) <= tol) return true;
+    if (nw.length > q.length) {            // segment glissant
+      for (let i = 0; i <= nw.length - q.length; i++) {
+        if (levenshtein(q, nw.substr(i, q.length)) <= tol) return true;
+      }
+    }
+  }
+  return false;
+}
+
+// Retourne true si la requête correspond au texte (exact, partiel ou avec fautes)
+function fuzzyMatch(query, text) {
+  const q = normalize(query);
+  const t = normalize(text);
+  if (!q) return true;
+  if (t.includes(q)) return true;          // correspondance directe globale
+
+  const textWords = (text || '').toLowerCase().split(/[\s\-'’,.]+/).map(normalize).filter(Boolean);
+  const queryWords = (query || '').toLowerCase().split(/[\s\-'’,.]+/).map(w => w.trim()).filter(Boolean);
+
+  // Requête d'un seul mot : compare aussi au texte entier concaténé
+  if (queryWords.length === 1) {
+    if (levenshtein(q, t) <= tolFor(q.length)) return true;
+    return wordMatches(queryWords[0], textWords, t);
+  }
+
+  // Requête multi-mots : chaque mot doit correspondre quelque part
+  return queryWords.every(w => wordMatches(w, textWords, t));
 }
 
 function isDispo(val) {
@@ -1296,8 +1370,8 @@ window.addEventListener('popstate', (e) => {
   activeQF     = qf     || 'tous';
   searchQuery  = search || '';
   document.getElementById('search').value = searchQuery;
-  document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
-  const activeBtn = document.querySelector(`.qf-btn[data-qf="${activeQF}"]`);
+  document.querySelectorAll('[data-qf]').forEach(b => b.classList.remove('active'));
+  const activeBtn = document.querySelector(`[data-qf="${activeQF}"]`);
   if (activeBtn) activeBtn.classList.add('active');
   if (view === 'catalogue') {
     document.getElementById('cat-brand-name').textContent = activeBrand || 'Résultats';
@@ -1312,8 +1386,9 @@ window.addEventListener('popstate', (e) => {
 
 function selectBrand(brand) {
   activeBrand = brand; activeQF = 'tous';
-  document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('.qf-btn[data-qf="tous"]').classList.add('active');
+  document.querySelectorAll('[data-qf]').forEach(b => b.classList.remove('active'));
+  const tousBtn0 = document.querySelector('[data-qf="tous"]');
+  if (tousBtn0) tousBtn0.classList.add('active');
   document.getElementById('cat-brand-name').textContent = brand;
   showView('catalogue');
   renderCatalogue();
@@ -1372,9 +1447,9 @@ document.getElementById('nav-commander').addEventListener('click', () => showInf
       document.getElementById('cat-brand-name').textContent = 'Résultats';
       showView('catalogue');
       activeQF = 'tous';
-      document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
-      const tousBtn = document.querySelector('.qf-btn[data-qf="tous"]');
-      if (tousBtn) tousBtn.classList.add('active');
+      document.querySelectorAll('[data-qf]').forEach(b => b.classList.remove('active'));
+      const tousBtnM = document.querySelector('[data-qf="tous"]');
+      if (tousBtnM) tousBtnM.classList.add('active');
       renderCatalogue();
     }
   });
@@ -1407,8 +1482,7 @@ function renderCatalogue() {
     if (activeQF === 'Mixte' && p.genre !== 'Mixte') return false;
     if (familleFilter && p.famille !== familleFilter) return false;
     if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      if (!p.nom.toLowerCase().includes(q) && !p.marque.toLowerCase().includes(q)) return false;
+      if (!fuzzyMatch(searchQuery, p.nom) && !fuzzyMatch(searchQuery, p.marque)) return false;
     }
     return true;
   });
@@ -1506,9 +1580,9 @@ document.getElementById('famille-filter').addEventListener('change', e => {
   renderCatalogue();
 });
 
-document.querySelectorAll('.qf-btn').forEach(btn => {
+document.querySelectorAll('[data-qf]').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('[data-qf]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     activeQF = btn.dataset.qf;
     renderCatalogue();
@@ -1522,8 +1596,9 @@ document.getElementById('search').addEventListener('input', e => {
     document.getElementById('cat-brand-name').textContent = 'Résultats';
     showView('catalogue');
     activeQF = 'tous';
-    document.querySelectorAll('.qf-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector('.qf-btn[data-qf="tous"]').classList.add('active');
+    document.querySelectorAll('[data-qf]').forEach(b => b.classList.remove('active'));
+    const tousBtn = document.querySelector('[data-qf="tous"]');
+    if (tousBtn) tousBtn.classList.add('active');
     renderCatalogue();
   } else {
     goBack();
