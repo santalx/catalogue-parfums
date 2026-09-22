@@ -260,6 +260,15 @@ body {
 }
 .mobile-menu-search input:focus { border-bottom-color: var(--black); }
 .mobile-menu-search svg { position: absolute; right: 1.25rem; top: 50%; transform: translateY(-50%); color: var(--gray-400); pointer-events: none; }
+.mobile-menu-search input::-webkit-search-cancel-button { display: none; }
+.mobile-search-results-btn {
+  width: 100%; margin-top: 14px; padding: 13px;
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  background: var(--black); color: var(--white); border: none; cursor: pointer;
+}
+.mobile-search-results-btn.empty { background: var(--gray-100); color: var(--gray-600); }
+.mobile-menu-search svg { top: 2.1rem; transform: none; }
 .mobile-menu-links { padding: 1rem 0; flex: 1; }
 .mobile-menu-link {
   display: block; width: 100%; text-align: left;
@@ -731,10 +740,11 @@ body {
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
     </button>
   </div>
-  <div class="mobile-menu-search">
-    <input type="text" id="mobile-search-input" placeholder="Recherchez votre parfum…" autocomplete="off" spellcheck="false">
+  <form class="mobile-menu-search" id="mobile-search-form" action="#" autocomplete="off">
+    <input type="search" id="mobile-search-input" placeholder="Recherchez votre parfum…" enterkeyhint="search" inputmode="search" autocomplete="off" spellcheck="false">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-  </div>
+    <button type="submit" class="mobile-search-results-btn" id="mobile-search-results-btn" style="display:none"></button>
+  </form>
   <div class="mobile-menu-links">
     <button class="mobile-menu-link" data-mnav="parfums">Nos parfums</button>
     <button class="mobile-menu-link" data-mnav="decantes">Nos décantés</button>
@@ -1441,23 +1451,44 @@ document.getElementById('nav-commander').addEventListener('click', () => showInf
   closeBtn.addEventListener('click', closeMenu);
 
   // Recherche depuis le menu mobile
-  mInput.addEventListener('input', e => {
-    const val = e.target.value.trim();
+  const resultsBtn = document.getElementById('mobile-search-results-btn');
+
+  function countResults(q) {
+    return allData.filter(p => fuzzyMatch(q, p.nom) || fuzzyMatch(q, p.marque)).length;
+  }
+
+  function runMobileSearch(val) {
     document.getElementById('search').value = val;
     searchQuery = val;
-    if (val) {
-      activeBrand = null;
-      document.getElementById('cat-brand-name').textContent = 'Résultats';
-      showView('catalogue');
-      activeQF = 'tous';
-      document.querySelectorAll('[data-qf]').forEach(b => b.classList.remove('active'));
-      const tousBtnM = document.querySelector('[data-qf="tous"]');
-      if (tousBtnM) tousBtnM.classList.add('active');
-      renderCatalogue();
-    }
+    activeBrand = null;
+    activeQF = 'tous';
+    document.querySelectorAll('[data-qf]').forEach(b => b.classList.remove('active'));
+    const tousBtnM = document.querySelector('[data-qf="tous"]');
+    if (tousBtnM) tousBtnM.classList.add('active');
+    document.getElementById('cat-brand-name').textContent = 'Résultats';
+    showView('catalogue');
+    renderCatalogue();
+  }
+
+  mInput.addEventListener('input', () => {
+    const val = mInput.value.trim();
+    if (!val) { resultsBtn.style.display = 'none'; return; }
+    const n = countResults(val);
+    resultsBtn.style.display = 'block';
+    resultsBtn.classList.toggle('empty', n === 0);
+    resultsBtn.textContent = n === 0
+      ? 'Aucun résultat, voir les options'
+      : `Voir ${n} résultat${n > 1 ? 's' : ''}`;
   });
-  mInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && mInput.value.trim()) closeMenu();
+
+  // Touche "Rechercher" du clavier mobile OU clic sur le bouton
+  document.getElementById('mobile-search-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const val = mInput.value.trim();
+    if (!val) return;
+    mInput.blur();          // ferme le clavier
+    closeMenu();
+    runMobileSearch(val);
   });
 
   // Liens du menu mobile
