@@ -516,6 +516,75 @@ body {
 .card-prix-boutique { font-size: 11px; color: var(--red); text-decoration: line-through; margin-bottom: 2px; }
 .card-prix-nous { font-size: 15px; font-weight: 500; color: var(--black); }
 .card-vol { font-size: 10px; font-weight: 300; letter-spacing: .06em; color: var(--gray-400); margin-top: 4px; margin-bottom: 8px; }
+.card-notes {
+  font-size: 10px; font-weight: 300; font-style: italic;
+  letter-spacing: .02em; color: var(--gray-600); line-height: 1.5;
+  margin-top: -2px; margin-bottom: 8px;
+}
+
+/* ── PASTILLES FAMILLES ── */
+.famille-bar {
+  max-width: 1280px; margin: 0 auto; padding: 2rem 2.5rem 0;
+  text-align: center;
+}
+.famille-bar-label {
+  font-size: 9px; font-weight: 500; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--gray-400); margin-bottom: 1rem;
+}
+.famille-chips {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+}
+.famille-chip {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 400; letter-spacing: .1em; text-transform: uppercase;
+  padding: 7px 16px; border: 1px solid var(--gray-200); background: transparent;
+  color: var(--gray-600); cursor: pointer; transition: all 0.15s; border-radius: 999px;
+}
+.famille-chip:hover { border-color: var(--black); color: var(--black); }
+.famille-chip.active { background: var(--black); color: var(--white); border-color: var(--black); }
+
+/* ── BANDE RÉSEAUX SOCIAUX ── */
+.social-band {
+  max-width: 1280px; margin: 0 auto 1rem; padding: 0 2.5rem;
+}
+.social-band-inner {
+  background: var(--black); color: var(--white);
+  padding: 1.75rem 2rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.social-band-text {}
+.social-band-eyebrow {
+  font-size: 9px; font-weight: 500; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--gray-400); margin-bottom: 6px;
+}
+.social-band-title {
+  font-family: 'Cormorant Garamond', serif; font-size: 22px;
+  font-weight: 300; font-style: italic; color: var(--white); line-height: 1.2;
+}
+.social-links { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.social-link {
+  display: flex; align-items: center; gap: 9px;
+  padding: 11px 20px; text-decoration: none;
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.social-link:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.3); }
+.social-link.snap { background: #FFFC00; color: #000; }
+.social-link.insta {
+  background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4);
+  color: #fff;
+}
+.social-link svg { flex-shrink: 0; }
+@media (max-width: 768px) {
+  .social-band { padding: 0 1.25rem; }
+  .social-band-inner { flex-direction: column; align-items: flex-start; padding: 1.5rem 1.25rem; }
+  .social-links { width: 100%; }
+  .social-link { flex: 1; justify-content: center; padding: 12px 10px; }
+  .famille-bar { padding: 1.5rem 1.25rem 0; }
+}
+
 .card-blister { font-size: 10px; font-weight: 300; letter-spacing: .04em; color: var(--gray-400); margin-bottom: 12px; font-style: italic; }
 .card-add-btn {
   width: 100%; padding: 9px; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500;
@@ -784,7 +853,33 @@ body {
     <div class="derniere-grid" id="dp-grid"></div>
   </div>
 
+  <!-- BANDE RÉSEAUX SOCIAUX -->
+  <div class="social-band">
+    <div class="social-band-inner">
+      <div class="social-band-text">
+        <p class="social-band-eyebrow">Restons en contact</p>
+        <p class="social-band-title">Suivez nos arrivages en avant-première</p>
+      </div>
+      <div class="social-links">
+        <a class="social-link snap" href="https://snapchat.com/t/tMvhMlR9" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 2c2.706.012 4.99 1.98 5.29 4.66.086.77.04 1.55.03 2.32-.4.28.08.4.35.41.35.02.7-.06 1.04.05.41.14.6.47.51.86-.07.31-.3.47-.57.59-.35.15-.72.25-1.07.4-.53.23-.63.5-.4 1.03.72 1.68 1.96 2.79 3.7 3.36.28.09.53.21.53.55 0 .33-.24.47-.51.57-.5.19-1.03.28-1.56.36-.26.04-.37.15-.42.4-.05.25-.12.5-.2.74-.11.35-.32.47-.69.42-.42-.06-.83-.16-1.25-.2-.93-.09-1.78.1-2.5.73-.4.35-.8.7-1.24 1-1.18.8-2.42.8-3.6 0-.44-.3-.84-.65-1.24-1-.72-.63-1.57-.82-2.5-.73-.42.04-.83.14-1.25.2-.37.05-.58-.07-.69-.42-.08-.24-.15-.49-.2-.74-.05-.25-.16-.36-.42-.4-.53-.08-1.06-.17-1.56-.36-.27-.1-.51-.24-.51-.57 0-.34.25-.46.53-.55 1.74-.57 2.98-1.68 3.7-3.36.23-.53.13-.8-.4-1.03-.35-.15-.72-.25-1.07-.4-.27-.12-.5-.28-.57-.59-.09-.39.1-.72.51-.86.34-.11.69-.03 1.04-.05.27-.1.39-.13.35-.41-.01-.77-.056-1.55.03-2.32C7.027 3.98 9.311 2.012 12.017 2z"/></svg>
+          Snapchat
+        </a>
+        <a class="social-link insta" href="https://www.instagram.com/santalxx" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+          Instagram
+        </a>
+      </div>
+    </div>
+  </div>
+
   <div class="sep"></div>
+
+  <!-- FILTRE FAMILLES -->
+  <div class="famille-bar" id="famille-bar" style="display:none">
+    <p class="famille-bar-label">Filtrer par famille olfactive</p>
+    <div class="famille-chips" id="famille-chips"></div>
+  </div>
 
   <!-- TOGGLE VUE -->
   <div class="view-toggle">
@@ -1078,6 +1173,7 @@ async function loadData() {
         dernierePiece:   r.c.length > 12 ? String(r.c[12]?.v || '').trim() : '',
         nouveauArrivage: r.c.length > 13 ? String(r.c[13]?.v || '').trim() : '',
         blister:         r.c.length > 14 ? String(r.c[14]?.v || '').trim() : '',
+        notes:           r.c.length > 15 ? String(r.c[15]?.v || '').trim() : '',
       }));
 
     allData.forEach(p => { if (p.logo) brandLogos[p.marque] = p.logo; });
@@ -1094,6 +1190,7 @@ async function loadData() {
 
   // Build séparé du try/catch pour ne pas masquer les erreurs de rendu
   buildMaisons();
+  buildFamilleChips();
   buildBestSellers();
   try { buildDernierePiece(); } catch(e) { console.error('buildDernierePiece error:', e); }
   try { buildNouveauArrivage(); } catch(e) { console.warn('buildNouveauArrivage:', e); }
@@ -1326,6 +1423,37 @@ function buildReco() {
   });
 }
 
+/* ── PASTILLES FAMILLES ── */
+function buildFamilleChips() {
+  const familles = [...new Set(allData.map(p => p.famille).filter(Boolean))].sort();
+  if (familles.length === 0) return;
+
+  document.getElementById('famille-bar').style.display = 'block';
+  const wrap = document.getElementById('famille-chips');
+  wrap.innerHTML =
+    `<button class="famille-chip active" data-fam="">Toutes</button>` +
+    familles.map(f => `<button class="famille-chip" data-fam="${f}">${f}</button>`).join('');
+
+  // Alimente aussi le menu déroulant de la vue maison
+  const sel = document.getElementById('famille-filter');
+  if (sel) {
+    sel.innerHTML = '<option value="">Toutes familles</option>' +
+      familles.map(f => `<option value="${f}">${f}</option>`).join('');
+  }
+
+  wrap.addEventListener('click', e => {
+    const chip = e.target.closest('.famille-chip');
+    if (!chip) return;
+    wrap.querySelectorAll('.famille-chip').forEach(b => b.classList.remove('active'));
+    chip.classList.add('active');
+    familleFilter = chip.dataset.fam;
+    if (sel) sel.value = familleFilter;
+    // Une famille choisie bascule sur la liste complète des parfums
+    setMainView(familleFilter ? 'refs' : currentMainView);
+    if (currentMainView === 'refs') renderAllRefs();
+  });
+}
+
 /* ── VUE MAISONS ── */
 function buildMaisons() {
   const counts = {};
@@ -1454,7 +1582,7 @@ document.getElementById('nav-commander').addEventListener('click', () => showInf
   const resultsBtn = document.getElementById('mobile-search-results-btn');
 
   function countResults(q) {
-    return allData.filter(p => fuzzyMatch(q, p.nom) || fuzzyMatch(q, p.marque)).length;
+    return allData.filter(p => fuzzyMatch(q, p.nom) || fuzzyMatch(q, p.marque) || fuzzyMatch(q, p.notes)).length;
   }
 
   function runMobileSearch(val) {
@@ -1516,7 +1644,7 @@ function renderCatalogue() {
     if (activeQF === 'Mixte' && p.genre !== 'Mixte') return false;
     if (familleFilter && p.famille !== familleFilter) return false;
     if (searchQuery) {
-      if (!fuzzyMatch(searchQuery, p.nom) && !fuzzyMatch(searchQuery, p.marque)) return false;
+      if (!fuzzyMatch(searchQuery, p.nom) && !fuzzyMatch(searchQuery, p.marque) && !fuzzyMatch(searchQuery, p.notes)) return false;
     }
     return true;
   });
@@ -1565,6 +1693,7 @@ function renderCatalogue() {
         </div>
         <div class="card-body">
           <p class="card-nom">${p.nom}</p>
+          ${p.notes ? `<p class="card-notes">${p.notes}</p>` : ''}
           ${prixBoutique ? `<p class="card-prix-boutique">${prixBoutique}</p>` : ''}
           <p class="card-prix-nous">${prix}</p>
           <p class="card-vol">${p.volume}</p>
@@ -1611,6 +1740,12 @@ function flashAdded(btn) {
 
 document.getElementById('famille-filter').addEventListener('change', e => {
   familleFilter = e.target.value;
+  const wrap = document.getElementById('famille-chips');
+  if (wrap) {
+    wrap.querySelectorAll('.famille-chip').forEach(b => {
+      b.classList.toggle('active', b.dataset.fam === familleFilter);
+    });
+  }
   renderCatalogue();
 });
 
@@ -2031,6 +2166,7 @@ function renderAllRefs() {
   const countEl = document.getElementById('all-refs-count');
 
   let filtered = allData.filter(p => {
+    if (familleFilter && p.famille !== familleFilter) return false;
     if (activeQF2 === 'dispo' && !isDispo(p.dispo)) return false;
     if (activeQF2 === 'Homme' && p.genre !== 'Homme') return false;
     if (activeQF2 === 'Femme' && p.genre !== 'Femme') return false;
@@ -2074,6 +2210,7 @@ function renderAllRefs() {
         <div class="card-body">
           <p class="card-marque">${p.marque}</p>
           <p class="card-nom">${p.nom}</p>
+          ${p.notes ? `<p class="card-notes">${p.notes}</p>` : ''}
           ${prixBoutique ? `<p class="card-prix-boutique">${prixBoutique}</p>` : ''}
           <p class="card-prix-nous">${prix}</p>
           <p class="card-vol">${p.volume}</p>
