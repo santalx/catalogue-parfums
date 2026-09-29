@@ -1297,10 +1297,11 @@ function buildBestSellers() {
     return `
       <div class="bs-card">
         <div class="bs-badge">Best-seller</div>
-        <div class="bs-img">${imgContent}</div>
+        <div class="bs-img" style="position:relative">${imgContent}${familleBadge(p.famille)}</div>
         <div class="bs-body">
           <p class="bs-marque">${p.marque}</p>
           <p class="bs-nom">${p.nom}</p>
+          ${notesLine(p.notes)}
           <div class="bs-meta">
             <div>
               ${prixBoutique ? `<p class="bs-prix-boutique">${prixBoutique}</p>` : ''}
@@ -1308,6 +1309,7 @@ function buildBestSellers() {
             </div>
             <span class="bs-vol">${p.volume}</span>
           </div>
+          ${blisterLine(p.blister)}
           <button class="bs-add-btn" data-id="${p.id}" ${dispo ? '' : 'disabled'}>${dispo ? 'Ajouter au panier' : 'Épuisé'}</button>
         </div>
       </div>`;
@@ -1336,14 +1338,16 @@ function buildDernierePiece() {
     return `
       <div class="dp-card">
         <div class="dp-badge">Dernière pièce</div>
-        <div class="dp-img">${img}</div>
+        <div class="dp-img" style="position:relative">${img}${familleBadge(p.famille)}</div>
         <div class="dp-body">
           <p class="dp-marque">${p.marque}</p>
           <p class="dp-nom">${p.nom}</p>
+          ${notesLine(p.notes)}
           <div class="dp-footer">
             <div>${prixB ? `<p class="dp-prix-boutique">${prixB}</p>` : ''}<p class="dp-prix">${prix}</p></div>
             <span class="dp-vol">${p.volume}</span>
           </div>
+          ${blisterLine(p.blister)}
           <button class="dp-add-btn" data-id="${p.id}" ${dispo ? '' : 'disabled'}>${dispo ? 'Ajouter' : 'Épuisé'}</button>
         </div>
       </div>`;
@@ -1370,14 +1374,16 @@ function buildNouveauArrivage() {
     return `
       <div class="nw-card">
         <div class="nw-badge">Nouveau</div>
-        <div class="nw-img">${img}</div>
+        <div class="nw-img" style="position:relative">${img}${familleBadge(p.famille)}</div>
         <div class="nw-body">
           <p class="nw-marque">${p.marque}</p>
           <p class="nw-nom">${p.nom}</p>
+          ${notesLine(p.notes)}
           <div class="nw-footer">
             <div>${prixB ? `<p class="nw-prix-boutique">${prixB}</p>` : ''}<p class="nw-prix">${prix}</p></div>
             <span class="nw-vol">${p.volume}</span>
           </div>
+          ${blisterLine(p.blister)}
           <button class="nw-add-btn" data-id="${p.id}" ${dispo ? '' : 'disabled'}>${dispo ? 'Ajouter' : 'Épuisé'}</button>
         </div>
       </div>`;
@@ -1403,14 +1409,16 @@ function buildReco() {
     return `
       <div class="reco-card">
         <div class="reco-badge">Tendance</div>
-        <div class="reco-img">${img}</div>
+        <div class="reco-img" style="position:relative">${img}${familleBadge(p.famille)}</div>
         <div class="reco-body">
           <p class="reco-marque">${p.marque}</p>
           <p class="reco-nom">${p.nom}</p>
+          ${notesLine(p.notes)}
           <div class="reco-footer">
             <div>${prixB ? `<p class="reco-prix-boutique">${prixB}</p>` : ''}<p class="reco-prix">${prix}</p></div>
             <span class="reco-vol">${p.volume}</span>
           </div>
+          ${blisterLine(p.blister)}
           <button class="reco-add-btn" data-id="${p.id}" ${dispo ? '' : 'disabled'}>${dispo ? 'Ajouter' : 'Épuisé'}</button>
         </div>
       </div>`;
@@ -1423,6 +1431,54 @@ function buildReco() {
   });
 }
 
+/* ── COULEURS PAR FAMILLE OLFACTIVE ── */
+const FAMILLE_COLORS = {
+  'ambre':      { bg: '#B8860B', fg: '#fff' },
+  'aquatique':  { bg: '#2E7D9A', fg: '#fff' },
+  'aromatique': { bg: '#5A7D5A', fg: '#fff' },
+  'boise':      { bg: '#6B4E31', fg: '#fff' },
+  'cuire':      { bg: '#4A3428', fg: '#fff' },
+  'encense':    { bg: '#6D5B7B', fg: '#fff' },
+  'floral':     { bg: '#C4638A', fg: '#fff' },
+  'fruite':     { bg: '#D45D4E', fg: '#fff' },
+  'gourmand':   { bg: '#A8623C', fg: '#fff' },
+  'hesperide':  { bg: '#E09B2D', fg: '#fff' },
+  'lacte':      { bg: '#E3DAD0', fg: '#3A3128' },
+  'musque':     { bg: '#8A8578', fg: '#fff' },
+  'oude':       { bg: '#3E2723', fg: '#fff' },
+  'oriental':   { bg: '#8C4A2F', fg: '#fff' },
+  'poudre':     { bg: '#D9BDC5', fg: '#4A3038' },
+  'tabac':      { bg: '#7A5230', fg: '#fff' },
+  'vanille':    { bg: '#E0C179', fg: '#463714' },
+  'vert':       { bg: '#4C8C4A', fg: '#fff' },
+  'epice':      { bg: '#B5462F', fg: '#fff' },
+  'frais':      { bg: '#7FA9B8', fg: '#fff' }
+};
+
+function familleStyle(f) {
+  const key = normalize(f);
+  return FAMILLE_COLORS[key] || { bg: 'rgba(0,0,0,0.6)', fg: '#fff' };
+}
+
+// Étiquette famille posée en haut à droite de la photo
+function familleBadge(f) {
+  if (!f) return '';
+  const s = familleStyle(f);
+  return `<span style="position:absolute;top:8px;right:8px;background:${s.bg};color:${s.fg};font-size:9px;font-weight:500;letter-spacing:.1em;padding:3px 9px;text-transform:uppercase">${f}</span>`;
+}
+
+// Mention blister sous le volume
+function blisterLine(b) {
+  if (!b) return '';
+  const oui = ['oui','yes','1','true'].includes(b.toLowerCase());
+  return `<p class="card-blister">${oui ? 'Sous blister' : 'Bouteille seule'}</p>`;
+}
+
+// Notes olfactives sous le nom
+function notesLine(n) {
+  return n ? `<p class="card-notes">${n}</p>` : '';
+}
+
 /* ── PASTILLES FAMILLES ── */
 function buildFamilleChips() {
   const familles = [...new Set(allData.map(p => p.famille).filter(Boolean))].sort();
@@ -1432,7 +1488,10 @@ function buildFamilleChips() {
   const wrap = document.getElementById('famille-chips');
   wrap.innerHTML =
     `<button class="famille-chip active" data-fam="">Toutes</button>` +
-    familles.map(f => `<button class="famille-chip" data-fam="${f}">${f}</button>`).join('');
+    familles.map(f => {
+      const s = familleStyle(f);
+      return `<button class="famille-chip" data-fam="${f}" data-bg="${s.bg}" data-fg="${s.fg}">${f}</button>`;
+    }).join('');
 
   // Alimente aussi le menu déroulant de la vue maison
   const sel = document.getElementById('famille-filter');
@@ -1444,8 +1503,16 @@ function buildFamilleChips() {
   wrap.addEventListener('click', e => {
     const chip = e.target.closest('.famille-chip');
     if (!chip) return;
-    wrap.querySelectorAll('.famille-chip').forEach(b => b.classList.remove('active'));
+    wrap.querySelectorAll('.famille-chip').forEach(b => {
+      b.classList.remove('active');
+      b.style.background = ''; b.style.color = ''; b.style.borderColor = '';
+    });
     chip.classList.add('active');
+    if (chip.dataset.bg) {
+      chip.style.background = chip.dataset.bg;
+      chip.style.color = chip.dataset.fg;
+      chip.style.borderColor = chip.dataset.bg;
+    }
     familleFilter = chip.dataset.fam;
     if (sel) sel.value = familleFilter;
     // Une famille choisie bascule sur la liste complète des parfums
@@ -1686,7 +1753,7 @@ function renderCatalogue() {
             <span>Photo à venir</span>
           </div>
           ${!dispo ? '<div class="epuise-overlay">Épuisé</div>' : ''}
-          ${p.famille ? `<span style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.55);color:#fff;font-size:9px;font-weight:400;letter-spacing:.1em;padding:3px 8px;backdrop-filter:blur(4px)">${p.famille}</span>` : ''}
+          ${familleBadge(p.famille)}
         </div>
         <div class="card-body">
           <p class="card-nom">${p.nom}</p>
@@ -1694,7 +1761,7 @@ function renderCatalogue() {
           ${prixBoutique ? `<p class="card-prix-boutique">${prixBoutique}</p>` : ''}
           <p class="card-prix-nous">${prix}</p>
           <p class="card-vol">${p.volume}</p>
-          ${p.blister ? `<p class="card-blister">${['oui','yes','1','true'].includes(p.blister.toLowerCase()) ? 'Sous blister' : 'Bouteille seule'}</p>` : ''}
+          ${blisterLine(p.blister)}
           <button class="card-add-btn" data-id="${p.id}" ${dispo ? '' : 'disabled'}>${dispo ? 'Ajouter au panier' : 'Épuisé'}</button>
         </div>
       </div>`;
@@ -2143,6 +2210,7 @@ function resetFamilleFilter() {
   if (wrap) {
     wrap.querySelectorAll('.famille-chip').forEach(b => {
       b.classList.toggle('active', b.dataset.fam === '');
+      b.style.background = ''; b.style.color = ''; b.style.borderColor = '';
     });
   }
   const sel = document.getElementById('famille-filter');
@@ -2211,7 +2279,7 @@ function renderAllRefs() {
             <span>Photo à venir</span>
           </div>
           ${!dispo ? '<div class="epuise-overlay">Épuisé</div>' : ''}
-          ${p.famille ? `<span style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.55);color:#fff;font-size:9px;font-weight:400;letter-spacing:.1em;padding:3px 8px;backdrop-filter:blur(4px)">${p.famille}</span>` : ''}
+          ${familleBadge(p.famille)}
         </div>
         <div class="card-body">
           <p class="card-marque">${p.marque}</p>
@@ -2220,7 +2288,7 @@ function renderAllRefs() {
           ${prixBoutique ? `<p class="card-prix-boutique">${prixBoutique}</p>` : ''}
           <p class="card-prix-nous">${prix}</p>
           <p class="card-vol">${p.volume}</p>
-          ${p.blister ? `<p class="card-blister">${['oui','yes','1','true'].includes(p.blister.toLowerCase()) ? 'Sous blister' : 'Bouteille seule'}</p>` : ''}
+          ${blisterLine(p.blister)}
           <button class="card-add-btn" data-id="${p.id}" ${dispo ? '' : 'disabled'}>${dispo ? 'Ajouter au panier' : 'Épuisé'}</button>
         </div>
       </div>`;
