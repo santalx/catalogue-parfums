@@ -523,8 +523,8 @@ body {
 .card-prix-nous { font-size: 15px; font-weight: 500; color: var(--black); }
 .card-vol { font-size: 10px; font-weight: 300; letter-spacing: .06em; color: var(--gray-400); margin-top: 4px; margin-bottom: 8px; }
 .card-notes {
-  font-size: 10px; font-weight: 300; font-style: italic;
-  letter-spacing: .02em; color: var(--gray-600); line-height: 1.5;
+  font-size: 10.5px; font-weight: 400; font-style: italic;
+  letter-spacing: .02em; color: #9A7B3F; line-height: 1.5;
   margin-top: -2px; margin-bottom: 8px;
 }
 
@@ -1304,7 +1304,7 @@ function buildBestSellers() {
     return `
       <div class="bs-card">
         <div class="bs-badge">Best-seller</div>
-        <div class="bs-img" style="position:relative">${imgContent}${familleBadge(p.famille)}</div>
+        <div class="bs-img">${imgContent}</div>
         <div class="bs-body">
           <p class="bs-marque">${p.marque}</p>
           <p class="bs-nom">${p.nom}</p>
@@ -1345,7 +1345,7 @@ function buildDernierePiece() {
     return `
       <div class="dp-card">
         <div class="dp-badge">Dernière pièce</div>
-        <div class="dp-img" style="position:relative">${img}${familleBadge(p.famille)}</div>
+        <div class="dp-img">${img}</div>
         <div class="dp-body">
           <p class="dp-marque">${p.marque}</p>
           <p class="dp-nom">${p.nom}</p>
@@ -1381,7 +1381,7 @@ function buildNouveauArrivage() {
     return `
       <div class="nw-card">
         <div class="nw-badge">Nouveau</div>
-        <div class="nw-img" style="position:relative">${img}${familleBadge(p.famille)}</div>
+        <div class="nw-img">${img}</div>
         <div class="nw-body">
           <p class="nw-marque">${p.marque}</p>
           <p class="nw-nom">${p.nom}</p>
@@ -1416,7 +1416,7 @@ function buildReco() {
     return `
       <div class="reco-card">
         <div class="reco-badge">Tendance</div>
-        <div class="reco-img" style="position:relative">${img}${familleBadge(p.famille)}</div>
+        <div class="reco-img">${img}</div>
         <div class="reco-body">
           <p class="reco-marque">${p.marque}</p>
           <p class="reco-nom">${p.nom}</p>
@@ -1858,7 +1858,6 @@ function addToCart(id) {
   }
   renderCart();
   showToast(`${p.nom} ajouté au panier`);
-  openCart();
 }
 
 function removeFromCart(id) {
@@ -2160,7 +2159,6 @@ function renderDecantes() {
     else { cart.push(cartItem); }
     renderCart();
     showToast(`${p.nom} ${format} ajouté au panier`);
-    openCart();
     const orig = btn.innerHTML;
     btn.innerHTML = '<span>Ajouté ✓</span>';
     setTimeout(() => { btn.innerHTML = orig; }, 1200);
