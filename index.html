@@ -524,8 +524,8 @@ body {
 
 /* ── PASTILLES FAMILLES ── */
 .famille-bar {
-  max-width: 1280px; margin: 0 auto; padding: 2rem 2.5rem 0;
-  text-align: center;
+  max-width: 1280px; margin: 0 auto; padding: 2rem 2.5rem 1.75rem;
+  text-align: center; border-bottom: 1px solid var(--gray-200);
 }
 .famille-bar-label {
   font-size: 9px; font-weight: 500; letter-spacing: .22em;
@@ -548,7 +548,8 @@ body {
   max-width: 1280px; margin: 0 auto 1rem; padding: 0 2.5rem;
 }
 .social-band-inner {
-  background: var(--black); color: var(--white);
+  background: var(--white); color: var(--black);
+  border: 1px solid var(--gray-200);
   padding: 1.75rem 2rem;
   display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
   flex-wrap: wrap;
@@ -556,11 +557,15 @@ body {
 .social-band-text {}
 .social-band-eyebrow {
   font-size: 9px; font-weight: 500; letter-spacing: .22em;
-  text-transform: uppercase; color: var(--gray-400); margin-bottom: 6px;
+  text-transform: uppercase; color: var(--gray-400); margin-bottom: 8px;
 }
 .social-band-title {
-  font-family: 'Cormorant Garamond', serif; font-size: 22px;
-  font-weight: 300; font-style: italic; color: var(--white); line-height: 1.2;
+  font-family: 'Cormorant Garamond', serif; font-size: 24px;
+  font-weight: 300; font-style: italic; color: var(--black); line-height: 1.25;
+}
+.social-band-sub {
+  font-size: 11px; font-weight: 300; letter-spacing: .03em;
+  color: var(--gray-600); margin-top: 6px;
 }
 .social-links { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .social-link {
@@ -570,7 +575,7 @@ body {
   letter-spacing: .1em; text-transform: uppercase;
   transition: transform 0.2s, box-shadow 0.2s;
 }
-.social-link:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.3); }
+.social-link:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
 .social-link.snap { background: #FFFC00; color: #000; }
 .social-link.insta {
   background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4);
@@ -858,7 +863,8 @@ body {
     <div class="social-band-inner">
       <div class="social-band-text">
         <p class="social-band-eyebrow">Restons en contact</p>
-        <p class="social-band-title">Suivez nos arrivages en avant-première</p>
+        <p class="social-band-title">Rejoignez notre communauté</p>
+        <p class="social-band-sub">Suivez nos arrivages en avant-première et nos exclusivités.</p>
       </div>
       <div class="social-links">
         <a class="social-link snap" href="https://snapchat.com/t/tMvhMlR9" target="_blank" rel="noopener">
@@ -903,9 +909,6 @@ body {
     <div class="all-refs-controls">
       <button class="qf-btn active" data-qf2="tous">Tous</button>
       <button class="qf-btn" data-qf2="dispo">Disponibles</button>
-      <button class="qf-btn" data-qf2="Homme">Homme</button>
-      <button class="qf-btn" data-qf2="Femme">Femme</button>
-      <button class="qf-btn" data-qf2="Mixte">Mixte</button>
       <span class="all-refs-count" id="all-refs-count"></span>
     </div>
     <div class="all-refs-grid" id="all-refs-grid"></div>
@@ -937,9 +940,6 @@ body {
   <div class="cat-controls">
     <button class="qf-btn active" data-qf="tous">Tous</button>
     <button class="qf-btn" data-qf="dispo">Disponibles</button>
-    <button class="qf-btn" data-qf="Homme">Homme</button>
-    <button class="qf-btn" data-qf="Femme">Femme</button>
-    <button class="qf-btn" data-qf="Mixte">Mixte</button>
     <select id="famille-filter" style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-600);padding:5px 10px;border:1px solid var(--gray-200);background:transparent;cursor:pointer;appearance:none;-webkit-appearance:none;outline:none;">
       <option value="">Toutes familles</option>
       <option value="Boisé">Boisé</option>
@@ -1639,9 +1639,6 @@ function renderCatalogue() {
   let filtered = allData.filter(p => {
     if (activeBrand && p.marque !== activeBrand) return false;
     if (activeQF === 'dispo' && !isDispo(p.dispo)) return false;
-    if (activeQF === 'Homme' && p.genre !== 'Homme') return false;
-    if (activeQF === 'Femme' && p.genre !== 'Femme') return false;
-    if (activeQF === 'Mixte' && p.genre !== 'Mixte') return false;
     if (familleFilter && p.famille !== familleFilter) return false;
     if (searchQuery) {
       if (!fuzzyMatch(searchQuery, p.nom) && !fuzzyMatch(searchQuery, p.marque) && !fuzzyMatch(searchQuery, p.notes)) return false;
@@ -2140,6 +2137,18 @@ function renderDecantes() {
 let currentMainView = 'maisons'; // 'maisons' | 'refs'
 let activeQF2 = 'tous';
 
+function resetFamilleFilter() {
+  familleFilter = '';
+  const wrap = document.getElementById('famille-chips');
+  if (wrap) {
+    wrap.querySelectorAll('.famille-chip').forEach(b => {
+      b.classList.toggle('active', b.dataset.fam === '');
+    });
+  }
+  const sel = document.getElementById('famille-filter');
+  if (sel) sel.value = '';
+}
+
 function setMainView(view) {
   currentMainView = view;
   const maisonsWrap  = document.getElementById('maisons-wrap');
@@ -2168,9 +2177,6 @@ function renderAllRefs() {
   let filtered = allData.filter(p => {
     if (familleFilter && p.famille !== familleFilter) return false;
     if (activeQF2 === 'dispo' && !isDispo(p.dispo)) return false;
-    if (activeQF2 === 'Homme' && p.genre !== 'Homme') return false;
-    if (activeQF2 === 'Femme' && p.genre !== 'Femme') return false;
-    if (activeQF2 === 'Mixte' && p.genre !== 'Mixte') return false;
     return true;
   });
 
@@ -2229,8 +2235,14 @@ function renderAllRefs() {
 }
 
 // Event listeners toggle
-document.getElementById('toggle-maisons').addEventListener('click', () => setMainView('maisons'));
-document.getElementById('toggle-refs').addEventListener('click', () => setMainView('refs'));
+document.getElementById('toggle-maisons').addEventListener('click', () => {
+  resetFamilleFilter();
+  setMainView('maisons');
+});
+document.getElementById('toggle-refs').addEventListener('click', () => {
+  resetFamilleFilter();
+  setMainView('refs');
+});
 
 // Filtres toutes références
 document.querySelectorAll('[data-qf2]').forEach(btn => {
