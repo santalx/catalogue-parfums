@@ -1701,11 +1701,31 @@ function familleStyle(f) {
   return FAMILLE_COLORS[key] || { bg: 'rgba(0,0,0,0.6)', fg: '#fff' };
 }
 
-// Étiquette famille posée en haut à droite de la photo
-function familleBadge(f) {
-  if (!f) return '';
-  const s = familleStyle(f);
-  return `<span style="position:absolute;top:8px;right:8px;background:${s.bg};color:${s.fg};font-size:9px;font-weight:500;letter-spacing:.1em;padding:4px 10px;border-radius:4px;text-transform:uppercase">${f}</span>`;
+// Un parfum peut porter plusieurs familles, séparées par une virgule
+function famillesOf(valeur) {
+  if (!valeur) return [];
+  return String(valeur)
+    .split(/[,;/]+/)
+    .map(f => f.trim())
+    .filter(Boolean);
+}
+
+// Un parfum correspond-il à la famille filtrée ?
+function matchFamille(valeur, filtre) {
+  if (!filtre) return true;
+  const cible = normalize(filtre);
+  return famillesOf(valeur).some(f => normalize(f) === cible);
+}
+
+// Étiquettes familles posées en haut à droite de la photo
+function familleBadge(valeur) {
+  const liste = famillesOf(valeur);
+  if (liste.length === 0) return '';
+  const etiquettes = liste.map(f => {
+    const s = familleStyle(f);
+    return `<span style="background:${s.bg};color:${s.fg};font-size:9px;font-weight:500;letter-spacing:.1em;padding:4px 10px;border-radius:4px;text-transform:uppercase;white-space:nowrap">${f}</span>`;
+  }).join('');
+  return `<div style="position:absolute;top:8px;right:8px;display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end;max-width:calc(100% - 16px)">${etiquettes}</div>`;
 }
 
 // Mention blister sous le volume
@@ -1722,7 +1742,12 @@ function notesLine(n) {
 
 /* ── PASTILLES FAMILLES ── */
 function buildFamilleChips() {
-  const familles = [...new Set(allData.map(p => p.famille).filter(Boolean))].sort();
+  const vues = new Map();
+  allData.forEach(p => famillesOf(p.famille).forEach(f => {
+    const k = normalize(f);
+    if (k && !vues.has(k)) vues.set(k, f);
+  }));
+  const familles = [...vues.values()].sort((a, b) => a.localeCompare(b));
   if (familles.length === 0) return;
 
   document.getElementById('famille-bar').style.display = 'block';
@@ -1949,7 +1974,7 @@ function renderCatalogue() {
   let filtered = allData.filter(p => {
     if (activeBrand && p.marque !== activeBrand) return false;
     if (activeQF === 'dispo' && !isDispo(p.dispo)) return false;
-    if (familleFilter && p.famille !== familleFilter) return false;
+    if (!matchFamille(p.famille, familleFilter)) return false;
     if (searchQuery) {
       if (!fuzzyMatch(searchQuery, p.nom) && !fuzzyMatch(searchQuery, p.marque) && !fuzzyMatch(searchQuery, p.notes)) return false;
     }
@@ -2674,7 +2699,7 @@ function renderAllRefs() {
   const countEl = document.getElementById('all-refs-count');
 
   let filtered = allData.filter(p => {
-    if (familleFilter && p.famille !== familleFilter) return false;
+    if (!matchFamille(p.famille, familleFilter)) return false;
     if (activeQF2 === 'dispo' && !isDispo(p.dispo)) return false;
     return true;
   });
