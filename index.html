@@ -542,19 +542,20 @@ body {
 /* ── BANDE PERSONAL SHOPPER ── */
 .ps-band { max-width: 1280px; margin: 0 auto 1rem; padding: 0 2.5rem; }
 .ps-band-inner {
-  background: var(--black); color: var(--white); padding: 2rem;
+  background: linear-gradient(135deg, #C9A84C, #E8CC7A, #B8922E);
+  color: #3A2E0A; padding: 2rem;
   display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
 }
-.ps-band-eyebrow { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 8px; }
-.ps-band-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; font-style: italic; color: var(--white); line-height: 1.25; }
-.ps-band-sub { font-size: 11px; font-weight: 300; letter-spacing: .03em; color: var(--gray-400); margin-top: 6px; }
+.ps-band-eyebrow { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: #6B5415; margin-bottom: 8px; }
+.ps-band-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; font-style: italic; color: #2A2006; line-height: 1.25; }
+.ps-band-sub { font-size: 11px; font-weight: 400; letter-spacing: .03em; color: #5C4810; margin-top: 6px; }
 .ps-band-btn {
   font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500;
   letter-spacing: .12em; text-transform: uppercase;
-  background: var(--white); color: var(--black); border: 1px solid var(--white);
+  background: var(--black); color: var(--white); border: 1px solid var(--black);
   padding: 13px 26px; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all 0.15s;
 }
-.ps-band-btn:hover { background: transparent; color: var(--white); }
+.ps-band-btn:hover { background: transparent; color: #2A2006; border-color: #2A2006; }
 
 /* Bouton sous la notice des maisons personal shopper */
 .ps-notice-btn {
@@ -615,10 +616,10 @@ body {
 .ps-check input { margin-top: 2px; accent-color: #9A7B3F; cursor: pointer; flex-shrink: 0; }
 .ps-check label { font-size: 11px; font-weight: 300; color: var(--gray-600); line-height: 1.6; cursor: pointer; }
 
-.ps-consent { border: 1px solid #9A7B3F; padding: 1.25rem; margin-top: 2rem; background: rgba(154,123,63,0.04); }
+.ps-consent { border: 1px solid var(--gray-200); padding: 1.25rem; margin-top: 2rem; }
 .ps-consent .ps-check { margin-top: 0; }
 .ps-consent .ps-check label { color: var(--black); font-weight: 400; }
-.ps-rgpd { font-size: 10px; font-weight: 300; color: var(--gray-600); line-height: 1.75; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(154,123,63,0.3); }
+.ps-rgpd { font-size: 10px; font-weight: 300; color: var(--gray-400); line-height: 1.75; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--gray-200); }
 
 .ps-submit {
   width: 100%; margin-top: 1.75rem; padding: 15px;
@@ -650,6 +651,63 @@ body {
   .ps-form-wrap { padding: 2rem 1.25rem 4rem; }
   .ps-row { grid-template-columns: 1fr; gap: 1.25rem; }
   .ps-brands { grid-template-columns: 1fr; }
+}
+
+
+/* ── INVITATION PERSONAL SHOPPER (flottante) ── */
+.ps-pop {
+  position: fixed; bottom: 28px; left: 28px; z-index: 600;
+  width: 290px; background: var(--white);
+  border: 1px solid var(--gray-200);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.14);
+  padding: 1.4rem 1.4rem 1.25rem;
+  opacity: 0; visibility: hidden; transform: translateY(14px);
+  transition: opacity .35s cubic-bezier(.22,1,.36,1), transform .35s cubic-bezier(.22,1,.36,1), visibility .35s;
+}
+.ps-pop.open { opacity: 1; visibility: visible; transform: translateY(0); }
+.ps-pop::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #C9A84C, #E8CC7A, #B8922E);
+}
+.ps-pop-actions { position: absolute; top: 10px; right: 10px; display: flex; gap: 2px; }
+.ps-pop-actions button {
+  background: none; border: none; cursor: pointer; color: var(--gray-400);
+  padding: 4px; line-height: 0; transition: color .15s;
+}
+.ps-pop-actions button:hover { color: var(--black); }
+.ps-pop-eyebrow { font-size: 8px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: #9A7B3F; margin-bottom: 8px; }
+.ps-pop-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 400; font-style: italic; color: var(--black); line-height: 1.3; margin-bottom: 7px; padding-right: 2.2rem; }
+.ps-pop-sub { font-size: 11px; font-weight: 300; color: var(--gray-600); line-height: 1.6; margin-bottom: 1.1rem; }
+.ps-pop-cta {
+  width: 100%; padding: 11px; font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+  background: var(--black); color: var(--white); border: 1px solid var(--black);
+  cursor: pointer; transition: all .15s;
+}
+.ps-pop-cta:hover { background: var(--white); color: var(--black); }
+
+/* Version réduite */
+.ps-pill {
+  position: fixed; bottom: 28px; left: 28px; z-index: 600;
+  display: flex; align-items: center; gap: 8px;
+  padding: 11px 18px; cursor: pointer;
+  background: linear-gradient(135deg, #C9A84C, #E8CC7A, #B8922E);
+  color: #2A2006; border: none;
+  font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase; white-space: nowrap;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+  opacity: 0; visibility: hidden; transform: translateY(14px);
+  transition: opacity .3s, transform .3s, visibility .3s, box-shadow .2s;
+}
+.ps-pill.open { opacity: 1; visibility: visible; transform: translateY(0); }
+.ps-pill:hover { box-shadow: 0 8px 26px rgba(0,0,0,0.24); }
+
+@media (max-width: 768px) {
+  .ps-pop { left: 16px; right: 16px; width: auto; bottom: 90px; padding: 1.2rem; }
+  .ps-pill { left: 16px; bottom: 24px; padding: 10px 15px; font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ps-pop, .ps-pill { transition: none; }
 }
 
 /* ── PASTILLES FAMILLES ── */
@@ -1332,6 +1390,27 @@ body {
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
+
+<!-- INVITATION PERSONAL SHOPPER -->
+<div class="ps-pop" id="ps-pop">
+  <div class="ps-pop-actions">
+    <button id="ps-pop-min" aria-label="Réduire" title="Réduire">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+    </button>
+    <button id="ps-pop-close" aria-label="Fermer" title="Fermer">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <p class="ps-pop-eyebrow">Service sur mesure</p>
+  <p class="ps-pop-title">Vous ne trouvez pas votre parfum&nbsp;?</p>
+  <p class="ps-pop-sub">Dites-nous ce que vous cherchez, nous nous chargeons de le trouver.</p>
+  <button class="ps-pop-cta" id="ps-pop-cta">Faire une demande</button>
+</div>
+
+<button class="ps-pill" id="ps-pill">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+  Personal shopper
+</button>
 
 <!-- WHATSAPP FAB -->
 <a class="wa-fab" href="https://wa.me/33756989391" target="_blank" rel="noopener" id="wa-fab">
@@ -2612,6 +2691,83 @@ const PS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwWUla8QCX1OFweh2FI
       submitBtn.textContent = 'Envoyer ma demande';
     }
   });
+})();
+
+
+/* ═══════════════════════════════════════════════
+   INVITATION PERSONAL SHOPPER
+   Apparaît une fois les sections de mise en avant parcourues.
+═══════════════════════════════════════════════ */
+(function () {
+  const pop   = document.getElementById('ps-pop');
+  const pill  = document.getElementById('ps-pill');
+  const CLE   = 'sx_ps_pop';           // mémorise le choix du visiteur
+  let etat    = sessionStorage.getItem(CLE) || 'neuf';
+  let affiche = false;
+
+  function montrer(mode) {
+    if (mode === 'carte') { pop.classList.add('open'); pill.classList.remove('open'); }
+    else if (mode === 'pastille') { pop.classList.remove('open'); pill.classList.add('open'); }
+    else { pop.classList.remove('open'); pill.classList.remove('open'); }
+  }
+
+  function memoriser(v) {
+    etat = v;
+    try { sessionStorage.setItem(CLE, v); } catch (e) {}
+  }
+
+  // Réduire : la carte devient une simple pastille
+  document.getElementById('ps-pop-min').addEventListener('click', () => {
+    memoriser('reduit');
+    montrer('pastille');
+  });
+
+  // Fermer : plus rien jusqu'à la prochaine visite
+  document.getElementById('ps-pop-close').addEventListener('click', () => {
+    memoriser('ferme');
+    montrer('rien');
+  });
+
+  // La pastille rouvre la carte
+  pill.addEventListener('click', () => {
+    memoriser('neuf');
+    montrer('carte');
+  });
+
+  document.getElementById('ps-pop-cta').addEventListener('click', () => {
+    memoriser('ferme');
+    montrer('rien');
+    window.openPersonalShopper();
+  });
+
+  // Déclenchement : une fois la grille des maisons atteinte
+  function verifier() {
+    if (etat === 'ferme') { montrer('rien'); return; }
+    if (document.getElementById('view-maisons').style.display === 'none') {
+      montrer('rien');
+      affiche = false;
+      return;
+    }
+    const repere = document.getElementById('brands-grid');
+    if (!repere) return;
+    const atteint = repere.getBoundingClientRect().top < window.innerHeight * 0.6;
+    if (atteint && !affiche) {
+      affiche = true;
+      montrer(etat === 'reduit' ? 'pastille' : 'carte');
+    } else if (!atteint && affiche) {
+      affiche = false;
+      montrer('rien');
+    }
+  }
+
+  let tick = false;
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => { verifier(); tick = false; });
+  }, { passive: true });
+
+  window.addEventListener('load', verifier);
 })();
 
 /* ═══════════════════════════════════════════════
