@@ -883,6 +883,27 @@ body {
 .lightbox-close:hover { opacity: 1; }
 .card-img { cursor: zoom-in; }
 
+
+/* ── SUGGESTIONS PANIER ── */
+.cart-upsell { border-top: 1px solid var(--gray-200); padding: 1.1rem 1.75rem; }
+.cart-upsell-head { font-size: 9px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: #9A7B3F; margin-bottom: .85rem; }
+.cart-upsell-list { display: flex; flex-direction: column; gap: 7px; }
+.cart-upsell-item {
+  display: flex; align-items: center; gap: 11px;
+  border: 1px solid var(--gray-200); padding: 9px 11px;
+  cursor: pointer; transition: border-color .15s, background .15s;
+}
+.cart-upsell-item:hover { border-color: #9A7B3F; background: rgba(154,123,63,0.04); }
+.cart-upsell-item.done { border-color: var(--gray-200); background: var(--gray-100); cursor: default; }
+.cu-img { width: 36px; height: 44px; flex-shrink: 0; background: var(--gray-100); overflow: hidden; }
+.cu-img img { width: 100%; height: 100%; object-fit: cover; }
+.cu-body { flex: 1; min-width: 0; }
+.cu-marque { font-size: 8px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--gray-400); }
+.cu-nom { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 400; color: var(--black); line-height: 1.2; }
+.cu-vol { font-size: 9px; font-weight: 300; color: var(--gray-400); margin-top: 1px; }
+.cu-prix { font-size: 12px; font-weight: 500; color: #9A7B3F; white-space: nowrap; flex-shrink: 0; }
+.cart-upsell-item.done .cu-prix { color: var(--gray-400); }
+
 /* ── TOAST ── */
 .toast {
   position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
@@ -1356,6 +1377,11 @@ body {
     </div>
     <div id="cart-items-list"></div>
   </div>
+  <div class="cart-upsell" id="cart-upsell" style="display:none">
+    <p class="cart-upsell-head">Complétez votre commande</p>
+    <div class="cart-upsell-list" id="cart-upsell-list"></div>
+  </div>
+
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-line"><span class="lbl">Sous-total</span><span id="cart-subtotal">0 €</span></div>
     <div class="cart-line"><span class="lbl">Frais de port</span><span id="cart-shipping">10 €</span></div>
@@ -2239,6 +2265,7 @@ function renderCart() {
     emptyEl.style.display = 'flex';
     footerEl.style.display = 'none';
     listEl.innerHTML = '';
+    if (typeof renderUpsell === 'function') renderUpsell();
     updateCheckoutState();
     return;
   }
@@ -2275,6 +2302,7 @@ function renderCart() {
   document.getElementById('cart-shipping').textContent = formatPrix(SHIPPING_FEE);
   document.getElementById('cart-total').textContent = formatPrix(total);
 
+  if (typeof renderUpsell === 'function') renderUpsell();
   updateCheckoutState();
 }
 
@@ -2693,6 +2721,57 @@ const PS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwWUla8QCX1OFweh2FI
   });
 })();
 
+
+
+/* ═══════════════════════════════════════════════
+   SUGGESTIONS PANIER
+   Pour modifier : changez les lignes ci-dessous.
+   La photo est reprise du catalogue si le nom correspond,
+   sinon indiquez une adresse d'image dans "photo".
+═══════════════════════════════════════════════ */
+const UPSELL = [
+  { id: 'up1', marque: 'Ex Nihilo', nom: 'Blue Talisman', volume: '10 ml',  prix: 30, photo: '' },
+  { id: 'up2', marque: 'Dior', nom: 'Ambre Nuit',    volume: '7,5 ml', prix: 30, photo: '' },
+  { id: 'up3', marque: 'Dior', nom: 'Gris Dior',     volume: '7,5 ml', prix: 30, photo: '' }
+];
+
+function photoUpsell(u) {
+  if (u.photo) return u.photo;
+  const trouve = allData.find(p => normalize(p.nom) === normalize(u.nom) && normalize(p.marque) === normalize(u.marque));
+  return trouve ? trouve.photo : '';
+}
+
+function renderUpsell() {
+  const bloc = document.getElementById('cart-upsell');
+  const liste = document.getElementById('cart-upsell-list');
+  if (cart.length === 0) { bloc.style.display = 'none'; return; }
+
+  bloc.style.display = 'block';
+  liste.innerHTML = UPSELL.map(u => {
+    const dedans = cart.some(c => c.id === u.id);
+    const src = photoUpsell(u);
+    return `
+      <div class="cart-upsell-item${dedans ? ' done' : ''}" data-up="${u.id}">
+        <div class="cu-img">${src ? `<img src="${src}" alt="${u.nom}" loading="lazy">` : ''}</div>
+        <div class="cu-body">
+          <p class="cu-marque">${u.marque}</p>
+          <p class="cu-nom">${u.nom}</p>
+          <p class="cu-vol">${u.volume}</p>
+        </div>
+        <span class="cu-prix">${dedans ? 'Ajouté' : '+ ' + u.prix + '\u202f€'}</span>
+      </div>`;
+  }).join('');
+}
+
+document.getElementById('cart-upsell-list').addEventListener('click', e => {
+  const el = e.target.closest('.cart-upsell-item');
+  if (!el || el.classList.contains('done')) return;
+  const u = UPSELL.find(x => x.id === el.dataset.up);
+  if (!u) return;
+  cart.push({ id: u.id, nom: u.nom, marque: u.marque, prix: u.prix, volume: u.volume, photo: photoUpsell(u), qty: 1 });
+  renderCart();
+  showToast(`${u.nom} ajouté au panier`);
+});
 
 /* ═══════════════════════════════════════════════
    INVITATION PERSONAL SHOPPER
