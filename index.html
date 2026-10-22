@@ -688,7 +688,8 @@ body {
 
 
 /* ── TABLEAU DES DEMANDES ── */
-.ps-table-hint { font-size: 11px; font-weight: 300; color: var(--gray-600); line-height: 1.6; margin-bottom: 1rem; }
+.ps-table-hint { font-size: 11px; font-weight: 300; color: var(--gray-600); line-height: 1.7; margin-bottom: 1rem; }
+.ps-table-hint strong { display: inline-block; margin-top: 7px; font-weight: 500; color: var(--black); }
 .ps-rows { display: flex; flex-direction: column; gap: 10px; }
 .ps-row-item {
   display: grid; grid-template-columns: 1fr 1.3fr 0.75fr 30px;
@@ -1281,7 +1282,8 @@ body {
 
         <div class="ps-section">
           <p class="ps-label">Vos recherches</p>
-          <p class="ps-table-hint">Indiquez une ligne par parfum recherché. La maison peut être saisie librement si elle ne figure pas dans la liste.</p>
+          <p class="ps-table-hint">Indiquez une ligne par parfum recherché. La maison peut être saisie librement si elle ne figure pas dans la liste.<br>
+            <strong>Ces références font l'objet d'une recherche personnalisée. Elles sont obtenues spécialement à votre demande et ne figurent pas nécessairement à notre catalogue.</strong></p>
 
           <div class="ps-rows" id="ps-rows"></div>
 
