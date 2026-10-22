@@ -588,29 +588,6 @@ body {
 .ps-field input:focus, .ps-field textarea:focus { border-color: var(--black); }
 .ps-field input.err, .ps-field textarea.err { border-color: var(--red); }
 
-.ps-brand-search { position: relative; margin-bottom: 0.9rem; }
-.ps-brand-search input {
-  width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--gray-200);
-  padding: 8px 26px 8px 0; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 300;
-  color: var(--black); outline: none;
-}
-.ps-brand-search input:focus { border-bottom-color: var(--black); }
-.ps-brand-search svg { position: absolute; right: 0; top: 50%; transform: translateY(-50%); color: var(--gray-400); pointer-events: none; }
-
-.ps-brands {
-  max-height: 230px; overflow-y: auto; border: 1px solid var(--gray-200);
-  padding: 0.75rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
-}
-.ps-brand-item {
-  display: flex; align-items: center; gap: 9px; padding: 7px 8px; cursor: pointer;
-  font-size: 12px; font-weight: 300; color: var(--black); transition: background 0.12s;
-}
-.ps-brand-item:hover { background: var(--gray-100); }
-.ps-brand-item input { accent-color: #9A7B3F; cursor: pointer; flex-shrink: 0; }
-.ps-brands-empty { grid-column: 1/-1; padding: 1.5rem; text-align: center; font-size: 11px; color: var(--gray-400); }
-
-.ps-hint { font-size: 10px; font-weight: 300; color: var(--gray-400); margin-top: 6px; letter-spacing: .02em; }
-.ps-selected-count { font-size: 10px; font-weight: 400; letter-spacing: .06em; color: #9A7B3F; margin-top: 10px; min-height: 14px; }
 
 .ps-check { display: flex; align-items: flex-start; gap: 10px; margin-top: 1rem; }
 .ps-check input { margin-top: 2px; accent-color: #9A7B3F; cursor: pointer; flex-shrink: 0; }
@@ -650,7 +627,6 @@ body {
   .ps-band-btn { width: 100%; }
   .ps-form-wrap { padding: 2rem 1.25rem 4rem; }
   .ps-row { grid-template-columns: 1fr; gap: 1.25rem; }
-  .ps-brands { grid-template-columns: 1fr; }
 }
 
 
@@ -708,6 +684,69 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   .ps-pop, .ps-pill { transition: none; }
+}
+
+
+/* ── TABLEAU DES DEMANDES ── */
+.ps-table-hint { font-size: 11px; font-weight: 300; color: var(--gray-600); line-height: 1.6; margin-bottom: 1rem; }
+.ps-rows { display: flex; flex-direction: column; gap: 10px; }
+.ps-row-item {
+  display: grid; grid-template-columns: 1fr 1.3fr 0.75fr 30px;
+  gap: 10px; align-items: end;
+  border: 1px solid var(--gray-200); padding: 12px; position: relative;
+}
+.ps-row-item .ps-cell { display: flex; flex-direction: column; min-width: 0; }
+.ps-row-item .ps-cell label {
+  font-size: 9px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--gray-400); margin-bottom: 5px;
+}
+.ps-row-item input {
+  width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--gray-200);
+  padding: 6px 0; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 300;
+  color: var(--black); outline: none; transition: border-color .15s;
+}
+.ps-row-item input:focus { border-bottom-color: #9A7B3F; }
+.ps-row-item input.err { border-bottom-color: var(--red); }
+.ps-row-del {
+  background: none; border: none; cursor: pointer; color: var(--gray-400);
+  padding: 4px; line-height: 0; align-self: center; transition: color .15s;
+}
+.ps-row-del:hover { color: var(--red); }
+.ps-row-del:disabled { opacity: .25; cursor: not-allowed; }
+.ps-row-num {
+  position: absolute; top: -8px; left: 10px; background: var(--white);
+  font-size: 9px; font-weight: 500; letter-spacing: .14em; color: #9A7B3F; padding: 0 6px;
+}
+.ps-add-row {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 12px;
+  font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase;
+  background: transparent; color: #9A7B3F; border: 1px dashed #9A7B3F;
+  padding: 10px 18px; cursor: pointer; transition: all .15s;
+}
+.ps-add-row:hover { background: rgba(154,123,63,.07); }
+.ps-add-row:disabled { opacity: .4; cursor: not-allowed; }
+
+/* ── INDICATIF PAYS ── */
+.ps-tel-row { display: grid; grid-template-columns: 118px 1fr; gap: 10px; }
+.ps-tel-row select {
+  background: transparent; border: none; border-bottom: 1px solid var(--gray-200);
+  padding: 8px 0; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 300;
+  color: var(--black); outline: none; cursor: pointer; transition: border-color .15s;
+}
+.ps-tel-row select:focus { border-bottom-color: var(--black); }
+
+/* ── AVERTISSEMENT ── */
+.ps-warning {
+  font-size: 11px; font-weight: 400; color: var(--red);
+  line-height: 1.65; letter-spacing: .02em; margin-top: 1.75rem;
+}
+
+@media (max-width: 768px) {
+  .ps-row-item { grid-template-columns: 1fr 30px; gap: 12px 10px; }
+  .ps-row-item .ps-cell:nth-child(2) { grid-column: 1 / 2; }
+  .ps-row-del { grid-row: 1; grid-column: 2; align-self: start; }
+  .ps-add-row { width: 100%; justify-content: center; }
 }
 
 /* ── PASTILLES FAMILLES ── */
@@ -1232,38 +1271,53 @@ body {
             </div>
             <div class="ps-field">
               <label for="ps-tel">Téléphone <span class="req">*</span></label>
-              <input type="tel" id="ps-tel" autocomplete="tel" inputmode="tel" placeholder="+33 6 12 34 56 78" required>
-              <span class="ps-hint">Indicatif pays obligatoire : +33 France, +32 Belgique, +41 Suisse</span>
+              <div class="ps-tel-row">
+                <select id="ps-indicatif" aria-label="Indicatif pays"></select>
+                <input type="tel" id="ps-tel" autocomplete="tel" inputmode="tel" placeholder="6 12 34 56 78" required>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="ps-section">
-          <p class="ps-label">Maisons recherchées</p>
-          <div class="ps-brand-search">
-            <input type="text" id="ps-brand-search" placeholder="Filtrer les maisons…" autocomplete="off">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          </div>
-          <div class="ps-brands" id="ps-brands"></div>
-          <p class="ps-selected-count" id="ps-selected-count"></p>
+          <p class="ps-label">Vos recherches</p>
+          <p class="ps-table-hint">Indiquez une ligne par parfum recherché. La maison peut être saisie librement si elle ne figure pas dans la liste.</p>
 
-          <div class="ps-check">
-            <input type="checkbox" id="ps-other-brand">
-            <label for="ps-other-brand">Ma maison ne figure pas dans la liste</label>
-          </div>
-          <div class="ps-field" id="ps-other-field" style="display:none;margin-top:1rem">
-            <label for="ps-other-input">Précisez la ou les maisons</label>
-            <input type="text" id="ps-other-input" placeholder="Ex. Nishane, Roja Parfums…" autocomplete="off">
-          </div>
+          <div class="ps-rows" id="ps-rows"></div>
+
+          <button type="button" class="ps-add-row" id="ps-add-row">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            Ajouter une référence
+          </button>
+
+          <datalist id="ps-maisons-list"></datalist>
+          <datalist id="ps-formats-list">
+            <option value="Peu importe"></option>
+            <option value="7,5 ml"></option>
+            <option value="10 ml"></option>
+            <option value="30 ml"></option>
+            <option value="50 ml"></option>
+            <option value="70 ml"></option>
+            <option value="75 ml"></option>
+            <option value="90 ml"></option>
+            <option value="100 ml"></option>
+            <option value="125 ml"></option>
+            <option value="200 ml"></option>
+            <option value="250 ml"></option>
+          </datalist>
         </div>
 
         <div class="ps-section">
-          <p class="ps-label">Votre recherche</p>
+          <p class="ps-label">Commentaire</p>
           <div class="ps-field">
-            <label for="ps-refs">Références recherchées <span class="req">*</span></label>
-            <textarea id="ps-refs" placeholder="Indiquez les noms des parfums, les contenances souhaitées, ou décrivez simplement ce que vous cherchez."></textarea>
+            <label for="ps-comment">Une précision à nous apporter&nbsp;? (facultatif)</label>
+            <textarea id="ps-comment" placeholder="Budget, urgence, préférence de concentration, toute information utile."></textarea>
           </div>
         </div>
+
+        <p class="ps-warning">
+          Merci de ne pas nous écrire pour demander des nouvelles de votre demande. Sans retour de notre part, c'est que la référence n'est pas disponible.
+        </p>
 
         <div class="ps-consent">
           <div class="ps-check">
@@ -2542,31 +2596,61 @@ function renderDecantes() {
    FORMULAIRE PERSONAL SHOPPER
 ═══════════════════════════════════════════════ */
 
-// Adresse du script Google Apps Script (à remplacer après déploiement)
+// Adresse du script Google Apps Script
 const PS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwWUla8QCX1OFweh2FIuL9kambGmgpFTzwokkB8FZ3BT83hINFl2c-hgj0te_vi8I-q/exec';
 
-(function () {
-  const form        = document.getElementById('ps-form');
-  const formBlock   = document.getElementById('ps-form-block');
-  const successBlk  = document.getElementById('ps-success');
-  const submitBtn   = document.getElementById('ps-submit');
-  const consent     = document.getElementById('ps-consent');
-  const feedback    = document.getElementById('ps-feedback');
-  const brandsWrap  = document.getElementById('ps-brands');
-  const brandSearch = document.getElementById('ps-brand-search');
-  const countEl     = document.getElementById('ps-selected-count');
-  const otherCheck  = document.getElementById('ps-other-brand');
-  const otherField  = document.getElementById('ps-other-field');
-  const otherInput  = document.getElementById('ps-other-input');
+// Indicatifs proposés, le premier est sélectionné par défaut
+const INDICATIFS = [
+  { code: '+33', pays: 'France' },
+  { code: '+32', pays: 'Belgique' },
+  { code: '+41', pays: 'Suisse' },
+  { code: '+352', pays: 'Luxembourg' },
+  { code: '+377', pays: 'Monaco' },
+  { code: '+34', pays: 'Espagne' },
+  { code: '+39', pays: 'Italie' },
+  { code: '+351', pays: 'Portugal' },
+  { code: '+49', pays: 'Allemagne' },
+  { code: '+31', pays: 'Pays-Bas' },
+  { code: '+44', pays: 'Royaume-Uni' },
+  { code: '+1', pays: 'États-Unis / Canada' },
+  { code: '+212', pays: 'Maroc' },
+  { code: '+213', pays: 'Algérie' },
+  { code: '+216', pays: 'Tunisie' },
+  { code: '+971', pays: 'Émirats arabes unis' },
+  { code: '+974', pays: 'Qatar' },
+  { code: '+966', pays: 'Arabie saoudite' },
+  { code: '+65', pays: 'Singapour' },
+  { code: '+81', pays: 'Japon' },
+  { code: '+61', pays: 'Australie' }
+];
 
-  let selected = new Set();
+const PS_MAX_LIGNES = 10;
+
+(function () {
+  const form       = document.getElementById('ps-form');
+  const formBlock  = document.getElementById('ps-form-block');
+  const successBlk = document.getElementById('ps-success');
+  const submitBtn  = document.getElementById('ps-submit');
+  const consent    = document.getElementById('ps-consent');
+  const feedback   = document.getElementById('ps-feedback');
+  const rowsWrap   = document.getElementById('ps-rows');
+  const addBtn     = document.getElementById('ps-add-row');
+  const indicatif  = document.getElementById('ps-indicatif');
+  const telInput   = document.getElementById('ps-tel');
+  const maisonsDL  = document.getElementById('ps-maisons-list');
+
+  /* ── Indicatifs ── */
+  indicatif.innerHTML = INDICATIFS
+    .map(i => `<option value="${i.code}" title="${i.pays}">${i.code} ${i.pays}</option>`)
+    .join('');
+  indicatif.value = '+33';
 
   /* ── Ouverture ── */
   function openPS() {
     showView('ps');
-    if (brandsWrap.childElementCount === 0) {
-      brandsWrap.innerHTML = '<p class="ps-brands-empty">Chargement des maisons…</p>';
-      buildBrandList();
+    if (rowsWrap.childElementCount === 0) {
+      remplirMaisons();
+      ajouterLigne();
     }
   }
   window.openPersonalShopper = openPS;
@@ -2576,109 +2660,110 @@ const PS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwWUla8QCX1OFweh2FI
   document.getElementById('ps-back-btn').addEventListener('click', goBack);
   document.getElementById('ps-success-back').addEventListener('click', goBack);
 
-  /* ── Maisons disponibles sur commande (onglet Maisons_Sur_Commande) ── */
+  /* ── Maisons proposées en autocomplétion ── */
   async function chargerMaisonsSurCommande() {
     const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent('Maisons_Sur_Commande')}`;
     try {
       const txt  = await (await fetch(url)).text();
       const json = JSON.parse(txt.substring(47, txt.length - 2));
-      return json.table.rows
-        .map(r => String(r.c[0]?.v || '').trim())
-        .filter(Boolean);
+      return json.table.rows.map(r => String(r.c[0]?.v || '').trim()).filter(Boolean);
     } catch (err) {
-      return []; // onglet absent ou vide, on continue sans
+      return [];
     }
   }
 
-  /* ── Liste des maisons : catalogue + sur commande ── */
-  async function buildBrandList() {
+  async function remplirMaisons() {
     const duCatalogue = [...new Set(allData.map(p => p.marque).filter(Boolean))];
-    const surCommande = await chargerMaisonsSurCommande();
-
-    // Évite les doublons si une maison figure déjà au catalogue
-    const dejaLa = new Set(duCatalogue.map(m => normalize(m)));
-    const extras = surCommande.filter(m => !dejaLa.has(normalize(m)));
-
-    const toutes = [...duCatalogue, ...extras].sort((a, b) => a.localeCompare(b));
-
-    brandsWrap.innerHTML = toutes.map(m => `
-      <label class="ps-brand-item" data-brand="${m}">
-        <input type="checkbox" value="${m}">
-        <span>${m}</span>
-      </label>`).join('');
-
-    brandsWrap.addEventListener('change', e => {
-      if (e.target.type !== 'checkbox') return;
-      if (e.target.checked) selected.add(e.target.value);
-      else selected.delete(e.target.value);
-      updateCount();
-    });
+    const extras      = await chargerMaisonsSurCommande();
+    const dejaLa      = new Set(duCatalogue.map(m => normalize(m)));
+    const toutes = [...duCatalogue, ...extras.filter(m => !dejaLa.has(normalize(m)))]
+      .sort((a, b) => a.localeCompare(b));
+    maisonsDL.innerHTML = toutes.map(m => `<option value="${m}"></option>`).join('');
   }
 
-  function updateCount() {
-    const n = selected.size;
-    countEl.textContent = n === 0 ? '' : n + ' maison' + (n > 1 ? 's' : '') + ' sélectionnée' + (n > 1 ? 's' : '');
+  /* ── Lignes du tableau ── */
+  function ajouterLigne() {
+    if (rowsWrap.childElementCount >= PS_MAX_LIGNES) return;
+
+    const div = document.createElement('div');
+    div.className = 'ps-row-item';
+    div.innerHTML = `
+      <span class="ps-row-num"></span>
+      <div class="ps-cell">
+        <label>Maison</label>
+        <input type="text" class="r-maison" list="ps-maisons-list" placeholder="Ex. Louis Vuitton" autocomplete="off">
+      </div>
+      <div class="ps-cell">
+        <label>Référence</label>
+        <input type="text" class="r-ref" placeholder="Ex. Ombre Nomade" autocomplete="off">
+      </div>
+      <div class="ps-cell">
+        <label>Format</label>
+        <input type="text" class="r-format" list="ps-formats-list" placeholder="100 ml" autocomplete="off">
+      </div>
+      <button type="button" class="ps-row-del" aria-label="Supprimer la ligne">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>`;
+
+    rowsWrap.appendChild(div);
+    div.querySelectorAll('input').forEach(i => i.addEventListener('input', checkValid));
+    div.querySelector('.ps-row-del').addEventListener('click', () => {
+      div.remove();
+      renumeroter();
+      checkValid();
+    });
+
+    renumeroter();
     checkValid();
+    div.querySelector('.r-maison').focus();
   }
 
-  /* ── Filtre de la liste ── */
-  brandSearch.addEventListener('input', () => {
-    const q = brandSearch.value.trim();
-    let visibles = 0;
-    brandsWrap.querySelectorAll('.ps-brand-item').forEach(item => {
-      const ok = !q || fuzzyMatch(q, item.dataset.brand);
-      item.style.display = ok ? 'flex' : 'none';
-      if (ok) visibles++;
+  function renumeroter() {
+    const lignes = [...rowsWrap.querySelectorAll('.ps-row-item')];
+    lignes.forEach((l, i) => {
+      l.querySelector('.ps-row-num').textContent = 'Référence ' + (i + 1);
+      l.querySelector('.ps-row-del').disabled = lignes.length === 1;
     });
-    let empty = brandsWrap.querySelector('.ps-brands-empty');
-    if (visibles === 0) {
-      if (!empty) {
-        empty = document.createElement('p');
-        empty.className = 'ps-brands-empty';
-        empty.textContent = 'Aucune maison trouvée. Cochez la case ci-dessous pour la préciser.';
-        brandsWrap.appendChild(empty);
-      }
-    } else if (empty) {
-      empty.remove();
+    addBtn.disabled = lignes.length >= PS_MAX_LIGNES;
+    addBtn.textContent = lignes.length >= PS_MAX_LIGNES ? 'Maximum atteint' : '';
+    if (lignes.length < PS_MAX_LIGNES) {
+      addBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Ajouter une référence`;
     }
-  });
+  }
 
-  /* ── Maison absente de la liste ── */
-  otherCheck.addEventListener('change', () => {
-    otherField.style.display = otherCheck.checked ? 'flex' : 'none';
-    if (otherCheck.checked) otherInput.focus();
-    else otherInput.value = '';
-    checkValid();
-  });
+  addBtn.addEventListener('click', ajouterLigne);
+
+  /* ── Lecture des lignes remplies ── */
+  function lignesRemplies() {
+    return [...rowsWrap.querySelectorAll('.ps-row-item')].map(l => ({
+      maison: l.querySelector('.r-maison').value.trim(),
+      ref:    l.querySelector('.r-ref').value.trim(),
+      format: l.querySelector('.r-format').value.trim()
+    })).filter(l => l.maison || l.ref);
+  }
 
   /* ── Validation ── */
-  const champs = ['ps-prenom', 'ps-nom', 'ps-email', 'ps-tel', 'ps-refs'];
+  const champs = ['ps-prenom', 'ps-nom', 'ps-email'];
 
   function valide() {
-    const email = document.getElementById('ps-email').value.trim();
+    const email   = document.getElementById('ps-email').value.trim();
     const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    const tel = document.getElementById('ps-tel').value.replace(/[\s.\-()]/g, '');
-    const telOk = /^\+[1-9]\d{7,14}$/.test(tel);
+    const numero  = telInput.value.replace(/[\s.\-()]/g, '');
+    const telOk   = /^\d{6,14}$/.test(numero);
     const remplis = champs.every(id => document.getElementById(id).value.trim().length > 0);
-    const uneMaison = selected.size > 0 || (otherCheck.checked && otherInput.value.trim().length > 0);
-    return remplis && emailOk && telOk && consent.checked && uneMaison;
+    // Chaque ligne commencée doit au moins porter une référence
+    const lignes  = lignesRemplies();
+    const lignesOk = lignes.length > 0 && lignes.every(l => l.ref.length > 0);
+    return remplis && emailOk && telOk && consent.checked && lignesOk;
   }
 
   function checkValid() { submitBtn.disabled = !valide(); }
 
-  const telInput = document.getElementById('ps-tel');
-  telInput.addEventListener('focus', () => {
-    if (!telInput.value.trim()) telInput.value = '+';
-  });
-  telInput.addEventListener('blur', () => {
-    const v = telInput.value.trim();
-    if (v === '+') { telInput.value = ''; telInput.classList.remove('err'); return; }
-    telInput.classList.toggle('err', v.length > 0 && !/^\+[1-9]/.test(v.replace(/[\s.\-()]/g, '')));
-  });
-
   champs.forEach(id => document.getElementById(id).addEventListener('input', checkValid));
-  otherInput.addEventListener('input', checkValid);
+  telInput.addEventListener('input', checkValid);
+  indicatif.addEventListener('change', checkValid);
   consent.addEventListener('change', checkValid);
+  document.getElementById('ps-comment').addEventListener('input', checkValid);
 
   /* ── Envoi ── */
   form.addEventListener('submit', async e => {
@@ -2690,16 +2775,22 @@ const PS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwWUla8QCX1OFweh2FI
     feedback.className = 'ps-feedback';
     feedback.textContent = '';
 
+    const lignes = lignesRemplies();
+
     const payload = {
-      website:       document.getElementById('ps-hp').value,
-      prenom:        document.getElementById('ps-prenom').value.trim(),
-      nom:           document.getElementById('ps-nom').value.trim(),
-      email:         document.getElementById('ps-email').value.trim(),
-      telephone:     document.getElementById('ps-tel').value.trim(),
-      maisons:       [...selected].join(', '),
-      autresMaisons: otherCheck.checked ? otherInput.value.trim() : '',
-      references:    document.getElementById('ps-refs').value.trim(),
-      consentement:  consent.checked
+      website:    document.getElementById('ps-hp').value,
+      prenom:     document.getElementById('ps-prenom').value.trim(),
+      nom:        document.getElementById('ps-nom').value.trim(),
+      email:      document.getElementById('ps-email').value.trim(),
+      telephone:  indicatif.value + ' ' + telInput.value.replace(/[\s.\-()]/g, ''),
+      // Une ligne de texte par référence, pour une lecture directe dans le Sheet
+      demandes:   lignes.map((l, i) =>
+                    `${i + 1}. ${l.maison || 'Maison non précisée'} | ${l.ref} | ${l.format || 'Format indifférent'}`
+                  ).join('\n'),
+      nbDemandes: lignes.length,
+      maisons:    [...new Set(lignes.map(l => l.maison).filter(Boolean))].join(', '),
+      commentaire: document.getElementById('ps-comment').value.trim(),
+      consentement: consent.checked
     };
 
     try {
@@ -2720,6 +2811,7 @@ const PS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwWUla8QCX1OFweh2FI
     }
   });
 })();
+
 
 
 
