@@ -1311,7 +1311,7 @@ body {
           <p class="ps-label">Commentaire</p>
           <div class="ps-field">
             <label for="ps-comment">Une précision à nous apporter&nbsp;? (facultatif)</label>
-            <textarea id="ps-comment" placeholder="Budget, urgence, préférence de concentration, toute information utile."></textarea>
+            <textarea id="ps-comment" placeholder="Urgence, préférence de concentration (EDP ou extrait), toute information utile."></textarea>
           </div>
         </div>
 
@@ -1321,6 +1321,10 @@ body {
 
         <div class="ps-consent">
           <div class="ps-check">
+            <input type="checkbox" id="ps-ferme">
+            <label for="ps-ferme">Mon achat est pour maintenant. Si la référence est disponible, je suis en mesure de la régler. Si j'envisage d'acheter plus tard, je referai ma demande à ce moment-là. <span class="req">*</span></label>
+          </div>
+          <div class="ps-check" style="margin-top:1rem">
             <input type="checkbox" id="ps-consent">
             <label for="ps-consent">J'accepte d'être recontacté par Santalx au sujet de ma demande et de recevoir ses offres promotionnelles. <span class="req">*</span></label>
           </div>
@@ -2632,6 +2636,7 @@ const PS_MAX_LIGNES = 10;
   const successBlk = document.getElementById('ps-success');
   const submitBtn  = document.getElementById('ps-submit');
   const consent    = document.getElementById('ps-consent');
+  const ferme      = document.getElementById('ps-ferme');
   const feedback   = document.getElementById('ps-feedback');
   const rowsWrap   = document.getElementById('ps-rows');
   const addBtn     = document.getElementById('ps-add-row');
@@ -2754,7 +2759,7 @@ const PS_MAX_LIGNES = 10;
     // Chaque ligne commencée doit au moins porter une référence
     const lignes  = lignesRemplies();
     const lignesOk = lignes.length > 0 && lignes.every(l => l.ref.length > 0);
-    return remplis && emailOk && telOk && consent.checked && lignesOk;
+    return remplis && emailOk && telOk && consent.checked && ferme.checked && lignesOk;
   }
 
   function checkValid() { submitBtn.disabled = !valide(); }
@@ -2763,6 +2768,7 @@ const PS_MAX_LIGNES = 10;
   telInput.addEventListener('input', checkValid);
   indicatif.addEventListener('change', checkValid);
   consent.addEventListener('change', checkValid);
+  ferme.addEventListener('change', checkValid);
   document.getElementById('ps-comment').addEventListener('input', checkValid);
 
   /* ── Envoi ── */
@@ -2790,7 +2796,8 @@ const PS_MAX_LIGNES = 10;
       nbDemandes: lignes.length,
       maisons:    [...new Set(lignes.map(l => l.maison).filter(Boolean))].join(', '),
       commentaire: document.getElementById('ps-comment').value.trim(),
-      consentement: consent.checked
+      consentement: consent.checked,
+      demandeFerme: ferme.checked
     };
 
     try {
