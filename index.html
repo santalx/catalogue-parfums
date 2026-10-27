@@ -1689,7 +1689,7 @@ function findProduct(id) {
 
 /* ── BEST SELLERS ── */
 function buildBestSellers() {
-  const bs = allData.filter(p => ['oui','yes','true','1'].includes((p.bestSeller||'').toLowerCase())).slice(0, 8);
+  const bs = allData.filter(p => ['oui','yes','true','1'].includes((p.bestSeller||'').toLowerCase()));
   if (bs.length === 0) return;
 
   document.getElementById('bs-section').style.display = 'block';
@@ -1732,7 +1732,7 @@ function buildBestSellers() {
 
 /* ── DERNIÈRE PIÈCE ── */
 function buildDernierePiece() {
-  const dp = allData.filter(p => p.dernierePiece && ['oui','yes','true','1'].includes(p.dernierePiece.toLowerCase().trim())).slice(0, 4);
+  const dp = allData.filter(p => p.dernierePiece && ['oui','yes','true','1'].includes(p.dernierePiece.toLowerCase().trim()));
   console.log('Derniere pièce trouvées:', dp.length, dp.map(p => p.nom));
   if (dp.length === 0) return;
   document.getElementById('dp-section').style.display = 'block';
@@ -1768,7 +1768,7 @@ function buildDernierePiece() {
 
 /* ── NOUVEAUX ARRIVAGES ── */
 function buildNouveauArrivage() {
-  const nw = allData.filter(p => p.nouveauArrivage && ['oui','yes','true','1'].includes(p.nouveauArrivage.toLowerCase().trim())).slice(0, 8);
+  const nw = allData.filter(p => p.nouveauArrivage && ['oui','yes','true','1'].includes(p.nouveauArrivage.toLowerCase().trim()));
   console.log('Nouveaux arrivages trouvés:', nw.length, nw.map(p => p.nom));
   if (nw.length === 0) return;
   document.getElementById('new-section').style.display = 'block';
@@ -1804,7 +1804,7 @@ function buildNouveauArrivage() {
 
 /* ── RECOMMANDÉS DU MOMENT ── */
 function buildReco() {
-  const reco = allData.filter(p => ['oui','yes','true','1'].includes((p.recommande||'').toLowerCase())).slice(0,8);
+  const reco = allData.filter(p => ['oui','yes','true','1'].includes((p.recommande||'').toLowerCase()));
   if (reco.length === 0) return;
   document.getElementById('reco-section').style.display = 'block';
   document.getElementById('reco-grid').innerHTML = reco.map(p => {
