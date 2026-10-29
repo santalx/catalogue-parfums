@@ -630,61 +630,6 @@ body {
 }
 
 
-/* ── INVITATION PERSONAL SHOPPER (flottante) ── */
-.ps-pop {
-  position: fixed; bottom: 28px; left: 28px; z-index: 600;
-  width: 290px; background: var(--white);
-  border: 1px solid var(--gray-200);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.14);
-  padding: 1.4rem 1.4rem 1.25rem;
-  opacity: 0; visibility: hidden; transform: translateY(14px);
-  transition: opacity .35s cubic-bezier(.22,1,.36,1), transform .35s cubic-bezier(.22,1,.36,1), visibility .35s;
-}
-.ps-pop.open { opacity: 1; visibility: visible; transform: translateY(0); }
-.ps-pop::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, #C9A84C, #E8CC7A, #B8922E);
-}
-.ps-pop-actions { position: absolute; top: 10px; right: 10px; display: flex; gap: 2px; }
-.ps-pop-actions button {
-  background: none; border: none; cursor: pointer; color: var(--gray-400);
-  padding: 4px; line-height: 0; transition: color .15s;
-}
-.ps-pop-actions button:hover { color: var(--black); }
-.ps-pop-eyebrow { font-size: 8px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: #9A7B3F; margin-bottom: 8px; }
-.ps-pop-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 400; font-style: italic; color: var(--black); line-height: 1.3; margin-bottom: 7px; padding-right: 2.2rem; }
-.ps-pop-sub { font-size: 11px; font-weight: 300; color: var(--gray-600); line-height: 1.6; margin-bottom: 1.1rem; }
-.ps-pop-cta {
-  width: 100%; padding: 11px; font-family: 'Montserrat', sans-serif;
-  font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
-  background: var(--black); color: var(--white); border: 1px solid var(--black);
-  cursor: pointer; transition: all .15s;
-}
-.ps-pop-cta:hover { background: var(--white); color: var(--black); }
-
-/* Version réduite */
-.ps-pill {
-  position: fixed; bottom: 28px; left: 28px; z-index: 600;
-  display: flex; align-items: center; gap: 8px;
-  padding: 11px 18px; cursor: pointer;
-  background: linear-gradient(135deg, #C9A84C, #E8CC7A, #B8922E);
-  color: #2A2006; border: none;
-  font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500;
-  letter-spacing: .12em; text-transform: uppercase; white-space: nowrap;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.18);
-  opacity: 0; visibility: hidden; transform: translateY(14px);
-  transition: opacity .3s, transform .3s, visibility .3s, box-shadow .2s;
-}
-.ps-pill.open { opacity: 1; visibility: visible; transform: translateY(0); }
-.ps-pill:hover { box-shadow: 0 8px 26px rgba(0,0,0,0.24); }
-
-@media (max-width: 768px) {
-  .ps-pop { left: 16px; right: 16px; width: auto; bottom: 90px; padding: 1.2rem; }
-  .ps-pill { left: 16px; bottom: 24px; padding: 10px 15px; font-size: 9px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ps-pop, .ps-pill { transition: none; }
-}
 
 
 /* ── TABLEAU DES DEMANDES ── */
@@ -780,6 +725,15 @@ body {
   font-size: 10px; font-weight: 300; letter-spacing: .06em;
   color: var(--gray-600); margin-top: 11px;
 }
+.sb-ps-link {
+  display: inline-block; margin-top: 12px;
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: #9A7B3F; background: none; border: none;
+  border-bottom: 1px solid rgba(154,123,63,.45);
+  padding: 0 0 3px; cursor: pointer; transition: border-color .15s, color .15s;
+}
+.sb-ps-link:hover { color: #7E6330; border-bottom-color: #7E6330; }
 
 /* ── RÉSULTATS DE RECHERCHE ── */
 .search-results { display: none; padding: 0 2.5rem 3rem; }
@@ -870,6 +824,7 @@ body {
   .sb-field input { padding: 13px 8px 13px 10px; font-size: 13px; }
   .sb-field .sb-icon { margin-left: 13px; }
   .search-results { padding: 0 1.25rem 2.5rem; }
+  .sb-ps-link { font-size: 9.5px; letter-spacing: .07em; }
   .refs-filters { gap: 6px; }
   .refs-select { font-size: 9px; padding: 6px 24px 6px 10px; }
 }
@@ -1220,6 +1175,7 @@ body {
       </button>
     </div>
     <p class="sb-hint">Par nom de parfum, maison ou note olfactive</p>
+    <button class="sb-ps-link" id="sb-ps-link">Faire appel à notre service personal shopper</button>
   </div>
 
   <!-- RÉSULTATS DE RECHERCHE -->
@@ -1646,27 +1602,6 @@ body {
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
-
-<!-- INVITATION PERSONAL SHOPPER -->
-<div class="ps-pop" id="ps-pop">
-  <div class="ps-pop-actions">
-    <button id="ps-pop-min" aria-label="Réduire" title="Réduire">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
-    </button>
-    <button id="ps-pop-close" aria-label="Fermer" title="Fermer">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-    </button>
-  </div>
-  <p class="ps-pop-eyebrow">Service sur mesure</p>
-  <p class="ps-pop-title">Vous ne trouvez pas votre parfum&nbsp;?</p>
-  <p class="ps-pop-sub">Dites-nous ce que vous cherchez, nous nous chargeons de le trouver.</p>
-  <button class="ps-pop-cta" id="ps-pop-cta">Faire une demande</button>
-</div>
-
-<button class="ps-pill" id="ps-pill">
-  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-  Personal shopper
-</button>
 
 <!-- WHATSAPP FAB -->
 <a class="wa-fab" href="https://wa.me/33756989391" target="_blank" rel="noopener" id="wa-fab">
@@ -3114,84 +3049,10 @@ document.getElementById('cart-upsell-list').addEventListener('click', e => {
   showToast(`${u.nom} ajouté au panier`);
 });
 
-/* ═══════════════════════════════════════════════
-   INVITATION PERSONAL SHOPPER
-   Apparaît une fois les sections de mise en avant parcourues.
-═══════════════════════════════════════════════ */
-(function () {
-  const pop   = document.getElementById('ps-pop');
-  const pill  = document.getElementById('ps-pill');
-  const CLE   = 'sx_ps_pop';           // mémorise le choix du visiteur
-  let etat    = sessionStorage.getItem(CLE) || 'neuf';
-  let affiche = false;
-
-  function montrer(mode) {
-    if (mode === 'carte') { pop.classList.add('open'); pill.classList.remove('open'); }
-    else if (mode === 'pastille') { pop.classList.remove('open'); pill.classList.add('open'); }
-    else { pop.classList.remove('open'); pill.classList.remove('open'); }
-  }
-
-  function memoriser(v) {
-    etat = v;
-    try { sessionStorage.setItem(CLE, v); } catch (e) {}
-  }
-
-  // Réduire : la carte devient une simple pastille
-  document.getElementById('ps-pop-min').addEventListener('click', () => {
-    memoriser('reduit');
-    montrer('pastille');
-  });
-
-  // Fermer : plus rien jusqu'à la prochaine visite
-  document.getElementById('ps-pop-close').addEventListener('click', () => {
-    memoriser('ferme');
-    montrer('rien');
-  });
-
-  // La pastille rouvre la carte
-  pill.addEventListener('click', () => {
-    memoriser('neuf');
-    montrer('carte');
-  });
-
-  document.getElementById('ps-pop-cta').addEventListener('click', () => {
-    memoriser('ferme');
-    montrer('rien');
-    window.openPersonalShopper();
-  });
-
-  // Déclenchement : une fois la grille des maisons atteinte
-  function verifier() {
-    if (etat === 'ferme') { montrer('rien'); return; }
-    const vueM = document.getElementById('view-maisons');
-    // Pendant une recherche, le renvoi vers le personal shopper est déjà
-    // dans les résultats : pas besoin d'une deuxième sollicitation.
-    if (vueM.style.display === 'none' || vueM.classList.contains('recherche-active')) {
-      montrer('rien');
-      affiche = false;
-      return;
-    }
-    const repere = document.getElementById('brands-grid');
-    if (!repere) return;
-    const atteint = repere.getBoundingClientRect().top < window.innerHeight * 0.6;
-    if (atteint && !affiche) {
-      affiche = true;
-      montrer(etat === 'reduit' ? 'pastille' : 'carte');
-    } else if (!atteint && affiche) {
-      affiche = false;
-      montrer('rien');
-    }
-  }
-
-  let tick = false;
-  window.addEventListener('scroll', () => {
-    if (tick) return;
-    tick = true;
-    requestAnimationFrame(() => { verifier(); tick = false; });
-  }, { passive: true });
-
-  window.addEventListener('load', verifier);
-})();
+/* La fenêtre d'invitation personal shopper a été retirée.
+   Les points d'entrée restants : le lien doré sous la barre de recherche,
+   le bouton de l'en-tête, le menu mobile, la bande en bas de page
+   et le bloc affiché quand une recherche ne donne rien. */
 
 /* ═══════════════════════════════════════════════
    LIGHTBOX PHOTO
@@ -3551,6 +3412,9 @@ function effacerRecherche(garderFocus) {
 
   clear.addEventListener('click', () => effacerRecherche(true));
   if (srClr) srClr.addEventListener('click', () => effacerRecherche(false));
+
+  const psLien = document.getElementById('sb-ps-link');
+  if (psLien) psLien.addEventListener('click', () => window.openPersonalShopper());
 })();
 
 // Clic "Ajouter au panier" dans les résultats de recherche
