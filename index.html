@@ -104,7 +104,7 @@ body {
 
 /* ── SECTION NOUVEAUX ARRIVAGES ── */
 .new-section {
-  max-width: 1280px; margin: 3rem auto 0; padding: 0 2.5rem;
+  max-width: 1280px; margin: 1.25rem auto 0; padding: 0 2.5rem;
   display: none;
 }
 .new-grid {
@@ -305,18 +305,24 @@ body {
 }
 .decant-banner-inner {
   border: 1px solid var(--gray-200);
-  padding: 2.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  padding: 2rem; min-height: 148px;
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
 }
 .decant-banner-left {}
-.decant-banner-eyebrow { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--gray-400); margin-bottom: .6rem; }
-.decant-banner-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; font-style: italic; color: var(--black); line-height: 1.2; }
+.decant-banner-eyebrow { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 8px; }
+.decant-banner-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; font-style: italic; color: var(--black); line-height: 1.25; }
+.decant-banner-sub { font-size: 11px; font-weight: 400; letter-spacing: .03em; color: var(--gray-600); margin-top: 6px; }
 .decant-banner-btn {
-  font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
   color: var(--white); background: var(--black); border: 1px solid var(--black);
-  padding: 12px 24px; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all 0.15s;
+  padding: 13px 26px; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all 0.15s;
 }
 .decant-banner-btn:hover { background: var(--white); color: var(--black); }
-@media (max-width: 768px) { .decant-banner-inner { flex-direction: column; align-items: flex-start; } }
+@media (max-width: 768px) {
+  .decant-banner { padding: 0 1.25rem 3rem; }
+  .decant-banner-inner { flex-direction: column; align-items: flex-start; padding: 1.75rem 1.25rem; min-height: 0; }
+  .decant-banner-btn { width: 100%; }
+}
 
 /* ── PAGE DÉCANTÉS ── */
 .decant-intro {
@@ -543,7 +549,7 @@ body {
 .ps-band { max-width: 1280px; margin: 0 auto 1rem; padding: 0 2.5rem; }
 .ps-band-inner {
   background: linear-gradient(135deg, #C9A84C, #E8CC7A, #B8922E);
-  color: #3A2E0A; padding: 2rem;
+  color: #3A2E0A; padding: 2rem; min-height: 148px;
   display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
 }
 .ps-band-eyebrow { font-size: 9px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: #6B5415; margin-bottom: 8px; }
@@ -623,7 +629,7 @@ body {
 
 @media (max-width: 768px) {
   .ps-band { padding: 0 1.25rem; }
-  .ps-band-inner { flex-direction: column; align-items: flex-start; padding: 1.75rem 1.25rem; }
+  .ps-band-inner { flex-direction: column; align-items: flex-start; padding: 1.75rem 1.25rem; min-height: 0; }
   .ps-band-btn { width: 100%; }
   .ps-form-wrap { padding: 2rem 1.25rem 4rem; }
   .ps-row { grid-template-columns: 1fr; gap: 1.25rem; }
@@ -698,7 +704,7 @@ body {
 
 /* ── BARRE DE RECHERCHE PRINCIPALE ── */
 .search-band {
-  max-width: 640px; margin: 0 auto; padding: 2.75rem 2.5rem 2.25rem;
+  max-width: 640px; margin: 0 auto; padding: 2.75rem 2.5rem 1.5rem;
   text-align: center;
 }
 .sb-field {
@@ -820,7 +826,7 @@ body {
 .no-result-ps-btn:hover { background: var(--white); color: var(--black); }
 
 @media (max-width: 768px) {
-  .search-band { padding: 1.9rem 1.25rem 1.6rem; }
+  .search-band { padding: 1.9rem 1.25rem 1.1rem; }
   .sb-field input { padding: 13px 8px 13px 10px; font-size: 13px; }
   .sb-field .sb-icon { margin-left: 13px; }
   .search-results { padding: 0 1.25rem 2.5rem; }
@@ -1311,6 +1317,7 @@ body {
       <div class="decant-banner-left">
         <p class="decant-banner-eyebrow">Santalx — Service décanté</p>
         <p class="decant-banner-title">Découvrez notre catalogue de décantés</p>
+        <p class="decant-banner-sub">Le même jus, en plus petit format, à un prix adapté.</p>
       </div>
       <button class="decant-banner-btn" id="decant-btn">Explorer →</button>
     </div>
@@ -2873,11 +2880,11 @@ const PS_MAX_LIGNES = 10;
       <span class="ps-row-num"></span>
       <div class="ps-cell">
         <label>Maison</label>
-        <input type="text" class="r-maison" list="ps-maisons-list" placeholder="Ex. Louis Vuitton" autocomplete="off">
+        <input type="text" class="r-maison" list="ps-maisons-list" placeholder="Ex. Xerjoff" autocomplete="off">
       </div>
       <div class="ps-cell">
         <label>Référence</label>
-        <input type="text" class="r-ref" placeholder="Ex. Ombre Nomade" autocomplete="off">
+        <input type="text" class="r-ref" placeholder="Ex. Naxos" autocomplete="off">
       </div>
       <div class="ps-cell">
         <label>Format</label>
