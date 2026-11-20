@@ -973,23 +973,108 @@ body {
 .cart-line.total { font-size: 15px; font-weight: 500; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--gray-200); }
 .cart-line .lbl { color: var(--gray-600); font-weight: 300; }
 
-/* ── COORDONNÉES CLIENT DANS LE PANIER ── */
-.cl-bloc { border-top: 1px solid var(--gray-200); padding: 1.35rem 1.75rem 0; }
-.cl-head {
-  font-size: 9px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--black); margin-bottom: 4px;
+/* ═══ PAGE DE VALIDATION DU PANIER ═══ */
+#view-checkout { display: none; background: var(--gray-100); min-height: 100vh; }
+.co-wrap {
+  max-width: 1360px; margin: 0 auto; padding: 2rem 2.5rem 4rem;
+  display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 2rem; align-items: start;
 }
-.cl-sous { font-size: 10px; font-weight: 300; color: var(--gray-600); line-height: 1.5; margin-bottom: 14px; }
-.cl-grille { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+
+.co-aide {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--white); padding: 14px 18px; margin-bottom: 1.75rem;
+}
+.co-aide-logo {
+  flex-shrink: 0; width: 38px; height: 38px; background: var(--black); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 500; letter-spacing: .08em;
+}
+.co-aide p { font-size: 12px; font-weight: 300; color: var(--gray-600); }
+.co-aide a { color: var(--black); text-decoration: underline; }
+
+.co-titre {
+  font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 400;
+  color: var(--black); margin-bottom: 1.1rem;
+}
+.co-titre span { font-size: 18px; color: var(--gray-400); }
+
+.co-articles { display: flex; flex-direction: column; gap: 1px; margin-bottom: 1.5rem; }
+.co-article { display: flex; gap: 18px; background: var(--white); padding: 1.5rem; }
+.co-art-img { width: 118px; height: 148px; flex-shrink: 0; background: var(--gray-100); overflow: hidden; }
+.co-art-img img { width: 100%; height: 100%; object-fit: cover; }
+.co-art-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.co-art-marque { font-size: 9px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 5px; }
+.co-art-nom { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 400; color: var(--black); line-height: 1.2; margin-bottom: 9px; }
+.co-art-meta { font-size: 11px; font-weight: 300; color: var(--gray-600); line-height: 1.7; }
+.co-art-bas { margin-top: auto; padding-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.co-art-prix { font-size: 15px; font-weight: 500; color: var(--black); }
+.co-art-body .ci-remove { align-self: flex-start; }
+
+.co-carte { background: var(--white); padding: 1.75rem; margin-bottom: 1.5rem; }
+.co-carte-titre {
+  font-size: 10px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--black); margin-bottom: 5px;
+}
+.co-carte-sous { font-size: 11px; font-weight: 300; color: var(--gray-600); line-height: 1.6; margin-bottom: 1.3rem; }
+
+.co-infos { display: flex; flex-direction: column; gap: 1.3rem; }
+.co-info { display: flex; gap: 14px; align-items: flex-start; }
+.co-info svg { flex-shrink: 0; color: var(--black); margin-top: 2px; }
+.co-info-titre { font-size: 12px; font-weight: 500; color: var(--black); margin-bottom: 3px; }
+.co-info-txt { font-size: 11px; font-weight: 300; color: var(--gray-600); line-height: 1.7; }
+.co-info-txt strong { font-weight: 500; color: var(--black); }
+
+.co-droite { position: sticky; top: 90px; }
+.co-resume { background: var(--white); padding: 1.75rem; }
+.co-ligne {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 13px; font-weight: 300; color: var(--gray-600); margin-bottom: 11px;
+}
+.co-ligne span:last-child { color: var(--black); font-weight: 400; }
+.co-ligne.co-total {
+  font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--black);
+  margin: 1.1rem 0 0; padding-top: 1.1rem; border-top: 1px solid var(--gray-200);
+}
+.co-ligne.co-total span:last-child { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 500; }
+
+.co-note { font-size: 10px; font-weight: 300; color: var(--gray-600); line-height: 1.6; margin-top: 12px; }
+.co-continuer, .cart-continuer {
+  width: 100%; margin-top: 16px; background: none; border: none; cursor: pointer;
+  font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 400;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--gray-600);
+  text-decoration: underline; text-underline-offset: 3px; padding: 4px;
+}
+.co-continuer:hover, .cart-continuer:hover { color: var(--black); }
+
+.cart-valider-btn {
+  width: 100%; margin-top: 14px; padding: 15px;
+  background: var(--black); color: var(--white); border: 1px solid var(--black); cursor: pointer;
+  font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase; transition: opacity .15s;
+}
+.cart-valider-btn:hover { opacity: .85; }
+
+@media (max-width: 1000px) {
+  .co-wrap { grid-template-columns: 1fr; gap: 1.5rem; padding: 1.25rem 1.25rem 3rem; }
+  .co-droite { position: static; }
+  .co-titre { font-size: 25px; }
+  .co-article { padding: 1.1rem; gap: 13px; }
+  .co-art-img { width: 86px; height: 108px; }
+  .co-art-nom { font-size: 17px; }
+  .co-carte, .co-resume { padding: 1.25rem; }
+}
+
+/* ── COORDONNÉES CLIENT ── */
+.cl-grille { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
 .cl-champ { display: flex; flex-direction: column; }
 .cl-champ.plein { grid-column: 1 / -1; }
 .cl-champ label {
   font-size: 8.5px; font-weight: 500; letter-spacing: .13em; text-transform: uppercase;
-  color: var(--gray-600); margin-bottom: 4px;
+  color: var(--gray-600); margin-bottom: 5px;
 }
 .cl-champ input, .cl-champ select {
-  font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 300; color: var(--black);
-  background: var(--white); border: 1px solid var(--gray-200); padding: 9px 10px;
+  font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 300; color: var(--black);
+  background: var(--white); border: 1px solid var(--gray-200); padding: 11px 12px;
   outline: none; width: 100%; transition: border-color .15s;
 }
 .cl-champ select { cursor: pointer; appearance: none;
@@ -1001,26 +1086,6 @@ body {
 .cl-tel { display: flex; gap: 6px; }
 .cl-tel select { flex: 0 0 92px; }
 
-.cl-livraison {
-  margin: 14px 0 0; padding: 12px 13px;
-  background: var(--gray-100); border-left: 2px solid var(--black);
-}
-.cl-livraison-titre {
-  font-size: 8.5px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase;
-  color: var(--black); margin-bottom: 6px;
-}
-.cl-livraison p { font-size: 10.5px; font-weight: 300; color: var(--gray-600); line-height: 1.6; }
-.cl-livraison strong { font-weight: 500; color: var(--black); }
-.cl-livraison-liste { list-style: none; display: flex; flex-direction: column; gap: 5px; }
-.cl-livraison-liste li {
-  font-size: 10.5px; font-weight: 300; color: var(--gray-600); line-height: 1.55;
-  padding-left: 11px; position: relative;
-}
-.cl-livraison-liste li::before {
-  content: ''; position: absolute; left: 0; top: 7px;
-  width: 3px; height: 3px; background: var(--gray-400); border-radius: 50%;
-}
-
 .cl-erreur {
   display: none; font-size: 10px; font-weight: 400; color: var(--red);
   margin-top: 10px; line-height: 1.5;
@@ -1031,6 +1096,8 @@ body {
 .cgv-check input { margin-top: 2px; accent-color: var(--black); cursor: pointer; }
 .cgv-check label { font-size: 10px; color: var(--gray-600); font-weight: 300; line-height: 1.5; cursor: pointer; }
 .cgv-check a { color: var(--black); text-decoration: underline; }
+.cgv-check button { background: none; border: none; padding: 0; font: inherit;
+  color: var(--black); text-decoration: underline; cursor: pointer; }
 
 .cart-checkout-btn {
   width: 100%; padding: 14px; background: #25d366; color: #fff; border: none; cursor: pointer;
@@ -1403,6 +1470,127 @@ body {
 </div>
 
 <!-- VUE PERSONAL SHOPPER -->
+<!-- ═══ PAGE DE VALIDATION DU PANIER ═══ -->
+<div id="view-checkout">
+  <div class="co-wrap">
+
+    <!-- Colonne gauche : récapitulatif et coordonnées -->
+    <div class="co-gauche">
+
+      <div class="co-aide">
+        <span class="co-aide-logo">SX</span>
+        <p>Besoin d’aide&nbsp;? Écrivez-nous sur <a href="" id="co-wa-aide" target="_blank" rel="noopener">WhatsApp</a>.</p>
+      </div>
+
+      <h1 class="co-titre">Mon panier <span id="co-count">(0)</span></h1>
+
+      <div class="co-articles" id="co-articles"></div>
+
+      <div class="co-carte">
+        <h2 class="co-carte-titre">Vos coordonnées de livraison</h2>
+        <p class="co-carte-sous">Elles sont jointes à votre message WhatsApp pour préparer la commande. Rien n’est enregistré ailleurs.</p>
+
+        <div class="cl-grille">
+          <div class="cl-champ">
+            <label for="cl-prenom">Prénom</label>
+            <input type="text" id="cl-prenom" autocomplete="given-name" placeholder="Prénom">
+          </div>
+          <div class="cl-champ">
+            <label for="cl-nom">Nom</label>
+            <input type="text" id="cl-nom" autocomplete="family-name" placeholder="Nom">
+          </div>
+
+          <div class="cl-champ plein">
+            <label for="cl-email">Email</label>
+            <input type="email" id="cl-email" autocomplete="email" placeholder="vous@exemple.com" spellcheck="false">
+          </div>
+
+          <div class="cl-champ plein">
+            <label for="cl-tel">Téléphone</label>
+            <div class="cl-tel">
+              <select id="cl-indicatif" aria-label="Indicatif pays"></select>
+              <input type="tel" id="cl-tel" autocomplete="tel-national" placeholder="6 12 34 56 78">
+            </div>
+          </div>
+
+          <div class="cl-champ plein">
+            <label for="cl-pays">Pays de livraison</label>
+            <select id="cl-pays">
+              <option value="France">France</option>
+              <option value="Belgique">Belgique</option>
+            </select>
+          </div>
+
+          <div class="cl-champ plein">
+            <label for="cl-adresse">Adresse</label>
+            <input type="text" id="cl-adresse" autocomplete="street-address" placeholder="N° et nom de rue">
+          </div>
+
+          <div class="cl-champ">
+            <label for="cl-cp">Code postal</label>
+            <input type="text" id="cl-cp" autocomplete="postal-code" inputmode="numeric" placeholder="75017">
+          </div>
+          <div class="cl-champ">
+            <label for="cl-ville">Ville</label>
+            <input type="text" id="cl-ville" autocomplete="address-level2" placeholder="Paris">
+          </div>
+        </div>
+
+        <p class="cl-erreur" id="cl-erreur"></p>
+      </div>
+
+      <div class="co-carte co-infos">
+        <div class="co-info">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="6" width="15" height="12" rx="1"/><path d="M16 10h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/></svg>
+          <div>
+            <p class="co-info-titre">Livraison en point relais</p>
+            <p class="co-info-txt"><strong>France</strong> — Chronopost, livraison en moins de 24 h.<br><strong>Belgique</strong> — Mondial Relay.</p>
+          </div>
+        </div>
+        <div class="co-info">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <div>
+            <p class="co-info-titre">Préparation de commande</p>
+            <p class="co-info-txt">48 h ouvrées maximum.</p>
+          </div>
+        </div>
+        <div class="co-info">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"/></svg>
+          <div>
+            <p class="co-info-titre">Droits de douane et taxes</p>
+            <p class="co-info-txt">Inclus dans les frais de livraison indiqués pour les zones éligibles.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Colonne droite : total et commande -->
+    <aside class="co-droite">
+      <div class="co-resume">
+        <div class="co-ligne"><span>Sous-total</span><span id="co-subtotal">0 €</span></div>
+        <div class="co-ligne"><span>Livraison</span><span id="co-shipping">10 €</span></div>
+        <div class="co-ligne co-total"><span>Total</span><span id="co-total">0 €</span></div>
+
+        <div class="cgv-check">
+          <input type="checkbox" id="cgv-checkbox">
+          <label for="cgv-checkbox">J’accepte les <button type="button" id="cgv-link">conditions générales de vente</button></label>
+        </div>
+
+        <button class="cart-checkout-btn" id="checkout-btn" disabled>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          Commander sur WhatsApp
+        </button>
+
+        <p class="co-note">Votre commande est finalisée par message&nbsp;: nous confirmons la disponibilité, puis vous envoyons le lien de paiement.</p>
+
+        <button class="co-continuer" id="co-continuer">Continuer mes achats</button>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
 <div id="view-ps">
   <div style="max-width:1280px;margin:0 auto;padding:1.75rem 2.5rem 0;border-bottom:1px solid var(--gray-200);">
     <button class="back-btn" id="ps-back-btn">
@@ -1604,84 +1792,12 @@ body {
     </div>
     <div id="cart-items-list"></div>
   </div>
-  <!-- COORDONNÉES CLIENT -->
-  <div class="cl-bloc" id="cl-bloc" style="display:none">
-    <p class="cl-head">Vos coordonnées de livraison</p>
-    <p class="cl-sous">Elles sont jointes à votre message WhatsApp pour préparer la commande.</p>
-
-    <div class="cl-grille">
-      <div class="cl-champ">
-        <label for="cl-prenom">Prénom</label>
-        <input type="text" id="cl-prenom" autocomplete="given-name" placeholder="Prénom">
-      </div>
-      <div class="cl-champ">
-        <label for="cl-nom">Nom</label>
-        <input type="text" id="cl-nom" autocomplete="family-name" placeholder="Nom">
-      </div>
-
-      <div class="cl-champ plein">
-        <label for="cl-email">Email</label>
-        <input type="email" id="cl-email" autocomplete="email" placeholder="vous@exemple.com" spellcheck="false">
-      </div>
-
-      <div class="cl-champ plein">
-        <label for="cl-tel">Téléphone</label>
-        <div class="cl-tel">
-          <select id="cl-indicatif" aria-label="Indicatif pays"></select>
-          <input type="tel" id="cl-tel" autocomplete="tel-national" placeholder="6 12 34 56 78">
-        </div>
-      </div>
-
-      <div class="cl-champ plein">
-        <label for="cl-pays">Pays de livraison</label>
-        <select id="cl-pays">
-          <option value="France">France</option>
-          <option value="Belgique">Belgique</option>
-        </select>
-      </div>
-
-      <div class="cl-champ plein">
-        <label for="cl-adresse">Adresse</label>
-        <input type="text" id="cl-adresse" autocomplete="street-address" placeholder="N° et nom de rue">
-      </div>
-
-      <div class="cl-champ">
-        <label for="cl-cp">Code postal</label>
-        <input type="text" id="cl-cp" autocomplete="postal-code" inputmode="numeric" placeholder="75017">
-      </div>
-      <div class="cl-champ">
-        <label for="cl-ville">Ville</label>
-        <input type="text" id="cl-ville" autocomplete="address-level2" placeholder="Paris">
-      </div>
-    </div>
-
-    <div class="cl-livraison">
-      <p class="cl-livraison-titre">Livraison et préparation</p>
-      <ul class="cl-livraison-liste">
-        <li><strong>France</strong> — point relais Chronopost, livraison en moins de 24 h.</li>
-        <li><strong>Belgique</strong> — point relais Mondial Relay.</li>
-        <li>Préparation de commande&nbsp;: <strong>48 h ouvrées maximum</strong>.</li>
-      </ul>
-    </div>
-
-    <p class="cl-erreur" id="cl-erreur"></p>
-  </div>
-
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-line"><span class="lbl">Sous-total</span><span id="cart-subtotal">0 €</span></div>
     <div class="cart-line"><span class="lbl">Frais de port</span><span id="cart-shipping">10 €</span></div>
     <div class="cart-line total"><span>Total</span><span id="cart-total">0 €</span></div>
-    <p style="font-size:10px;font-weight:300;color:var(--gray-600);letter-spacing:.03em;margin-bottom:10px;">
-      🌍 Droits de douane et taxes inclus dans les frais de livraison indiqués pour les zones éligibles.
-    </p>
-    <div class="cgv-check">
-      <input type="checkbox" id="cgv-checkbox">
-      <label for="cgv-checkbox">J'accepte les <button type="button" id="cgv-link" style="background:none;border:none;color:inherit;text-decoration:underline;cursor:pointer;padding:0;font:inherit;">conditions générales de vente</button></label>
-    </div>
-    <button class="cart-checkout-btn" id="checkout-btn" disabled>
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-      Commander sur WhatsApp
-    </button>
+    <button class="cart-valider-btn" id="cart-valider-btn">Valider le panier</button>
+    <button class="cart-continuer" id="cart-continuer">Continuer mes achats</button>
   </div>
 </div>
 
@@ -2268,6 +2384,10 @@ function showView(view, pushState = true) {
   document.getElementById('view-info').style.display      = view === 'info'      ? 'block' : 'none';
   document.getElementById('view-decantes').style.display  = view === 'decantes'  ? 'block' : 'none';
   document.getElementById('view-ps').style.display        = view === 'ps'        ? 'block' : 'none';
+  document.getElementById('view-checkout').style.display  = view === 'checkout'  ? 'block' : 'none';
+  // Le bandeau noir n'a pas sa place sur la page de validation
+  const hero = document.querySelector('.hero');
+  if (hero) hero.style.display = view === 'checkout' ? 'none' : 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (pushState) {
     const state = { view, brand: activeBrand, qf: activeQF, search: searchQuery };
@@ -2297,6 +2417,11 @@ window.addEventListener('popstate', (e) => {
     renderCatalogue();
   } else if (view === 'info') {
     showView('info', false);
+  } else if (view === 'checkout') {
+    if (cart.length > 0) showView('checkout', false);
+    else showView('maisons', false);
+  } else if (view === 'decantes' || view === 'ps') {
+    showView(view, false);
   } else {
     showView('maisons', false);
   }
@@ -2594,20 +2719,22 @@ function renderCart() {
   const listEl   = document.getElementById('cart-items-list');
   const emptyEl  = document.getElementById('cart-empty');
   const footerEl = document.getElementById('cart-footer');
-  const clEl     = document.getElementById('cl-bloc');
 
   if (cart.length === 0) {
     emptyEl.style.display = 'flex';
     footerEl.style.display = 'none';
-    if (clEl) clEl.style.display = 'none';
     listEl.innerHTML = '';
+    renderCheckout();
     updateCheckoutState();
+    // Panier vidé depuis la page de validation : on revient au catalogue
+    if (document.getElementById('view-checkout').style.display === 'block') {
+      showView('maisons');
+    }
     return;
   }
 
   emptyEl.style.display = 'none';
   footerEl.style.display = 'block';
-  if (clEl) clEl.style.display = 'block';
 
   listEl.innerHTML = cart.map(c => {
     const imgContent = c.photo
@@ -2638,18 +2765,67 @@ function renderCart() {
   document.getElementById('cart-shipping').textContent = formatPrix(SHIPPING_FEE);
   document.getElementById('cart-total').textContent = formatPrix(total);
 
+  renderCheckout();
   updateCheckoutState();
 }
 
-document.getElementById('cart-items').addEventListener('click', e => {
+/* ── PAGE DE VALIDATION : articles et totaux ── */
+function renderCheckout() {
+  const zone = document.getElementById('co-articles');
+  if (!zone) return;
+
+  document.getElementById('co-count').textContent = '(' + cartCount() + ')';
+
+  zone.innerHTML = cart.map(c => {
+    const img = c.photo ? `<img src="${c.photo}" alt="${c.nom}" loading="lazy">` : '';
+    return `
+      <div class="co-article" data-id="${c.id}">
+        <div class="co-art-img">${img}</div>
+        <div class="co-art-body">
+          <p class="co-art-marque">${c.marque}</p>
+          <p class="co-art-nom">${c.nom}</p>
+          <p class="co-art-meta">Contenance&nbsp;: ${c.volume || '—'}<br>Prix unitaire&nbsp;: ${formatPrix(c.prix)}</p>
+          <div class="co-art-bas">
+            <div class="ci-qty">
+              <button data-action="dec" data-id="${c.id}">−</button>
+              <span>${c.qty}</span>
+              <button data-action="inc" data-id="${c.id}">+</button>
+            </div>
+            <span class="co-art-prix">${formatPrix(c.prix * c.qty)}</span>
+          </div>
+          <button class="ci-remove" data-action="remove" data-id="${c.id}">Retirer</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  const subtotal = cartSubtotal();
+  document.getElementById('co-subtotal').textContent = formatPrix(subtotal);
+  document.getElementById('co-shipping').textContent = formatPrix(SHIPPING_FEE);
+  document.getElementById('co-total').textContent    = formatPrix(subtotal + SHIPPING_FEE);
+}
+
+function gererClicPanier(e) {
   const btn = e.target.closest('button[data-action]');
   if (!btn) return;
-  const id = btn.dataset.id;
-  const action = btn.dataset.action;
+  const { id, action } = btn.dataset;
   if (action === 'inc') changeQty(id, 1);
   if (action === 'dec') changeQty(id, -1);
   if (action === 'remove') removeFromCart(id);
+}
+document.getElementById('cart-items').addEventListener('click', gererClicPanier);
+document.getElementById('co-articles').addEventListener('click', gererClicPanier);
+
+/* ── ÉTAPE 2 : ouverture de la page de validation ── */
+document.getElementById('cart-valider-btn').addEventListener('click', () => {
+  if (cart.length === 0) return;
+  closeCart();
+  showView('checkout');
 });
+document.getElementById('cart-continuer').addEventListener('click', closeCart);
+document.getElementById('co-continuer').addEventListener('click', () => showView('maisons'));
+
+const coAide = document.getElementById('co-wa-aide');
+if (coAide) coAide.href = WA_NUMBER_LINK;
 
 /* ── DRAWER OPEN/CLOSE ── */
 function openCart() {
