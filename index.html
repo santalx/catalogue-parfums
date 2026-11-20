@@ -973,6 +973,60 @@ body {
 .cart-line.total { font-size: 15px; font-weight: 500; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--gray-200); }
 .cart-line .lbl { color: var(--gray-600); font-weight: 300; }
 
+/* ── COORDONNÉES CLIENT DANS LE PANIER ── */
+.cl-bloc { border-top: 1px solid var(--gray-200); padding: 1.35rem 1.75rem 0; }
+.cl-head {
+  font-size: 9px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--black); margin-bottom: 4px;
+}
+.cl-sous { font-size: 10px; font-weight: 300; color: var(--gray-600); line-height: 1.5; margin-bottom: 14px; }
+.cl-grille { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.cl-champ { display: flex; flex-direction: column; }
+.cl-champ.plein { grid-column: 1 / -1; }
+.cl-champ label {
+  font-size: 8.5px; font-weight: 500; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--gray-600); margin-bottom: 4px;
+}
+.cl-champ input, .cl-champ select {
+  font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 300; color: var(--black);
+  background: var(--white); border: 1px solid var(--gray-200); padding: 9px 10px;
+  outline: none; width: 100%; transition: border-color .15s;
+}
+.cl-champ select { cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23111' stroke-width='1.3' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center; padding-right: 26px; }
+.cl-champ input:focus, .cl-champ select:focus { border-color: var(--black); }
+.cl-champ input.erreur, .cl-champ select.erreur { border-color: var(--red); }
+.cl-champ input::placeholder { color: var(--gray-400); }
+.cl-tel { display: flex; gap: 6px; }
+.cl-tel select { flex: 0 0 92px; }
+
+.cl-livraison {
+  margin: 14px 0 0; padding: 12px 13px;
+  background: var(--gray-100); border-left: 2px solid var(--black);
+}
+.cl-livraison-titre {
+  font-size: 8.5px; font-weight: 500; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--black); margin-bottom: 6px;
+}
+.cl-livraison p { font-size: 10.5px; font-weight: 300; color: var(--gray-600); line-height: 1.6; }
+.cl-livraison strong { font-weight: 500; color: var(--black); }
+.cl-livraison-liste { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.cl-livraison-liste li {
+  font-size: 10.5px; font-weight: 300; color: var(--gray-600); line-height: 1.55;
+  padding-left: 11px; position: relative;
+}
+.cl-livraison-liste li::before {
+  content: ''; position: absolute; left: 0; top: 7px;
+  width: 3px; height: 3px; background: var(--gray-400); border-radius: 50%;
+}
+
+.cl-erreur {
+  display: none; font-size: 10px; font-weight: 400; color: var(--red);
+  margin-top: 10px; line-height: 1.5;
+}
+.cl-erreur.visible { display: block; }
+
 .cgv-check { display: flex; align-items: flex-start; gap: 8px; margin: 1rem 0; }
 .cgv-check input { margin-top: 2px; accent-color: var(--black); cursor: pointer; }
 .cgv-check label { font-size: 10px; color: var(--gray-600); font-weight: 300; line-height: 1.5; cursor: pointer; }
@@ -1550,6 +1604,69 @@ body {
     </div>
     <div id="cart-items-list"></div>
   </div>
+  <!-- COORDONNÉES CLIENT -->
+  <div class="cl-bloc" id="cl-bloc" style="display:none">
+    <p class="cl-head">Vos coordonnées de livraison</p>
+    <p class="cl-sous">Elles sont jointes à votre message WhatsApp pour préparer la commande.</p>
+
+    <div class="cl-grille">
+      <div class="cl-champ">
+        <label for="cl-prenom">Prénom</label>
+        <input type="text" id="cl-prenom" autocomplete="given-name" placeholder="Prénom">
+      </div>
+      <div class="cl-champ">
+        <label for="cl-nom">Nom</label>
+        <input type="text" id="cl-nom" autocomplete="family-name" placeholder="Nom">
+      </div>
+
+      <div class="cl-champ plein">
+        <label for="cl-email">Email</label>
+        <input type="email" id="cl-email" autocomplete="email" placeholder="vous@exemple.com" spellcheck="false">
+      </div>
+
+      <div class="cl-champ plein">
+        <label for="cl-tel">Téléphone</label>
+        <div class="cl-tel">
+          <select id="cl-indicatif" aria-label="Indicatif pays"></select>
+          <input type="tel" id="cl-tel" autocomplete="tel-national" placeholder="6 12 34 56 78">
+        </div>
+      </div>
+
+      <div class="cl-champ plein">
+        <label for="cl-pays">Pays de livraison</label>
+        <select id="cl-pays">
+          <option value="France">France</option>
+          <option value="Belgique">Belgique</option>
+        </select>
+      </div>
+
+      <div class="cl-champ plein">
+        <label for="cl-adresse">Adresse</label>
+        <input type="text" id="cl-adresse" autocomplete="street-address" placeholder="N° et nom de rue">
+      </div>
+
+      <div class="cl-champ">
+        <label for="cl-cp">Code postal</label>
+        <input type="text" id="cl-cp" autocomplete="postal-code" inputmode="numeric" placeholder="75017">
+      </div>
+      <div class="cl-champ">
+        <label for="cl-ville">Ville</label>
+        <input type="text" id="cl-ville" autocomplete="address-level2" placeholder="Paris">
+      </div>
+    </div>
+
+    <div class="cl-livraison">
+      <p class="cl-livraison-titre">Livraison et préparation</p>
+      <ul class="cl-livraison-liste">
+        <li><strong>France</strong> — point relais Chronopost, livraison en moins de 24 h.</li>
+        <li><strong>Belgique</strong> — point relais Mondial Relay.</li>
+        <li>Préparation de commande&nbsp;: <strong>48 h ouvrées maximum</strong>.</li>
+      </ul>
+    </div>
+
+    <p class="cl-erreur" id="cl-erreur"></p>
+  </div>
+
   <div class="cart-footer" id="cart-footer" style="display:none">
     <div class="cart-line"><span class="lbl">Sous-total</span><span id="cart-subtotal">0 €</span></div>
     <div class="cart-line"><span class="lbl">Frais de port</span><span id="cart-shipping">10 €</span></div>
@@ -2477,10 +2594,12 @@ function renderCart() {
   const listEl   = document.getElementById('cart-items-list');
   const emptyEl  = document.getElementById('cart-empty');
   const footerEl = document.getElementById('cart-footer');
+  const clEl     = document.getElementById('cl-bloc');
 
   if (cart.length === 0) {
     emptyEl.style.display = 'flex';
     footerEl.style.display = 'none';
+    if (clEl) clEl.style.display = 'none';
     listEl.innerHTML = '';
     updateCheckoutState();
     return;
@@ -2488,6 +2607,7 @@ function renderCart() {
 
   emptyEl.style.display = 'none';
   footerEl.style.display = 'block';
+  if (clEl) clEl.style.display = 'block';
 
   listEl.innerHTML = cart.map(c => {
     const imgContent = c.photo
@@ -2548,7 +2668,10 @@ document.getElementById('cart-overlay').addEventListener('click', closeCart);
 function updateCheckoutState() {
   const checkbox = document.getElementById('cgv-checkbox');
   const btn = document.getElementById('checkout-btn');
-  btn.disabled = !(checkbox.checked && cart.length > 0);
+  const coordOk = (typeof window.coordonneesValides === 'function')
+    ? window.coordonneesValides()
+    : true;
+  btn.disabled = !(checkbox.checked && cart.length > 0 && coordOk);
 }
 document.getElementById('cgv-checkbox').addEventListener('change', updateCheckoutState);
 
@@ -2560,8 +2683,13 @@ document.getElementById('cgv-link').addEventListener('click', () => {
 /* ── ENVOI WHATSAPP ── */
 document.getElementById('checkout-btn').addEventListener('click', () => {
   if (cart.length === 0) return;
+
+  // Dernière vérification des coordonnées avant l'envoi
+  if (typeof window.verifierCoordonnees === 'function' && !window.verifierCoordonnees(true)) return;
+
   const subtotal = cartSubtotal();
   const total = subtotal + SHIPPING_FEE;
+  const cl = (typeof window.lireCoordonnees === 'function') ? window.lireCoordonnees() : null;
 
   let msg = `Bonjour, j'aimerais passer commande :\n\n`;
   cart.forEach(c => {
@@ -2570,6 +2698,19 @@ document.getElementById('checkout-btn').addEventListener('click', () => {
   msg += `\nSous-total : ${formatPrix(subtotal)}`;
   msg += `\nFrais de port : ${formatPrix(SHIPPING_FEE)}`;
   msg += `\nTotal : ${formatPrix(total)}`;
+
+  if (cl) {
+    msg += `\n\n— MES COORDONNÉES —`;
+    msg += `\nNom : ${cl.nom}`;
+    msg += `\nPrénom : ${cl.prenom}`;
+    msg += `\nEmail : ${cl.email}`;
+    msg += `\nTéléphone : ${cl.telephone}`;
+    msg += `\nAdresse : ${cl.adresse}`;
+    msg += `\nCode postal : ${cl.cp}`;
+    msg += `\nVille : ${cl.ville}`;
+    msg += `\nPays : ${cl.pays}`;
+  }
+
   msg += `\n\nJ'accepte les conditions générales de vente.`;
   msg += `\n\nMerci de me confirmer la disponibilité et les modalités. 🙏`;
 
@@ -2784,6 +2925,141 @@ const INDICATIFS = [
   { code: '+81', pays: 'Japon' },
   { code: '+61', pays: 'Australie' }
 ];
+
+/* ═══════════════════════════════════════════════
+   COORDONNÉES CLIENT DANS LE PANIER
+   Rien n'est envoyé à un serveur : les informations
+   sont uniquement recopiées dans le message WhatsApp.
+   Elles sont conservées dans le navigateur du client
+   pour qu'il n'ait pas à les retaper à la commande suivante.
+═══════════════════════════════════════════════ */
+(function () {
+  const CLE_CLIENT = 'sx_client';
+
+  const champs = {
+    prenom:    document.getElementById('cl-prenom'),
+    nom:       document.getElementById('cl-nom'),
+    email:     document.getElementById('cl-email'),
+    tel:       document.getElementById('cl-tel'),
+    indicatif: document.getElementById('cl-indicatif'),
+    pays:      document.getElementById('cl-pays'),
+    adresse:   document.getElementById('cl-adresse'),
+    cp:        document.getElementById('cl-cp'),
+    ville:     document.getElementById('cl-ville')
+  };
+  const zoneErreur = document.getElementById('cl-erreur');
+
+  if (!champs.prenom) return;
+
+  // Liste des indicatifs, la même que dans le formulaire personal shopper
+  champs.indicatif.innerHTML = INDICATIFS
+    .map(i => `<option value="${i.code}">${i.code}</option>`).join('');
+  champs.indicatif.value = '+33';
+
+  // Le pays de livraison et l'indicatif se suivent
+  champs.pays.addEventListener('change', () => {
+    champs.indicatif.value = champs.pays.value === 'Belgique' ? '+32' : '+33';
+    verifier(false);
+    sauver();
+    updateCheckoutState();
+  });
+
+  const emailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+
+  // Règles de validation, champ par champ
+  function problemes() {
+    const liste = [];
+    const v = k => (champs[k].value || '').trim();
+
+    if (v('prenom').length < 2) liste.push({ champ: 'prenom', txt: 'votre prénom' });
+    if (v('nom').length    < 2) liste.push({ champ: 'nom',    txt: 'votre nom' });
+    if (!emailOk(v('email')))   liste.push({ champ: 'email',  txt: 'un email valide' });
+
+    const tel = v('tel').replace(/[\s.\-()]/g, '');
+    if (tel.length < 6 || !/^\d+$/.test(tel)) liste.push({ champ: 'tel', txt: 'un numéro de téléphone valide' });
+
+    if (v('adresse').length < 5) liste.push({ champ: 'adresse', txt: 'votre adresse' });
+
+    const cp = v('cp').replace(/\s/g, '');
+    const cpAttendu = champs.pays.value === 'Belgique' ? /^\d{4}$/ : /^\d{5}$/;
+    if (!cpAttendu.test(cp)) {
+      liste.push({ champ: 'cp', txt: champs.pays.value === 'Belgique' ? 'un code postal à 4 chiffres' : 'un code postal à 5 chiffres' });
+    }
+
+    if (v('ville').length < 2) liste.push({ champ: 'ville', txt: 'votre ville' });
+    return liste;
+  }
+
+  /**
+   * @param {boolean} montrer  true pour signaler les champs fautifs
+   * @returns {boolean} true si tout est bon
+   */
+  function verifier(montrer) {
+    const souci = problemes();
+
+    Object.values(champs).forEach(el => el.classList.remove('erreur'));
+    zoneErreur.classList.remove('visible');
+
+    if (souci.length && montrer) {
+      souci.forEach(s => champs[s.champ].classList.add('erreur'));
+      zoneErreur.textContent = 'Merci d’indiquer ' + souci.map(s => s.txt).join(', ') + '.';
+      zoneErreur.classList.add('visible');
+      champs[souci[0].champ].focus();
+    }
+
+    return souci.length === 0;
+  }
+
+  function sauver() {
+    try {
+      const d = {};
+      Object.keys(champs).forEach(k => d[k] = champs[k].value);
+      localStorage.setItem(CLE_CLIENT, JSON.stringify(d));
+    } catch (e) {}
+  }
+
+  function restaurer() {
+    try {
+      const brut = localStorage.getItem(CLE_CLIENT);
+      if (!brut) return;
+      const d = JSON.parse(brut);
+      Object.keys(champs).forEach(k => { if (d[k]) champs[k].value = d[k]; });
+    } catch (e) {}
+  }
+
+  // Saisie : on enregistre et on réévalue le bouton de commande,
+  // sans afficher d'erreur tant que le client est en train d'écrire.
+  Object.values(champs).forEach(el => {
+    el.addEventListener('input', () => {
+      el.classList.remove('erreur');
+      zoneErreur.classList.remove('visible');
+      sauver();
+      updateCheckoutState();
+    });
+    el.addEventListener('blur', () => { sauver(); updateCheckoutState(); });
+  });
+
+  restaurer();
+
+  // Utilisé par le panier
+  window.coordonneesValides  = () => problemes().length === 0;
+  window.verifierCoordonnees = montrer => verifier(montrer);
+  window.lireCoordonnees = function () {
+    const v = k => (champs[k].value || '').trim();
+    return {
+      prenom:    v('prenom'),
+      nom:       v('nom'),
+      email:     v('email'),
+      telephone: champs.indicatif.value + ' ' + v('tel').replace(/[\s.\-()]/g, ''),
+      adresse:   v('adresse'),
+      cp:        v('cp').replace(/\s/g, ''),
+      ville:     v('ville'),
+      pays:      champs.pays.value
+    };
+  };
+
+  updateCheckoutState();
+})();
 
 const PS_MAX_LIGNES = 10;
 
